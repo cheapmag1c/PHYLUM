@@ -3,11 +3,19 @@
     "born_generation": 0,
     "extinct_generation": null,
     "id": "sp-00001",
-    "last_fitness": 0.6841,
+    "last_fitness": 0.7333,
     "name": "pale filament",
     "parent_id": null,
-    "population": 212.48,
+    "population": 241.66,
     "range": [
+      [
+        21,
+        7
+      ],
+      [
+        22,
+        7
+      ],
       [
         19,
         8
@@ -43,14 +51,6 @@
       [
         18,
         12
-      ],
-      [
-        18,
-        13
-      ],
-      [
-        19,
-        14
       ]
     ],
     "regions_seen": [
@@ -65,26 +65,18 @@
       "temp_pref": 0.51,
       "tolerance": 0.29
     },
-    "x": 64.091,
-    "y": 35.0
+    "x": 65.909,
+    "y": 31.061
   },
   {
     "born_generation": 0,
     "extinct_generation": null,
     "id": "sp-00002",
-    "last_fitness": 0.8458,
+    "last_fitness": 0.8597,
     "name": "silt frond",
     "parent_id": null,
-    "population": 210.86,
+    "population": 236.29,
     "range": [
-      [
-        29,
-        19
-      ],
-      [
-        31,
-        19
-      ],
       [
         30,
         20
@@ -98,6 +90,10 @@
         22
       ],
       [
+        25,
+        23
+      ],
+      [
         27,
         23
       ],
@@ -108,6 +104,10 @@
       [
         29,
         23
+      ],
+      [
+        25,
+        24
       ],
       [
         26,
@@ -130,17 +130,17 @@
       "temp_pref": 0.58,
       "tolerance": 0.31
     },
-    "x": 97.0,
-    "y": 74.333
+    "x": 93.667,
+    "y": 77.333
   },
   {
     "born_generation": 0,
     "extinct_generation": null,
     "id": "sp-00003",
-    "last_fitness": 0.8212,
+    "last_fitness": 0.8132,
     "name": "glass mote",
     "parent_id": null,
-    "population": 170.0,
+    "population": 204.2,
     "range": [
       [
         39,
@@ -159,10 +159,6 @@
         11
       ],
       [
-        37,
-        12
-      ],
-      [
         38,
         12
       ],
@@ -177,6 +173,10 @@
       [
         41,
         12
+      ],
+      [
+        38,
+        13
       ],
       [
         39,
@@ -194,7 +194,7 @@
       "temp_pref": 0.61,
       "tolerance": 0.25
     },
-    "x": 133.667,
-    "y": 40.667
+    "x": 134.0,
+    "y": 41.0
   }
 ]
