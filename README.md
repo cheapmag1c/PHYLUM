@@ -6,15 +6,15 @@ PHYLUM is a small artificial biosphere that advances itself inside a Git reposit
 
 Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 
-![Current PHYLUM world](renders/current.svg?gen=000002)
+![Current PHYLUM world](renders/current.svg?gen=000003)
 
 <!-- PHYLUM:STATE:START -->
-**Generation:** `2`  
+**Generation:** `3`  
 **Era:** `Origin Era`  
 **Living lineages:** `3`  
 **Extinct lineages:** `0`  
-**Population:** `530`  
-**Occupied cells:** `28` / `1,440`  
+**Population:** `593`  
+**Occupied cells:** `31` / `1,440`  
 **Dominant lineage:** `pale filament`  
 **Latest fossil:** Three primitive lineages occupy the first habitat.
 <!-- PHYLUM:STATE:END -->
@@ -22,7 +22,7 @@ Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 
 ## Living phylogeny
 
-![PHYLUM phylogeny](renders/phylogeny.svg?gen=000002)
+![PHYLUM phylogeny](renders/phylogeny.svg?gen=000003)
 
 ## The idea
 

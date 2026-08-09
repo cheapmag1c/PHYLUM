@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-label="PHYLUM generation 2">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-label="PHYLUM generation 3">
 <rect width="100%" height="100%" fill="#11110f"/>
 <rect x="0.00" y="0.00" width="20.40" height="20.40" fill="#6c705e"/>
-<rect x="20.00" y="0.00" width="20.40" height="20.40" fill="#a9aaa3"/>
+<rect x="20.00" y="0.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="40.00" y="0.00" width="20.40" height="20.40" fill="#a9aaa3"/>
 <rect x="60.00" y="0.00" width="20.40" height="20.40" fill="#a9aaa3"/>
 <rect x="80.00" y="0.00" width="20.40" height="20.40" fill="#a9aaa3"/>
@@ -25,7 +25,7 @@
 <rect x="440.00" y="0.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="460.00" y="0.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="480.00" y="0.00" width="20.40" height="20.40" fill="#6c705e"/>
-<rect x="500.00" y="0.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="500.00" y="0.00" width="20.40" height="20.40" fill="#66745b"/>
 <rect x="520.00" y="0.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="540.00" y="0.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="560.00" y="0.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -71,7 +71,7 @@
 <rect x="400.00" y="20.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="420.00" y="20.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="440.00" y="20.00" width="20.40" height="20.40" fill="#6c705e"/>
-<rect x="460.00" y="20.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="460.00" y="20.00" width="20.40" height="20.40" fill="#66745b"/>
 <rect x="480.00" y="20.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="500.00" y="20.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="520.00" y="20.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -89,7 +89,7 @@
 <rect x="760.00" y="20.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="780.00" y="20.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="800.00" y="20.00" width="20.40" height="20.40" fill="#526654"/>
-<rect x="820.00" y="20.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="820.00" y="20.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="840.00" y="20.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="860.00" y="20.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="880.00" y="20.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -147,11 +147,11 @@
 <rect x="0.00" y="60.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="20.00" y="60.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="40.00" y="60.00" width="20.40" height="20.40" fill="#6c705e"/>
-<rect x="60.00" y="60.00" width="20.40" height="20.40" fill="#a9aaa3"/>
+<rect x="60.00" y="60.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="80.00" y="60.00" width="20.40" height="20.40" fill="#a9aaa3"/>
 <rect x="100.00" y="60.00" width="20.40" height="20.40" fill="#a9aaa3"/>
 <rect x="120.00" y="60.00" width="20.40" height="20.40" fill="#a9aaa3"/>
-<rect x="140.00" y="60.00" width="20.40" height="20.40" fill="#a9aaa3"/>
+<rect x="140.00" y="60.00" width="20.40" height="20.40" fill="#c7c8bd"/>
 <rect x="160.00" y="60.00" width="20.40" height="20.40" fill="#c7c8bd"/>
 <rect x="180.00" y="60.00" width="20.40" height="20.40" fill="#c7c8bd"/>
 <rect x="200.00" y="60.00" width="20.40" height="20.40" fill="#c7c8bd"/>
@@ -163,7 +163,7 @@
 <rect x="320.00" y="60.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="340.00" y="60.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="360.00" y="60.00" width="20.40" height="20.40" fill="#6c705e"/>
-<rect x="380.00" y="60.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="380.00" y="60.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="400.00" y="60.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="420.00" y="60.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="440.00" y="60.00" width="20.40" height="20.40" fill="#526654"/>
@@ -180,8 +180,8 @@
 <rect x="660.00" y="60.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="680.00" y="60.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="700.00" y="60.00" width="20.40" height="20.40" fill="#526654"/>
-<rect x="720.00" y="60.00" width="20.40" height="20.40" fill="#6c705e"/>
-<rect x="740.00" y="60.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="720.00" y="60.00" width="20.40" height="20.40" fill="#66745b"/>
+<rect x="740.00" y="60.00" width="20.40" height="20.40" fill="#66745b"/>
 <rect x="760.00" y="60.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="780.00" y="60.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="800.00" y="60.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -261,7 +261,7 @@
 <rect x="360.00" y="100.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="380.00" y="100.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="400.00" y="100.00" width="20.40" height="20.40" fill="#526654"/>
-<rect x="420.00" y="100.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="420.00" y="100.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="440.00" y="100.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="460.00" y="100.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="480.00" y="100.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -294,16 +294,16 @@
 <rect x="60.00" y="120.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="80.00" y="120.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="100.00" y="120.00" width="20.40" height="20.40" fill="#6c705e"/>
-<rect x="120.00" y="120.00" width="20.40" height="20.40" fill="#c7c8bd"/>
+<rect x="120.00" y="120.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="140.00" y="120.00" width="20.40" height="20.40" fill="#c7c8bd"/>
 <rect x="160.00" y="120.00" width="20.40" height="20.40" fill="#c7c8bd"/>
-<rect x="180.00" y="120.00" width="20.40" height="20.40" fill="#c7c8bd"/>
+<rect x="180.00" y="120.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="200.00" y="120.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="220.00" y="120.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="240.00" y="120.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="260.00" y="120.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="280.00" y="120.00" width="20.40" height="20.40" fill="#6c705e"/>
-<rect x="300.00" y="120.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="300.00" y="120.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="320.00" y="120.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="340.00" y="120.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="360.00" y="120.00" width="20.40" height="20.40" fill="#526654"/>
@@ -337,9 +337,9 @@
 <rect x="920.00" y="120.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="940.00" y="120.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="0.00" y="140.00" width="20.40" height="20.40" fill="#6c705e"/>
-<rect x="20.00" y="140.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="20.00" y="140.00" width="20.40" height="20.40" fill="#66745b"/>
 <rect x="40.00" y="140.00" width="20.40" height="20.40" fill="#526654"/>
-<rect x="60.00" y="140.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="60.00" y="140.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="80.00" y="140.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="100.00" y="140.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="120.00" y="140.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -350,7 +350,7 @@
 <rect x="220.00" y="140.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="240.00" y="140.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="260.00" y="140.00" width="20.40" height="20.40" fill="#6c705e"/>
-<rect x="280.00" y="140.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="280.00" y="140.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="300.00" y="140.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="320.00" y="140.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="340.00" y="140.00" width="20.40" height="20.40" fill="#526654"/>
@@ -386,7 +386,7 @@
 <rect x="940.00" y="140.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="0.00" y="160.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="20.00" y="160.00" width="20.40" height="20.40" fill="#526654"/>
-<rect x="40.00" y="160.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="40.00" y="160.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="60.00" y="160.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="80.00" y="160.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="100.00" y="160.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -401,7 +401,7 @@
 <rect x="280.00" y="160.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="300.00" y="160.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="320.00" y="160.00" width="20.40" height="20.40" fill="#526654"/>
-<rect x="340.00" y="160.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="340.00" y="160.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="360.00" y="160.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="380.00" y="160.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="400.00" y="160.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -446,7 +446,7 @@
 <rect x="220.00" y="180.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="240.00" y="180.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="260.00" y="180.00" width="20.40" height="20.40" fill="#526654"/>
-<rect x="280.00" y="180.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="280.00" y="180.00" width="20.40" height="20.40" fill="#66745b"/>
 <rect x="300.00" y="180.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="320.00" y="180.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="340.00" y="180.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -798,13 +798,13 @@
 <rect x="540.00" y="320.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="560.00" y="320.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="580.00" y="320.00" width="20.40" height="20.40" fill="#6c705e"/>
-<rect x="600.00" y="320.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="600.00" y="320.00" width="20.40" height="20.40" fill="#806c52"/>
 <rect x="620.00" y="320.00" width="20.40" height="20.40" fill="#806c52"/>
 <rect x="640.00" y="320.00" width="20.40" height="20.40" fill="#806c52"/>
-<rect x="660.00" y="320.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="660.00" y="320.00" width="20.40" height="20.40" fill="#806c52"/>
 <rect x="680.00" y="320.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="700.00" y="320.00" width="20.40" height="20.40" fill="#6c705e"/>
-<rect x="720.00" y="320.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="720.00" y="320.00" width="20.40" height="20.40" fill="#66745b"/>
 <rect x="740.00" y="320.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="760.00" y="320.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="780.00" y="320.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -849,7 +849,7 @@
 <rect x="600.00" y="340.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="620.00" y="340.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="640.00" y="340.00" width="20.40" height="20.40" fill="#6c705e"/>
-<rect x="660.00" y="340.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="660.00" y="340.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="680.00" y="340.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="700.00" y="340.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="720.00" y="340.00" width="20.40" height="20.40" fill="#526654"/>
@@ -947,7 +947,7 @@
 <rect x="640.00" y="380.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="660.00" y="380.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="680.00" y="380.00" width="20.40" height="20.40" fill="#526654"/>
-<rect x="700.00" y="380.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="700.00" y="380.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="720.00" y="380.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="740.00" y="380.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="760.00" y="380.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -994,7 +994,7 @@
 <rect x="620.00" y="400.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="640.00" y="400.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="660.00" y="400.00" width="20.40" height="20.40" fill="#526654"/>
-<rect x="680.00" y="400.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="680.00" y="400.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="700.00" y="400.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="720.00" y="400.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="740.00" y="400.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -1036,7 +1036,7 @@
 <rect x="500.00" y="420.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="520.00" y="420.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="540.00" y="420.00" width="20.40" height="20.40" fill="#6c705e"/>
-<rect x="560.00" y="420.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="560.00" y="420.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="580.00" y="420.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="600.00" y="420.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="620.00" y="420.00" width="20.40" height="20.40" fill="#526654"/>
@@ -1070,9 +1070,9 @@
 <rect x="220.00" y="440.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="240.00" y="440.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="260.00" y="440.00" width="20.40" height="20.40" fill="#6c705e"/>
-<rect x="280.00" y="440.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="280.00" y="440.00" width="20.40" height="20.40" fill="#66745b"/>
 <rect x="300.00" y="440.00" width="20.40" height="20.40" fill="#526654"/>
-<rect x="320.00" y="440.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="320.00" y="440.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="340.00" y="440.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="360.00" y="440.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="380.00" y="440.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -1114,8 +1114,8 @@
 <rect x="140.00" y="460.00" width="20.40" height="20.40" fill="#c7c8bd"/>
 <rect x="160.00" y="460.00" width="20.40" height="20.40" fill="#c7c8bd"/>
 <rect x="180.00" y="460.00" width="20.40" height="20.40" fill="#c7c8bd"/>
-<rect x="200.00" y="460.00" width="20.40" height="20.40" fill="#c7c8bd"/>
-<rect x="220.00" y="460.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="200.00" y="460.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="220.00" y="460.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="240.00" y="460.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="260.00" y="460.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="280.00" y="460.00" width="20.40" height="20.40" fill="#526654"/>
@@ -1134,7 +1134,7 @@
 <rect x="540.00" y="460.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="560.00" y="460.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="580.00" y="460.00" width="20.40" height="20.40" fill="#526654"/>
-<rect x="600.00" y="460.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="600.00" y="460.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="620.00" y="460.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="640.00" y="460.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="660.00" y="460.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -1163,7 +1163,7 @@
 <rect x="160.00" y="480.00" width="20.40" height="20.40" fill="#c7c8bd"/>
 <rect x="180.00" y="480.00" width="20.40" height="20.40" fill="#c7c8bd"/>
 <rect x="200.00" y="480.00" width="20.40" height="20.40" fill="#c7c8bd"/>
-<rect x="220.00" y="480.00" width="20.40" height="20.40" fill="#c7c8bd"/>
+<rect x="220.00" y="480.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="240.00" y="480.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="260.00" y="480.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="280.00" y="480.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -1179,7 +1179,7 @@
 <rect x="480.00" y="480.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="500.00" y="480.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="520.00" y="480.00" width="20.40" height="20.40" fill="#526654"/>
-<rect x="540.00" y="480.00" width="20.40" height="20.40" fill="#6c705e"/>
+<rect x="540.00" y="480.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="560.00" y="480.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="580.00" y="480.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="600.00" y="480.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -1212,7 +1212,7 @@
 <rect x="180.00" y="500.00" width="20.40" height="20.40" fill="#c7c8bd"/>
 <rect x="200.00" y="500.00" width="20.40" height="20.40" fill="#c7c8bd"/>
 <rect x="220.00" y="500.00" width="20.40" height="20.40" fill="#c7c8bd"/>
-<rect x="240.00" y="500.00" width="20.40" height="20.40" fill="#c7c8bd"/>
+<rect x="240.00" y="500.00" width="20.40" height="20.40" fill="#526654"/>
 <rect x="260.00" y="500.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="280.00" y="500.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="300.00" y="500.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -1298,7 +1298,7 @@
 <rect x="940.00" y="520.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="0.00" y="540.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="20.00" y="540.00" width="20.40" height="20.40" fill="#6c705e"/>
-<rect x="40.00" y="540.00" width="20.40" height="20.40" fill="#c7c8bd"/>
+<rect x="40.00" y="540.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="60.00" y="540.00" width="20.40" height="20.40" fill="#c7c8bd"/>
 <rect x="80.00" y="540.00" width="20.40" height="20.40" fill="#c7c8bd"/>
 <rect x="100.00" y="540.00" width="20.40" height="20.40" fill="#c7c8bd"/>
@@ -1358,7 +1358,7 @@
 <rect x="220.00" y="560.00" width="20.40" height="20.40" fill="#c7c8bd"/>
 <rect x="240.00" y="560.00" width="20.40" height="20.40" fill="#c7c8bd"/>
 <rect x="260.00" y="560.00" width="20.40" height="20.40" fill="#c7c8bd"/>
-<rect x="280.00" y="560.00" width="20.40" height="20.40" fill="#c7c8bd"/>
+<rect x="280.00" y="560.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="300.00" y="560.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="320.00" y="560.00" width="20.40" height="20.40" fill="#6c705e"/>
 <rect x="340.00" y="560.00" width="20.40" height="20.40" fill="#6c705e"/>
@@ -1449,42 +1449,45 @@
 <path d="M 0 420.0 C 220 396.0, 420 446.0, 620 410.0 S 840 440.0, 960 420.0" fill="none" stroke="#11110f" stroke-opacity="0.12" stroke-width="1"/>
 <path d="M 0 480.0 C 220 456.0, 420 506.0, 620 470.0 S 840 500.0, 960 480.0" fill="none" stroke="#11110f" stroke-opacity="0.12" stroke-width="1"/>
 <path d="M 0 540.0 C 220 516.0, 420 566.0, 620 530.0 S 840 560.0, 960 540.0" fill="none" stroke="#11110f" stroke-opacity="0.12" stroke-width="1"/>
-<rect x="780.70" y="240.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 145 organisms</title></rect>
-<rect x="780.70" y="220.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 145 organisms</title></rect>
-<rect x="740.70" y="240.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 145 organisms</title></rect>
-<rect x="760.70" y="240.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 145 organisms</title></rect>
-<rect x="800.70" y="240.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 145 organisms</title></rect>
-<rect x="820.70" y="240.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 145 organisms</title></rect>
-<rect x="720.70" y="240.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 145 organisms</title></rect>
-<rect x="800.70" y="220.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 145 organisms</title></rect>
-<rect x="820.70" y="220.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 145 organisms</title></rect>
-<rect x="560.70" y="460.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 186 organisms</title></rect>
-<rect x="580.70" y="460.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 186 organisms</title></rect>
-<rect x="540.70" y="480.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 186 organisms</title></rect>
-<rect x="600.70" y="400.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 186 organisms</title></rect>
-<rect x="580.70" y="380.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 186 organisms</title></rect>
-<rect x="620.70" y="380.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 186 organisms</title></rect>
-<rect x="600.70" y="440.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 186 organisms</title></rect>
-<rect x="600.70" y="360.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 186 organisms</title></rect>
-<rect x="580.70" y="420.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 186 organisms</title></rect>
-<rect x="380.70" y="160.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 197 organisms</title></rect>
-<rect x="380.70" y="280.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 197 organisms</title></rect>
-<rect x="400.70" y="160.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 197 organisms</title></rect>
-<rect x="340.70" y="200.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 197 organisms</title></rect>
-<rect x="360.70" y="260.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 197 organisms</title></rect>
-<rect x="340.70" y="180.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 197 organisms</title></rect>
-<rect x="360.70" y="180.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 197 organisms</title></rect>
-<rect x="360.70" y="240.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 197 organisms</title></rect>
-<rect x="340.70" y="220.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 197 organisms</title></rect>
-<rect x="340.70" y="280.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 197 organisms</title></rect>
-<circle cx="372.33" cy="228.28" r="3.2" fill="#f1efe7" stroke="#11110f" stroke-width="1"/>
-<text x="379.33" y="232.28" font-family="ui-monospace, monospace" font-size="12" fill="#f1efe7" stroke="#11110f" stroke-width="1.3" paint-order="stroke">pale filament</text>
-<circle cx="598.18" cy="434.34" r="3.2" fill="#f1efe7" stroke="#11110f" stroke-width="1"/>
-<text x="605.18" y="438.34" font-family="ui-monospace, monospace" font-size="12" fill="#f1efe7" stroke="#11110f" stroke-width="1.3" paint-order="stroke">silt frond</text>
-<circle cx="794.97" cy="245.79" r="3.2" fill="#f1efe7" stroke="#11110f" stroke-width="1"/>
-<text x="801.97" y="249.79" font-family="ui-monospace, monospace" font-size="12" fill="#f1efe7" stroke="#11110f" stroke-width="1.3" paint-order="stroke">glass mote</text>
+<rect x="780.70" y="240.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 170 organisms</title></rect>
+<rect x="780.70" y="220.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 170 organisms</title></rect>
+<rect x="740.70" y="240.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 170 organisms</title></rect>
+<rect x="760.70" y="240.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 170 organisms</title></rect>
+<rect x="840.70" y="220.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 170 organisms</title></rect>
+<rect x="780.70" y="260.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 170 organisms</title></rect>
+<rect x="800.70" y="240.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 170 organisms</title></rect>
+<rect x="820.70" y="240.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 170 organisms</title></rect>
+<rect x="800.70" y="220.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 170 organisms</title></rect>
+<rect x="820.70" y="220.70" width="18.60" height="18.60" rx="2" fill="#afd883" fill-opacity="0.58" stroke="#4e7920" stroke-opacity="0.65" stroke-width="0.8"><title>glass mote — 170 organisms</title></rect>
+<rect x="560.70" y="460.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 210 organisms</title></rect>
+<rect x="520.70" y="480.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 210 organisms</title></rect>
+<rect x="580.70" y="460.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 210 organisms</title></rect>
+<rect x="540.70" y="480.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 210 organisms</title></rect>
+<rect x="600.70" y="400.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 210 organisms</title></rect>
+<rect x="540.70" y="460.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 210 organisms</title></rect>
+<rect x="580.70" y="380.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 210 organisms</title></rect>
+<rect x="620.70" y="380.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 210 organisms</title></rect>
+<rect x="600.70" y="440.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 210 organisms</title></rect>
+<rect x="580.70" y="420.70" width="18.60" height="18.60" rx="2" fill="#bdd883" fill-opacity="0.58" stroke="#5d7920" stroke-opacity="0.65" stroke-width="0.8"><title>silt frond — 210 organisms</title></rect>
+<rect x="380.70" y="160.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 212 organisms</title></rect>
+<rect x="440.70" y="160.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 212 organisms</title></rect>
+<rect x="380.70" y="280.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 212 organisms</title></rect>
+<rect x="400.70" y="160.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 212 organisms</title></rect>
+<rect x="340.70" y="200.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 212 organisms</title></rect>
+<rect x="360.70" y="260.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 212 organisms</title></rect>
+<rect x="340.70" y="180.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 212 organisms</title></rect>
+<rect x="360.70" y="180.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 212 organisms</title></rect>
+<rect x="360.70" y="240.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 212 organisms</title></rect>
+<rect x="420.70" y="160.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 212 organisms</title></rect>
+<rect x="340.70" y="220.70" width="18.60" height="18.60" rx="2" fill="#a183d8" fill-opacity="0.58" stroke="#3f2079" stroke-opacity="0.65" stroke-width="0.8"><title>pale filament — 212 organisms</title></rect>
+<circle cx="386.96" cy="212.12" r="3.2" fill="#f1efe7" stroke="#11110f" stroke-width="1"/>
+<text x="393.96" y="216.12" font-family="ui-monospace, monospace" font-size="12" fill="#f1efe7" stroke="#11110f" stroke-width="1.3" paint-order="stroke">pale filament</text>
+<circle cx="585.66" cy="450.51" r="3.2" fill="#f1efe7" stroke="#11110f" stroke-width="1"/>
+<text x="592.66" y="454.51" font-family="ui-monospace, monospace" font-size="12" fill="#f1efe7" stroke="#11110f" stroke-width="1.3" paint-order="stroke">silt frond</text>
+<circle cx="807.04" cy="246.46" r="3.2" fill="#f1efe7" stroke="#11110f" stroke-width="1"/>
+<text x="814.04" y="250.46" font-family="ui-monospace, monospace" font-size="12" fill="#f1efe7" stroke="#11110f" stroke-width="1.3" paint-order="stroke">glass mote</text>
 <rect x="16" y="16" width="310" height="91" rx="3" fill="#11110f" fill-opacity="0.84"/>
-<text x="30" y="43" font-family="ui-monospace, monospace" font-size="20" fill="#f1efe7">PHYLUM / GEN 000002</text>
-<text x="30" y="66" font-family="ui-monospace, monospace" font-size="12" fill="#c9c5b8">3 living lineages · 530 organisms · 28 occupied cells</text>
+<text x="30" y="43" font-family="ui-monospace, monospace" font-size="20" fill="#f1efe7">PHYLUM / GEN 000003</text>
+<text x="30" y="66" font-family="ui-monospace, monospace" font-size="12" fill="#c9c5b8">3 living lineages · 593 organisms · 31 occupied cells</text>
 <text x="30" y="88" font-family="ui-monospace, monospace" font-size="12" fill="#c9c5b8">ERA / ORIGIN ERA</text>
 </svg>
