@@ -9,10 +9,10 @@ Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 ![Current PHYLUM world](renders/current.svg)
 
 <!-- PHYLUM:STATE:START -->
-**Generation:** `0`  
+**Generation:** `1`  
 **Living lineages:** `3`  
 **Extinct lineages:** `0`  
-**Population:** `430`  
+**Population:** `457`  
 **Dominant lineage:** `pale filament`  
 **Latest fossil:** Three primitive lineages occupy the first habitat.
 <!-- PHYLUM:STATE:END -->
