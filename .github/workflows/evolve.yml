@@ -1,0 +1,51 @@
+name: Evolve PHYLUM
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: phylum-evolution
+  cancel-in-progress: false
+
+jobs:
+  evolve:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out lineage
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Advance one generation
+        run: python -m phylum evolve --steps 1 --lineage "$GITHUB_REPOSITORY"
+
+      - name: Verify simulation
+        run: python -m unittest discover -s tests -v
+
+      - name: Commit fossil record
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No world changes detected."
+            exit 0
+          fi
+
+          git config user.name "phylum-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          MESSAGE="$(python -m phylum commit-message)"
+
+          git add world/ renders/ fossils/ README.md
+          git commit -m "$MESSAGE"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
