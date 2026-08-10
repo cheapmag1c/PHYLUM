@@ -1,5 +1,25 @@
 # PHYLUM changelog
 
+## 1.1.0 — WITNESS
+
+A generation-observation layer that makes ecological change visible without altering the underlying DEEP TIME rules.
+
+- persistent `world/changes.json` delta report generated every generation
+- before/after population, range, lineage, pathogen, genetics and environment tracking
+- per-lineage population/range/movement/infection deltas
+- new/ended predator-prey and competition link tracking
+- current-generation atlas event markers for migration, speciation, extinction, disease, disasters, contact and mass extinction
+- migration trails now distinguish the newest movement from older routes
+- predator/prey contact-zone rendering
+- disease overlays cover infected ranges and display prevalence
+- World Atlas sidebar now includes a Generation Delta panel and "most changed" lineage
+- Observatory adds CONTACT ZONES and EVENTS atlas layers
+- Observatory adds a CHANGES tab with generation metrics and lineage deltas
+- README state block includes the latest population/range delta
+- new `python -m phylum changes` CLI report
+- GitHub Action prints the generation delta after every run
+- test suite expanded to 19 invariant/observation tests
+
 ## 1.0.0 — DEEP TIME
 
 A single integrated expansion of the original autonomous biosphere.

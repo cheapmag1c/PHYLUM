@@ -19,6 +19,7 @@ PATHOGENS_PATH = WORLD_DIR / "pathogens.json"
 PLATES_PATH = WORLD_DIR / "plates.json"
 BRANCH_PATH = WORLD_DIR / "branch.json"
 INTERACTIONS_PATH = WORLD_DIR / "interactions.json"
+CHANGES_PATH = WORLD_DIR / "changes.json"
 EVENTS_PATH = FOSSIL_DIR / "events.ndjson"
 HISTORY_PATH = FOSSIL_DIR / "history.ndjson"
 ATLAS_HISTORY_PATH = FOSSIL_DIR / "atlas-history.ndjson"
@@ -107,7 +108,7 @@ def backup_state(tag: str = "pre-evolve") -> Path:
     root = ROOT / ".phylum-backup"
     backup = root / tag
     backup.mkdir(parents=True, exist_ok=True)
-    for path in (WORLD_PATH, SPECIES_PATH, ENV_PATH, PATHOGENS_PATH, PLATES_PATH, BRANCH_PATH, INTERACTIONS_PATH):
+    for path in (WORLD_PATH, SPECIES_PATH, ENV_PATH, PATHOGENS_PATH, PLATES_PATH, BRANCH_PATH, INTERACTIONS_PATH, CHANGES_PATH):
         if path.exists():
             shutil.copy2(path, backup / path.name)
     # Local multi-step experiments should not accumulate thousands of untracked backups.

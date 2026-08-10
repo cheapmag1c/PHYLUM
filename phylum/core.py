@@ -14,9 +14,10 @@ from .biology import (
 from .branching import compare_repositories, contact_worlds, ensure_branch
 from .constants import CHECKPOINT_INTERVAL, EVENT_PRIORITY, GRID_COLS, GRID_ROWS, SCHEMA_VERSION
 from .disease import evolve_diseases, migrate_pathogen_schema
+from .observation import build_changes, capture_observation
 from .planet import climate_at, initialize_plates, region_name
 from .storage import (
-    ATLAS_HISTORY_PATH, BRANCH_PATH, CHECKPOINT_DIR, ENV_PATH, EVENTS_PATH, HISTORY_PATH, INTERACTIONS_PATH,
+    ATLAS_HISTORY_PATH, BRANCH_PATH, CHANGES_PATH, CHECKPOINT_DIR, ENV_PATH, EVENTS_PATH, HISTORY_PATH, INTERACTIONS_PATH,
     PATHOGENS_PATH, PLATES_PATH, README_PATH, ROOT, SNAPSHOT_DIR, SPECIES_FOSSIL_DIR,
     append_ndjson, atomic_json, backup_state, load_extended, load_json, load_state,
     read_ndjson, save_extended, write_checkpoint,
@@ -222,6 +223,9 @@ def migrate_current_state(lineage: str | None = None, render: bool = True) -> di
 
 def evolve_one(lineage: str | None = None) -> dict[str,Any]:
     world,species,env,pathogens,plates,branch,interactions=ensure_schema(lineage,save=False)
+    # Capture the untouched parent generation before any biology or planet systems run.
+    # WITNESS uses this compact frame to explain exactly what changed after evolution.
+    before_observation=capture_observation(world,species,env,pathogens,interactions)
     backup_state(f"gen-{int(world.get('generation',0)):06d}")
     world["generation"]=int(world.get("generation",0))+1; generation=int(world["generation"])
     lineage=lineage or os.getenv("GITHUB_REPOSITORY") or branch.get("lineage") or world.get("active_lineage") or "local/PHYLUM"
@@ -246,6 +250,8 @@ def evolve_one(lineage: str | None = None) -> dict[str,Any]:
     errors=validate_state(world,species,env,pathogens,plates,branch,interactions)
     if errors: raise ValueError("PHYLUM generation validation failed: "+"; ".join(errors))
     save_extended(world,species,env,pathogens,plates,branch,interactions)
+    changes=build_changes(before_observation,world,species,env,pathogens,interactions,events)
+    atomic_json(CHANGES_PATH,changes)
     append_ndjson(EVENTS_PATH,events)
     summary=_history_summary(world,species,env,pathogens,interactions,events); append_ndjson(HISTORY_PATH,[summary])
     _append_atlas_snapshot_if_needed(world,species,env,plates,events)
@@ -254,7 +260,7 @@ def evolve_one(lineage: str | None = None) -> dict[str,Any]:
     if os.getenv("PHYLUM_NO_RENDER") != "1":
         from .render import render_all
         render_all(world,species,env,pathogens,plates,branch,interactions)
-    return {"world":world,"species":species,"environment":env,"pathogens":pathogens,"plates":plates,"branch":branch,"interactions":interactions,"events":events}
+    return {"world":world,"species":species,"environment":env,"pathogens":pathogens,"plates":plates,"branch":branch,"interactions":interactions,"events":events,"changes":changes}
 
 
 def commit_message() -> str:

@@ -11,7 +11,7 @@ from typing import Any
 from .biology import behavior_profile, morphology, normalize_range, trophic_role
 from .constants import BIOME_LABELS, GRID_COLS, GRID_ROWS, MAP_SAMPLE_COLS, MAP_SAMPLE_ROWS
 from .planet import biome_at, cell_world_xy, climate_at, geography_at, plate_at
-from .storage import ATLAS_HISTORY_PATH, DOCS_DIR, EVENTS_PATH, HISTORY_PATH, README_PATH, RENDER_DIR, read_ndjson
+from .storage import ATLAS_HISTORY_PATH, CHANGES_PATH, DOCS_DIR, EVENTS_PATH, HISTORY_PATH, README_PATH, RENDER_DIR, load_json, read_ndjson
 from .utils import clamp, mean, stable_int
 
 WORLD_SVG = RENDER_DIR / "current.svg"
@@ -94,6 +94,8 @@ def render_world_svg(world: dict[str,Any], species: list[dict[str,Any]], env: di
     total=int(sum(float(s.get("population",0)) for s in live))
     occupied=len(set().union(*(normalize_range(s) for s in live))) if live else 0
     gen=int(world.get("generation",0)); era=world.get("era",{}).get("name","Origin Era")
+    changes=load_json(CHANGES_PATH,{}) or {}
+    if int(changes.get("to_generation",-1)) != gen: changes={}
     parts=[f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="PHYLUM generation {gen} world atlas">
 <defs>
   <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#071015"/><stop offset="1" stop-color="#0c1415"/></linearGradient>
@@ -239,15 +241,18 @@ def render_world_svg(world: dict[str,Any], species: list[dict[str,Any]], env: di
                 cx,cy=_map_xy((x,y),mx,my,mw,mh); cores.append(f"M{cx-rr:.1f},{cy:.1f}a{rr:.1f},{rr:.1f} 0 1,0 {rr*2:.1f},0a{rr:.1f},{rr:.1f} 0 1,0 {-rr*2:.1f},0")
             parts.append(f'<path d="{" ".join(cores)}" fill="{pale}" opacity="0.24"/>')
     parts.append('</g>')
-    # Migration trails.
-    parts.append('<g id="layer-migration" fill="none" stroke="#c1d0c9" stroke-width="1.2" opacity="0.5" marker-end="url(#arrow)">')
+    # Migration trails. Current-generation movement is bright; older paths fade into survey history.
+    parts.append('<g id="layer-migration" fill="none" marker-end="url(#arrow)">')
     for sp in live:
-        trails=sp.get("migration_trail",[])[-4:]
-        for tr in trails:
+        trails=sp.get("migration_trail",[])[-6:]
+        for age,tr in enumerate(trails):
             a=tr.get("from"); b=tr.get("to")
             if a and b:
                 x1,y1=_map_xy((float(a[0]),float(a[1])),mx,my,mw,mh); x2,y2=_map_xy((float(b[0]),float(b[1])),mx,my,mw,mh)
-                parts.append(f'<path d="M{x1:.1f},{y1:.1f} Q{(x1+x2)/2:.1f},{min(y1,y2)-16:.1f} {x2:.1f},{y2:.1f}"/>')
+                current=int(tr.get("generation",-1))==gen
+                opacity=0.92 if current else 0.16+0.07*(age+1); width=2.6 if current else 0.8+0.12*age
+                col=_species_color(sp)[2] if current else "#9bb0a8"; lift=22 if current else 12
+                parts.append(f'<path d="M{x1:.1f},{y1:.1f} Q{(x1+x2)/2:.1f},{min(y1,y2)-lift:.1f} {x2:.1f},{y2:.1f}" stroke="{col}" stroke-width="{width:.1f}" opacity="{opacity:.2f}"/>')
     parts.append('</g>')
     # Ecological interactions.
     byid={s["id"]:s for s in live}; parts.append('<g id="layer-ecology" opacity="0.7">')
@@ -258,13 +263,41 @@ def render_world_svg(world: dict[str,Any], species: list[dict[str,Any]], env: di
         pred=it.get("type")=="predation"; col="#d99776" if pred else "#9caa92"
         parts.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="{col}" stroke-width="{clamp(float(it.get("strength",0))*2,0.6,2.5):.2f}" stroke-dasharray="{'' if pred else '3 4'}" {"marker-end='url(#arrow)'" if pred else ''}/>')
     parts.append('</g>')
-    # Disease outbreaks.
+    # Predator/prey contact zones.
+    parts.append('<g id="layer-contact-zones">')
+    for it in sorted((i for i in interactions if i.get("type")=="predation"),key=lambda i:float(i.get("strength",0)),reverse=True)[:24]:
+        a,b=byid.get(it.get("source")),byid.get(it.get("target"))
+        if not a or not b: continue
+        overlap=sorted(normalize_range(a)&normalize_range(b))
+        if overlap:
+            for c in overlap[:18]:
+                xx,yy=_map_xy(c,mx,my,mw,mh)
+                parts.append(f'<circle cx="{xx:.1f}" cy="{yy:.1f}" r="5.3" fill="#d98262" opacity="0.22" stroke="#f0ad86" stroke-width="0.8"/>')
+        else:
+            ca,cb=_centroid(a),_centroid(b); x1,y1=_map_xy(ca,mx,my,mw,mh); x2,y2=_map_xy(cb,mx,my,mw,mh)
+            parts.append(f'<circle cx="{(x1+x2)/2:.1f}" cy="{(y1+y2)/2:.1f}" r="5" fill="none" stroke="#d98262" stroke-width="1.2" opacity="0.55"/>')
+    parts.append('</g>')
+    # Disease outbreaks: infected range + outbreak ring.
     parts.append('<g id="layer-disease">')
     for sp in live:
         prevalence=max([float(v) for v in sp.get("infections",{}).values()] or [0])
-        if prevalence<0.01: continue
-        cx,cy=_map_xy(_centroid(sp),mx,my,mw,mh); rr=14+prevalence*34
-        parts.append(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{rr:.1f}" fill="none" stroke="#d06e73" stroke-width="2" opacity="{0.25+prevalence*0.5:.2f}" stroke-dasharray="5 5"/>')
+        if prevalence<0.005: continue
+        for c in normalize_range(sp):
+            xx,yy=_map_xy(c,mx,my,mw,mh); rr=clamp(2.2+prevalence*8,2.2,8.8)
+            parts.append(f'<circle cx="{xx:.1f}" cy="{yy:.1f}" r="{rr:.1f}" fill="#c85e68" opacity="{0.05+prevalence*0.22:.2f}"/>')
+        cx,cy=_map_xy(_centroid(sp),mx,my,mw,mh); rr=15+prevalence*38
+        parts.append(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{rr:.1f}" fill="none" stroke="#e1747d" stroke-width="2.2" opacity="{0.30+prevalence*0.55:.2f}" stroke-dasharray="5 5"/>')
+        parts.append(f'<text x="{cx:.1f}" y="{cy+rr+12:.1f}" text-anchor="middle" class="tiny" fill="#ef9ca2">INFECTION {prevalence*100:.1f}%</text>')
+    parts.append('</g>')
+    # Current-generation WITNESS event markers.
+    parts.append('<g id="layer-events">')
+    event_colors={"migration":"#b9d4c5","speciation":"#d8c080","extinction":"#a79a98","disease":"#e1747d","pandemic":"#f05d67","disaster":"#e09a66","mass_extinction":"#ff725f","tectonic":"#c99a6c","climate":"#79a9bb","contact":"#c7a5d8","era":"#e1cf8d"}
+    for marker in changes.get("markers",[])[:18]:
+        pos=marker.get("position")
+        if not pos: continue
+        ex,ey=_map_xy((float(pos[0]),float(pos[1])),mx,my,mw,mh)
+        kind=str(marker.get("kind","event")); col=event_colors.get(kind,"#d8e5df"); glyph=_esc(marker.get("glyph","•")); tip=_esc(marker.get("text",""))
+        parts.append(f'<g><title>{tip}</title><circle cx="{ex:.1f}" cy="{ey:.1f}" r="11" fill="#071013" stroke="{col}" stroke-width="1.6" opacity="0.94"/><text x="{ex:.1f}" y="{ey+4:.1f}" text-anchor="middle" font-size="12" fill="{col}">{glyph}</text></g>')
     parts.append('</g>')
     # Labels and organism glyphs.
     parts.append('<g id="layer-labels">')
@@ -290,19 +323,31 @@ def render_world_svg(world: dict[str,Any], species: list[dict[str,Any]], env: di
     cond=[("TEMP",float(env.get("temperature",0))), ("MOISTURE",float(env.get("moisture",0))), ("RESOURCES",float(env.get("resources",0)))]
     for k,(lab,val) in enumerate(cond):
         y=y0+28+k*34; parts.append(f'<text x="{sx+24}" y="{y}" class="tiny muted">{lab}</text><rect x="{sx+104}" y="{y-9}" width="205" height="8" rx="4" fill="#1d2a29"/><rect x="{sx+104}" y="{y-9}" width="{205*clamp(val,0,1):.1f}" height="8" rx="4" fill="#8aa99a"/><text x="{sx+326}" y="{y}" class="tiny">{val:.2f}</text>')
-    # Lineage cards.
-    y1=545; parts.append(f'<text x="{sx+24}" y="{y1}" class="label">DOMINANT LINEAGES</text>')
-    for k,sp in enumerate(sorted(live,key=lambda s:float(s.get("population",0)),reverse=True)[:4]):
-        y=y1+34+k*58; base,dark,pale=_species_color(sp)
-        parts.append(_morph_glyph(sp,sx+38,y+10,0.56))
-        parts.append(f'<text x="{sx+60}" y="{y+5}" class="small" fill="{pale}">{_esc(sp["name"])}</text><text x="{sx+60}" y="{y+22}" class="tiny muted">{_esc(trophic_role(sp))} · fit {float(sp.get("last_fitness",0)):.2f} · range {len(normalize_range(sp))}</text><text x="{sx+340}" y="{y+6}" class="small" text-anchor="end">{int(sp.get("population",0)):,}</text>')
+    # Generation delta: explain the latest step without comparing screenshots.
+    dy=535; ds=changes.get("summary",{})
+    parts.append(f'<text x="{sx+24}" y="{dy}" class="label">GENERATION DELTA</text>')
+    if ds:
+        delta_metrics=[("POP Δ",f"{float(ds.get('population_delta',0)):+.0f}"),("RANGE Δ",f"{int(ds.get('occupied_delta',0)):+d}"),("LINEAGES Δ",f"{int(ds.get('living_delta',0)):+d}"),("EVENTS",str(int(ds.get("events",0))))]
+        for j,(lab,val) in enumerate(delta_metrics):
+            col=j%2; row=j//2; x=sx+24+col*178; y=dy+29+row*48
+            parts.append(f'<text x="{x}" y="{y}" class="tiny muted">{lab}</text><text x="{x}" y="{y+21}" font-size="17">{_esc(val)}</text>')
+        changed=[r for r in changes.get("lineages",[]) if r.get("status") in {"new","extinct"} or abs(float(r.get("population_delta",0)))>=1 or int(r.get("range_delta",0))!=0]
+        if changed:
+            r=changed[0]; parts.append(f'<text x="{sx+24}" y="{dy+130}" class="tiny muted">MOST CHANGED</text><text x="{sx+24}" y="{dy+149}" class="small">{_esc(r.get("name","lineage"))} · pop {float(r.get("population_delta",0)):+.0f} · range {int(r.get("range_delta",0)):+d}</text>')
+    else:
+        parts.append(f'<text x="{sx+24}" y="{dy+30}" class="small muted">Awaiting the next evolved generation.</text>')
+    y1=705; parts.append(f'<text x="{sx+24}" y="{y1}" class="label">DOMINANT LINEAGES</text>')
+    for k,sp in enumerate(sorted(live,key=lambda s:float(s.get("population",0)),reverse=True)[:2]):
+        y=y1+31+k*48; base,dark,pale=_species_color(sp)
+        parts.append(_morph_glyph(sp,sx+38,y+7,0.48))
+        parts.append(f'<text x="{sx+58}" y="{y+3}" class="small" fill="{pale}">{_esc(sp["name"])}</text><text x="{sx+58}" y="{y+18}" class="tiny muted">{_esc(trophic_role(sp))} · fit {float(sp.get("last_fitness",0)):.2f} · range {len(normalize_range(sp))}</text><text x="{sx+340}" y="{y+4}" class="small" text-anchor="end">{int(sp.get("population",0)):,}</text>')
     # Footer event strip + legend.
     recent=read_ndjson(EVENTS_PATH,8)
     fy=874; parts.append(f'<line x1="54" y1="852" x2="1546" y2="852" class="hair"/><text x="54" y="{fy}" class="label">RECENT FOSSIL RECORD</text>')
     for k,e in enumerate(recent[-5:]):
         parts.append(f'<text x="54" y="{fy+25+k*23}" class="small"><tspan class="muted">{int(e.get("generation",0)):06d} / {_esc(str(e.get("kind","event")).upper())}</tspan><tspan dx="15">{_esc(e.get("text",""))[:150]}</tspan></text>')
     legendx=1160; legendy=874; parts.append(f'<text x="{legendx}" y="{legendy}" class="label">ATLAS LAYERS</text>')
-    legend=[("BIOMES","terrain / ocean"),("PLATES","dashed boundaries"),("RANGES","living territory"),("ECOLOGY","predation / competition"),("DISEASE","outbreak rings"),("FOSSILS","ghost ranges")]
+    legend=[("BIOMES","terrain / ocean"),("PLATES","dashed boundaries"),("RANGES","living territory"),("CONTACT","predation fronts"),("DISEASE","infected ranges"),("EVENTS","current-gen markers")]
     for i,(a,b) in enumerate(legend): parts.append(f'<text x="{legendx}" y="{legendy+25+i*22}" class="tiny"><tspan fill="#bcd0c6">{a}</tspan><tspan dx="12" class="muted">{b}</tspan></text>')
     parts.append('</svg>')
     svg=''.join(parts)
@@ -374,7 +419,8 @@ def render_observatory(world: dict[str,Any], species: list[dict[str,Any]], env: 
     history=read_ndjson(HISTORY_PATH,500)
     atlas_history=read_ndjson(ATLAS_HISTORY_PATH,500)
     catalog=_fossil_catalog(species)
-    data={"world":world,"environment":env,"branch":branch,"species":catalog,"pathogens":pathogens,"interactions":interactions,"events":events,"history":history}
+    changes=load_json(CHANGES_PATH,{}) or {}
+    data={"world":world,"environment":env,"branch":branch,"species":catalog,"pathogens":pathogens,"interactions":interactions,"events":events,"history":history,"changes":changes}
     (DOCS_DIR/"data.json").write_text(json.dumps(data,indent=2,sort_keys=True),encoding="utf-8")
     # Deep-time atlas history is split from current data so ordinary generations do not rewrite a multi-megabyte HTML file.
     (DOCS_DIR/"atlas-history.js").write_text("window.PHYLUM_ATLAS_HISTORY="+json.dumps(atlas_history,separators=(",",":"),ensure_ascii=True)+";\n",encoding="utf-8")
@@ -383,8 +429,9 @@ def render_observatory(world: dict[str,Any], species: list[dict[str,Any]], env: 
 <style>
 :root{{--bg:#071014;--panel:#0b1619;--line:#263b38;--text:#dce8e2;--muted:#748a82;--accent:#9bb8aa}}
 *{{box-sizing:border-box}} body{{margin:0;background:var(--bg);color:var(--text);font:14px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}} header{{padding:22px 28px;border-bottom:1px solid var(--line);display:flex;gap:28px;align-items:end;flex-wrap:wrap}} h1{{font-size:20px;letter-spacing:.28em;margin:0}} .sub{{color:var(--muted)}} nav{{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}} button,input{{font:inherit}} button{{background:#0f2022;color:var(--text);border:1px solid #2e4743;padding:8px 11px;border-radius:6px;cursor:pointer}} button.active{{background:#244238;border-color:#668d7d}} main{{padding:20px 24px;max-width:1800px;margin:auto}} .tab{{display:none}} .tab.active{{display:block}} .atlas svg{{width:100%;height:auto;border:1px solid var(--line);border-radius:8px}} .layers{{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 12px}} .grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}} .card{{background:var(--panel);border:1px solid var(--line);padding:15px;border-radius:8px}} .metric{{font-size:28px;margin-top:5px}} .muted{{color:var(--muted)}} table{{width:100%;border-collapse:collapse}} th,td{{text-align:left;padding:9px;border-bottom:1px solid #1d312e}} .dead{{opacity:.62}} .event{{border-left:2px solid #4c6d62;padding:7px 12px;margin:7px 0;background:#0a1517}} input{{background:#071013;border:1px solid var(--line);color:var(--text);padding:9px;width:min(420px,100%);border-radius:6px}} .bar{{height:7px;background:#172724;border-radius:9px;overflow:hidden}} .bar i{{display:block;height:100%;background:#7eaa98}} code{{color:#b7cfc4}} @media(max-width:700px){{main{{padding:12px}}header{{padding:16px}}}}
-</style></head><body><header><div><h1>PHYLUM / OBSERVATORY</h1><div class="sub">lineage {_esc(branch.get('lineage',world.get('active_lineage','unknown')))} · generation {int(world.get('generation',0)):06d} · {_esc(world.get('era',{}).get('name','Origin Era'))}</div></div><nav><button data-tab="atlas" class="active">ATLAS</button><button data-tab="lineages">LINEAGES</button><button data-tab="fossils">FOSSILS</button><button data-tab="timeline">TIMELINE</button><button data-tab="branches">BRANCHES</button></nav></header><main>
-<section id="atlas" class="tab active"><div class="layers"><button data-layer="layer-biomes" class="active">BIOMES</button><button data-layer="layer-plates" class="active">TECTONICS</button><button data-layer="layer-contours" class="active">RELIEF</button><button data-layer="layer-hydrology" class="active">RIVERS</button><button data-layer="layer-territory" class="active">TERRITORIES</button><button data-layer="layer-migration" class="active">MIGRATION</button><button data-layer="layer-ecology" class="active">ECOLOGY</button><button data-layer="layer-disease" class="active">DISEASE</button><button data-layer="layer-fossils" class="active">FOSSILS</button><button data-layer="layer-scars" class="active">SCARS</button><button data-layer="layer-labels" class="active">LABELS</button><button data-layer="layer-population">POPULATION</button><button data-layer="layer-biodiversity">BIODIVERSITY</button><button data-layer="layer-genetics">GENETICS</button><button data-layer="layer-climate">CLIMATE</button></div><div class="atlas"><object id="atlasObject" type="image/svg+xml" data="current.svg?gen={int(world.get('generation',0)):06d}" style="width:100%;aspect-ratio:1600/1040;display:block"></object></div></section>
+</style></head><body><header><div><h1>PHYLUM / OBSERVATORY</h1><div class="sub">lineage {_esc(branch.get('lineage',world.get('active_lineage','unknown')))} · generation {int(world.get('generation',0)):06d} · {_esc(world.get('era',{}).get('name','Origin Era'))}</div></div><nav><button data-tab="atlas" class="active">ATLAS</button><button data-tab="changes">CHANGES</button><button data-tab="lineages">LINEAGES</button><button data-tab="fossils">FOSSILS</button><button data-tab="timeline">TIMELINE</button><button data-tab="branches">BRANCHES</button></nav></header><main>
+<section id="atlas" class="tab active"><div class="layers"><button data-layer="layer-biomes" class="active">BIOMES</button><button data-layer="layer-plates" class="active">TECTONICS</button><button data-layer="layer-contours" class="active">RELIEF</button><button data-layer="layer-hydrology" class="active">RIVERS</button><button data-layer="layer-territory" class="active">TERRITORIES</button><button data-layer="layer-migration" class="active">MIGRATION</button><button data-layer="layer-ecology" class="active">ECOLOGY</button><button data-layer="layer-contact-zones" class="active">CONTACT ZONES</button><button data-layer="layer-disease" class="active">DISEASE</button><button data-layer="layer-events" class="active">EVENTS</button><button data-layer="layer-fossils" class="active">FOSSILS</button><button data-layer="layer-scars" class="active">SCARS</button><button data-layer="layer-labels" class="active">LABELS</button><button data-layer="layer-population">POPULATION</button><button data-layer="layer-biodiversity">BIODIVERSITY</button><button data-layer="layer-genetics">GENETICS</button><button data-layer="layer-climate">CLIMATE</button></div><div class="atlas"><object id="atlasObject" type="image/svg+xml" data="current.svg?gen={int(world.get('generation',0)):06d}" style="width:100%;aspect-ratio:1600/1040;display:block"></object></div></section>
+<section id="changes" class="tab"><div class="grid" id="changeMetrics"></div><h3>LINEAGE DELTAS</h3><div id="changeTable"></div></section>
 <section id="lineages" class="tab"><div class="grid" id="lineageCards"></div></section>
 <section id="fossils" class="tab"><p><input id="fossilSearch" placeholder="search lineage, role, cause, region"></p><div id="fossilTable"></div></section>
 <section id="timeline" class="tab"><div class="card" style="margin-bottom:14px"><div class="muted">DEEP-TIME ATLAS SNAPSHOTS</div><input id="timeSlider" type="range" min="0" max="0" value="0" style="width:100%;margin:14px 0"><div id="timeLabel"></div><canvas id="timeCanvas" width="960" height="480" style="width:100%;height:auto;border:1px solid #263b38;margin-top:10px"></canvas></div><div id="timelineList"></div></section>
@@ -393,6 +440,7 @@ def render_observatory(world: dict[str,Any], species: list[dict[str,Any]], env: 
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 $$('[data-tab]').forEach(b=>b.addEventListener('click',()=>{{$$('[data-tab]').forEach(x=>x.classList.remove('active'));b.classList.add('active');$$('.tab').forEach(x=>x.classList.remove('active'));$('#'+b.dataset.tab).classList.add('active')}}));
 $$('[data-layer]').forEach(b=>b.addEventListener('click',()=>{{const obj=$('#atlasObject');const doc=obj&&obj.contentDocument;const el=doc&&doc.getElementById(b.dataset.layer);if(!el)return;b.classList.toggle('active');el.style.display=b.classList.contains('active')?'':'none'}}));
+function renderChanges(){{const c=DATA.changes||{{}},s=c.summary||{{}};const signed=n=>`${{n>=0?'+':''}}${{Number(n||0).toLocaleString()}}`;const cards=[['POPULATION Δ',signed(s.population_delta||0)],['RANGE Δ',signed(s.occupied_delta||0)],['LINEAGES Δ',signed(s.living_delta||0)],['EVENTS',String(s.events||0)],['NEW PATHOGENS',String(s.new_pathogens||0)],['NEW PREDATION',String(s.new_predation_links||0)]];$('#changeMetrics').innerHTML=cards.map(x=>`<div class="card"><div class="muted">${{x[0]}}</div><div class="metric">${{x[1]}}</div></div>`).join('');const rows=(c.lineages||[]).filter(r=>r.status==='new'||r.status==='extinct'||Math.abs(r.population_delta||0)>=1||(r.range_delta||0)!==0);$('#changeTable').innerHTML=rows.length?`<table><thead><tr><th>lineage</th><th>status</th><th>population Δ</th><th>range Δ</th><th>movement</th><th>infection</th></tr></thead><tbody>${{rows.map(r=>`<tr class="${{r.status==='extinct'?'dead':''}}"><td>${{r.name}}</td><td>${{r.status}}</td><td>${{signed(r.population_delta)}}</td><td>${{signed(r.range_delta)}}</td><td>${{Number(r.movement||0).toFixed(2)}}</td><td>${{(Number(r.infection_peak_after||0)*100).toFixed(1)}}%</td></tr>`).join('')}}</tbody></table>`:'<p class="muted">No measurable lineage changes were recorded.</p>'}}renderChanges();
 function lineageCards(){{const live=DATA.species.filter(s=>s.extinct_generation===null).sort((a,b)=>b.population-a.population);$('#lineageCards').innerHTML=live.map(s=>`<div class="card"><div class="muted">${{s.id}} / ${{s.role.toUpperCase()}}</div><h3>${{s.name}}</h3><div class="metric">${{Math.round(s.population).toLocaleString()}}</div><div class="muted">organisms · peak ${{Math.round(s.peak_population).toLocaleString()}}</div><p>${{s.behavior.join(' · ')}}</p><div class="muted">GENETIC DIVERSITY ${{s.genetic_diversity.toFixed(2)}}</div><div class="bar"><i style="width:${{s.genetic_diversity*100}}%"></i></div><p class="muted">born gen ${{s.born_generation}} · peak range ${{s.peak_range}} cells</p></div>`).join('')}}lineageCards();
 function fossils(q=''){{q=q.toLowerCase();const rows=DATA.species.filter(s=>JSON.stringify(s).toLowerCase().includes(q));$('#fossilTable').innerHTML=`<table><thead><tr><th>lineage</th><th>born</th><th>ended</th><th>role</th><th>peak pop.</th><th>cause</th></tr></thead><tbody>${{rows.map(s=>`<tr class="${{s.extinct_generation!==null?'dead':''}}"><td>${{s.name}}${{s.extinct_generation!==null?' †':''}}</td><td>${{s.born_generation}}</td><td>${{s.extinct_generation??'living'}}</td><td>${{s.role}}</td><td>${{Math.round(s.peak_population).toLocaleString()}}</td><td>${{s.extinction_cause??'—'}}</td></tr>`).join('')}}</tbody></table>`}}fossils();$('#fossilSearch').addEventListener('input',e=>fossils(e.target.value));
 $('#timelineList').innerHTML=DATA.events.slice().reverse().map(e=>`<div class="event"><span class="muted">GEN ${{String(e.generation??0).padStart(6,'0')}} / ${{String(e.kind).toUpperCase()}}</span><br>${{e.text}}</div>`).join('')||'<p class="muted">No events recorded.</p>';
@@ -409,10 +457,11 @@ def update_readme(world: dict[str,Any], species: list[dict[str,Any]], pathogens:
     total=int(sum(float(s.get("population",0)) for s in live)); occupied=len(set().union(*(normalize_range(s) for s in live))) if live else 0
     dominant=max(live,key=lambda s:float(s.get("population",0)),default=None)
     events=read_ndjson(EVENTS_PATH,1); latest=(events[-1].get("text") or events[-1].get("message") or "No fossil event yet.") if events else "No fossil event yet."
+    delta=(load_json(CHANGES_PATH,{}) or {}).get("summary",{})
     block=("<!-- PHYLUM:STATE:START -->\n"
            f"**Generation:** `{gen}`  \n**Era:** `{world.get('era',{}).get('name','Origin Era')}`  \n**Living lineages:** `{len(live)}`  \n**Extinct lineages:** `{len(dead)}`  \n"
            f"**Population:** `{total:,}`  \n**Occupied cells:** `{occupied}` / `{GRID_COLS*GRID_ROWS}`  \n**Active pathogens:** `{len([p for p in pathogens if p.get('extinct_generation') is None])}`  \n"
-           f"**Predator/prey links:** `{len([i for i in interactions if i.get('type')=='predation'])}`  \n**Dominant lineage:** `{dominant.get('name') if dominant else 'none'}`  \n**Latest fossil:** {latest}\n"
+           f"**Predator/prey links:** `{len([i for i in interactions if i.get('type')=='predation'])}`  \n**Dominant lineage:** `{dominant.get('name') if dominant else 'none'}`  \n**Last generation Δ:** `{int(delta.get('population_delta',0)):+,}` organisms · `{int(delta.get('occupied_delta',0)):+d}` occupied cells  \n**Latest fossil:** {latest}\n"
            "<!-- PHYLUM:STATE:END -->")
     import re
     if "<!-- PHYLUM:STATE:START -->" in text:

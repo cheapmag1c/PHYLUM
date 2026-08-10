@@ -13,6 +13,7 @@ from phylum.constants import GRID_COLS, GRID_ROWS, SCHEMA_VERSION
 from phylum.core import deterministic_rng, env_at, suitability, validate_state
 from phylum.disease import migrate_pathogen_schema
 from phylum.planet import biome_at, geography_at, initialize_plates, region_name
+from phylum.observation import build_changes, capture_observation, format_change_report
 
 
 class PhylumTests(unittest.TestCase):
@@ -108,6 +109,46 @@ class PhylumTests(unittest.TestCase):
         sp={"id":"sp-1","population":1,"extinct_generation":None,"genome":{"temp_pref":.5},"range":[[0,0]]}
         branch={"root_fingerprint":"root"}
         self.assertEqual(validate_state(world,[sp],env,[],plates,branch,[]),[])
+
+    def test_observation_delta_tracks_population_range_and_events(self):
+        world={"generation":5}
+        env={"width":160,"height":100,"temperature":.5,"moisture":.5,"resources":.7,"scars":[]}
+        before_sp={"id":"sp-1","name":"reed","population":100,"extinct_generation":None,"range":[[1,1],[2,1]],"genome":{"autotrophy":.8},"genetic_diversity":.4,"infections":{}}
+        before=capture_observation(world,[before_sp],env,[],[])
+        world2={"generation":6}
+        after_sp={"id":"sp-1","name":"reed","population":125,"extinct_generation":None,"range":[[1,1],[2,1],[3,1]],"genome":{"autotrophy":.8},"genetic_diversity":.41,"infections":{}}
+        changes=build_changes(before,world2,[after_sp],env,[],[],[{"generation":6,"kind":"migration","subject":"sp-1","text":"reed reaches east"}])
+        self.assertEqual(changes["summary"]["population_delta"],25.0)
+        self.assertEqual(changes["summary"]["occupied_delta"],1)
+        self.assertEqual(changes["lineages"][0]["range_delta"],1)
+        self.assertEqual(changes["markers"][0]["kind"],"migration")
+        self.assertIsNotNone(changes["markers"][0]["position"])
+
+    def test_observation_detects_new_and_extinct_lineages(self):
+        env={"width":160,"height":100,"temperature":.5,"moisture":.5,"resources":.7,"scars":[]}
+        old={"id":"old","name":"old reed","population":20,"extinct_generation":None,"range":[[2,2]],"genome":{"autotrophy":.8},"genetic_diversity":.3,"infections":{}}
+        before=capture_observation({"generation":1},[old],env,[],[])
+        dead=dict(old); dead.update({"population":0,"extinct_generation":2,"last_range":[[2,2]],"range":[[2,2]]})
+        new={"id":"new","name":"new reed","population":30,"extinct_generation":None,"range":[[4,4]],"genome":{"autotrophy":.8},"genetic_diversity":.4,"infections":{}}
+        changes=build_changes(before,{"generation":2},[dead,new],env,[],[],[])
+        status={r["id"]:r["status"] for r in changes["lineages"]}
+        self.assertEqual(status["old"],"extinct")
+        self.assertEqual(status["new"],"new")
+
+    def test_observation_tracks_new_interaction(self):
+        env={"width":160,"height":100,"temperature":.5,"moisture":.5,"resources":.7,"scars":[]}
+        a={"id":"a","name":"a","population":50,"extinct_generation":None,"range":[[1,1]],"genome":{"autotrophy":.8},"genetic_diversity":.4,"infections":{}}
+        b={"id":"b","name":"b","population":20,"extinct_generation":None,"range":[[1,1]],"genome":{"carnivory":.8},"genetic_diversity":.4,"infections":{}}
+        before=capture_observation({"generation":3},[a,b],env,[],[])
+        pred={"type":"predation","source":"b","target":"a","strength":.2,"contact_cells":1}
+        changes=build_changes(before,{"generation":4},[a,b],env,[],[pred],[])
+        self.assertEqual(changes["summary"]["new_predation_links"],1)
+        self.assertEqual(len(changes["new_interactions"]),1)
+
+    def test_change_report_is_human_readable(self):
+        report=format_change_report({"from_generation":2,"to_generation":3,"summary":{"population_before":10,"population_after":12,"population_delta":2,"living_before":1,"living_after":1,"living_delta":0,"occupied_before":2,"occupied_after":3,"occupied_delta":1,"events":1,"new_pathogens":0,"new_predation_links":0},"lineages":[]})
+        self.assertIn("GEN 000002 -> 000003",report)
+        self.assertIn("population",report)
 
 
 if __name__=="__main__":

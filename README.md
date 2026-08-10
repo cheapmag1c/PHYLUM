@@ -18,6 +18,7 @@ Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 **Active pathogens:** `0`  
 **Predator/prey links:** `0`  
 **Dominant lineage:** `pale filament`  
+**Last generation Δ:** `+0` organisms · `+0` occupied cells  
 **Latest fossil:** The biosphere advances through generation 10.
 <!-- PHYLUM:STATE:END -->
 
