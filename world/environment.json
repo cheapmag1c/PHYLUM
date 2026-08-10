@@ -19,11 +19,12 @@
       "y": 41.667
     }
   ],
+  "biotic_modifiers": [],
   "height": 100,
-  "moisture": 0.5425,
-  "resources": 0.6929,
+  "moisture": 0.5437,
+  "resources": 0.6927,
   "scars": [],
-  "season_phase": 0.0,
-  "temperature": 0.5389,
+  "season_phase": 0.33,
+  "temperature": 0.5428,
   "width": 160
 }

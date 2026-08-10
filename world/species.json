@@ -1,10 +1,14 @@
 [
   {
     "born_generation": 0,
+    "current_generation": 8,
     "ecology": {
       "behavior": [
         "wandering"
       ],
+      "carrying_capacity": 988.94,
+      "competition_pressure": 0.0,
+      "energy": 0.6844,
       "morphology": {
         "appendages": 3,
         "armor": "soft",
@@ -13,11 +17,12 @@
         "sensory": "simple",
         "symmetry": "radial"
       },
+      "predation_pressure": 0.0,
       "role": "producer"
     },
     "extinct_generation": null,
     "extinction_cause": null,
-    "genetic_diversity": 0.3932,
+    "genetic_diversity": 0.39366,
     "genome": {
       "aggression": 0.08998,
       "aquatic": 0.14681,
@@ -46,11 +51,14 @@
       "temp_pref": 0.51,
       "tolerance": 0.29
     },
-    "heterozygosity": 0.421,
+    "heterozygosity": 0.42086,
     "id": "sp-00001",
-    "inbreeding": 0.0,
+    "inbreeding": 0,
     "infections": {},
-    "last_fitness": 0.7495,
+    "last_births": 14.57,
+    "last_deaths": 9.9,
+    "last_fitness": 0.59,
+    "last_mating_success": 0.7922,
     "last_range": [],
     "migration_trail": [],
     "name": "pale filament",
@@ -58,9 +66,14 @@
     "offspring_lineages": [],
     "origin_generation": 0,
     "parent_id": null,
-    "peak_population": 338.82,
-    "peak_range": 12,
-    "population": 338.82,
+    "peak_population": 343.49,
+    "peak_range": 13,
+    "plate_drift_residual": [
+      0.0028331819999999996,
+      0.0018231839999999998
+    ],
+    "plate_id": "plate-02",
+    "population": 343.49,
     "range": [
       [
         19,
@@ -103,6 +116,10 @@
         9
       ],
       [
+        15,
+        10
+      ],
+      [
         17,
         10
       ],
@@ -113,7 +130,8 @@
     ],
     "regions_seen": [
       "central reach",
-      "northern reach"
+      "northern reach",
+      "western reach"
     ],
     "sex_mode": "sexual",
     "traits": {
@@ -124,15 +142,19 @@
       "temp_pref": 0.51,
       "tolerance": 0.29
     },
-    "x": 65.278,
-    "y": 29.722
+    "x": 64.231,
+    "y": 30.128
   },
   {
     "born_generation": 0,
+    "current_generation": 8,
     "ecology": {
       "behavior": [
         "wandering"
       ],
+      "carrying_capacity": 832.28,
+      "competition_pressure": 0.0,
+      "energy": 0.545,
       "morphology": {
         "appendages": 3,
         "armor": "soft",
@@ -141,11 +163,12 @@
         "sensory": "simple",
         "symmetry": "bilateral"
       },
+      "predation_pressure": 0.0,
       "role": "producer"
     },
     "extinct_generation": null,
     "extinction_cause": null,
-    "genetic_diversity": 0.472,
+    "genetic_diversity": 0.47536,
     "genome": {
       "aggression": 0.15309,
       "aquatic": 0.00791,
@@ -174,11 +197,14 @@
       "temp_pref": 0.58,
       "tolerance": 0.31
     },
-    "heterozygosity": 0.3936,
+    "heterozygosity": 0.39401,
     "id": "sp-00002",
-    "inbreeding": 0.0,
+    "inbreeding": 0,
     "infections": {},
-    "last_fitness": 0.8654,
+    "last_births": 3.14,
+    "last_deaths": 17.99,
+    "last_fitness": 0.1653,
+    "last_mating_success": 0.7915,
     "last_range": [],
     "migration_trail": [],
     "name": "silt frond",
@@ -188,7 +214,12 @@
     "parent_id": null,
     "peak_population": 382.3,
     "peak_range": 12,
-    "population": 382.3,
+    "plate_drift_residual": [
+      -0.002039994,
+      -0.0013295039999999998
+    ],
+    "plate_id": "plate-01",
+    "population": 367.45,
     "range": [
       [
         28,
@@ -257,10 +288,14 @@
   },
   {
     "born_generation": 0,
+    "current_generation": 8,
     "ecology": {
       "behavior": [
         "wandering"
       ],
+      "carrying_capacity": 1118.1,
+      "competition_pressure": 0.0,
+      "energy": 0.6599,
       "morphology": {
         "appendages": 3,
         "armor": "soft",
@@ -269,11 +304,12 @@
         "sensory": "simple",
         "symmetry": "bilateral"
       },
+      "predation_pressure": 0.0,
       "role": "producer"
     },
     "extinct_generation": null,
     "extinction_cause": null,
-    "genetic_diversity": 0.395,
+    "genetic_diversity": 0.39691,
     "genome": {
       "aggression": 0.07565,
       "aquatic": 0.14934,
@@ -302,11 +338,14 @@
       "temp_pref": 0.61,
       "tolerance": 0.25
     },
-    "heterozygosity": 0.386,
+    "heterozygosity": 0.38605,
     "id": "sp-00003",
-    "inbreeding": 0.0,
+    "inbreeding": 0,
     "infections": {},
-    "last_fitness": 0.7958,
+    "last_births": 12.79,
+    "last_deaths": 10.64,
+    "last_fitness": 0.4932,
+    "last_mating_success": 0.7842,
     "last_range": [],
     "migration_trail": [],
     "name": "glass mote",
@@ -314,9 +353,14 @@
     "offspring_lineages": [],
     "origin_generation": 0,
     "parent_id": null,
-    "peak_population": 319.69,
-    "peak_range": 13,
-    "population": 319.69,
+    "peak_population": 321.84,
+    "peak_range": 14,
+    "plate_drift_residual": [
+      0.0028673699999999997,
+      0.0021713339999999996
+    ],
+    "plate_id": "plate-05",
+    "population": 321.84,
     "range": [
       [
         39,
@@ -369,6 +413,10 @@
       [
         40,
         13
+      ],
+      [
+        36,
+        14
       ]
     ],
     "regions_seen": [
@@ -383,7 +431,7 @@
       "temp_pref": 0.61,
       "tolerance": 0.25
     },
-    "x": 133.974,
-    "y": 41.667
+    "x": 133.095,
+    "y": 42.143
   }
 ]
