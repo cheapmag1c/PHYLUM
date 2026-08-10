@@ -7,14 +7,14 @@
     "started_generation": 0
   },
   "extinct_species": 0,
-  "generation": 5,
-  "last_evolved_utc": "2026-08-09T19:52:08+00:00",
+  "generation": 6,
+  "last_evolved_utc": "2026-08-10T00:25:08+00:00",
   "living_species": 3,
   "name": "PHYLUM",
   "next_species_id": 4,
-  "occupied_cells": 33,
+  "occupied_cells": 36,
   "root_lineage": "PHYLUM/origin",
   "schema_version": 2,
   "seed": 314159265,
-  "total_population": 790.79
+  "total_population": 908.72
 }
