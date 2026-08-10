@@ -1,5 +1,14 @@
 # PHYLUM changelog
 
+## 1.1.1 — README SYNC
+
+Documentation-only synchronization for WITNESS. No biological generation is consumed and no simulation rules change.
+
+- README generator now identifies the active model as WITNESS instead of reverting to DEEP TIME
+- Anatomy tree now reflects the current DEEP TIME + WITNESS repository structure
+- Observatory documentation now lists WITNESS layers and the CHANGES view
+- README regeneration remains automatic on every future generation
+
 ## 1.1.0 — WITNESS
 
 A generation-observation layer that makes ecological change visible without altering the underlying DEEP TIME rules.

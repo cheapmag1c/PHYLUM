@@ -476,21 +476,68 @@ def update_readme(world: dict[str,Any], species: list[dict[str,Any]], pathogens:
         text=text.replace(marker,insertion+marker) if marker in text else text+"\n"+insertion
     else:
         text=re.sub(r"renders/foodweb\.svg\?gen=[^\)\s]+",f"renders/foodweb.svg?gen={gen:06d}",text)
-    # Replace old model/roadmap copy with the integrated DEEP TIME model.
-    model_text=("## Current model — DEEP TIME\n\n"
-        "The living simulation now includes population genetics and sexual reproduction; genetic diversity, recombination, bottlenecks and inbreeding; inherited morphology and behavior; ecological niches, competition and predator/prey food webs; evolving pathogens and immunity; migration and isolation-driven speciation; generated geography, biomes, rivers, climate and tectonic drift; disasters and rare unscripted mass extinctions; explicit extinction causes, fossils and phylogeny; deep-time atlas snapshots; fork identity, branch comparison and biological branch-contact rules.\n\n"
+    # Keep the human-facing README synchronized with the currently installed model.
+    anatomy=("## Anatomy\n\n"
+        "```text\n"
+        "PHYLUM/\n"
+        "├── .github/workflows/evolve.yml   # autonomous evolution\n"
+        "├── docs/                           # generated Observatory / GitHub Pages\n"
+        "├── fossils/\n"
+        "│   ├── events.ndjson               # append-only event chronology\n"
+        "│   ├── history.ndjson              # generation summaries\n"
+        "│   ├── atlas-history.ndjson        # deep-time atlas snapshots\n"
+        "│   ├── species/                    # extinct-lineage records\n"
+        "│   └── checkpoints/                # periodic recovery state\n"
+        "├── phylum/\n"
+        "│   ├── biology.py                  # genetics, reproduction, ecology, speciation\n"
+        "│   ├── branching.py                # fork identity, comparison and contact\n"
+        "│   ├── disease.py                  # pathogens and immunity\n"
+        "│   ├── observation.py              # WITNESS generation deltas\n"
+        "│   ├── planet.py                   # climate, geography and tectonics\n"
+        "│   ├── render.py                   # atlas, phylogeny, food web and Observatory\n"
+        "│   └── ...\n"
+        "├── renders/\n"
+        "│   ├── current.svg                 # World Atlas\n"
+        "│   ├── phylogeny.svg\n"
+        "│   └── foodweb.svg\n"
+        "├── tests/                          # invariant + observation tests\n"
+        "└── world/\n"
+        "    ├── current.json\n"
+        "    ├── species.json\n"
+        "    ├── environment.json\n"
+        "    ├── pathogens.json\n"
+        "    ├── interactions.json\n"
+        "    ├── plates.json\n"
+        "    ├── branch.json\n"
+        "    └── changes.json                # most recent generation delta\n"
+        "```\n")
+    if re.search(r"## Anatomy\n", text):
+        text=re.sub(r"## Anatomy\n.*?(?=\n## Current model|\n## Observatory|\n## License)",anatomy+"\n",text,flags=re.S)
+    else:
+        anchor="\n## License"
+        text=text.replace(anchor,"\n"+anatomy+anchor) if anchor in text else text+"\n\n"+anatomy
+
+    model_text=("## Current model — WITNESS\n\n"
+        "PHYLUM currently runs **DEEP TIME** as its biological and planetary simulation, with **WITNESS** as the observation layer that records what changed between generations. **DEEP TIME governs the world. WITNESS records the evidence.**\n\n"
+        "DEEP TIME includes population genetics and sexual reproduction; genetic diversity, recombination, bottlenecks and inbreeding; inherited morphology and behavior; ecological niches, competition and predator/prey food webs; evolving pathogens and immunity; migration and isolation-driven speciation; generated geography, biomes, rivers, climate and tectonic drift; disasters and rare unscripted mass extinctions; explicit extinction causes, fossils and phylogeny; deep-time atlas snapshots; fork identity, branch comparison and biological branch-contact rules.\n\n"
+        "WITNESS adds persistent `world/changes.json` generation deltas, per-lineage population/range/movement/infection changes, current-generation event markers, migration history, predator/prey contact zones, disease overlays, the World Atlas Generation Delta panel, the Observatory **CHANGES** tab, and the `python -m phylum changes` report.\n\n"
         "Nothing is scheduled to happen at a specific generation. PHYLUM creates conditions and lets history emerge from them.\n")
-    # Replace the entire legacy model/roadmap region in one pass so repeated migrations
-    # cannot duplicate the DEEP TIME section.
-    if re.search(r"## Current model(?: — DEEP TIME)?\n", text):
-        text=re.sub(r"## Current model(?: — DEEP TIME)?\n.*?(?=\n## License)",model_text+"\n",text,flags=re.S)
+    if re.search(r"## Current model(?: — [^\n]+)?\n", text):
+        text=re.sub(r"## Current model(?: — [^\n]+)?\n.*?(?=\n## Observatory|\n## License)",model_text+"\n",text,flags=re.S)
     elif "## What comes next\n" in text:
-        text=re.sub(r"## What comes next\n.*?(?=\n## License)",model_text+"\n",text,flags=re.S)
+        text=re.sub(r"## What comes next\n.*?(?=\n## Observatory|\n## License)",model_text+"\n",text,flags=re.S)
+    else:
+        anchor="\n## Observatory" if "\n## Observatory" in text else "\n## License"
+        text=text.replace(anchor,"\n"+model_text+anchor) if anchor in text else text+"\n\n"+model_text
+
     observatory=("## Observatory\n\n"
-        "Every generation also regenerates a static deep-time Observatory in `docs/`. It includes the layered World Atlas, lineage and fossil browsers, timeline/deep-time snapshots, branch ancestry/contact history, and analytical population, biodiversity, genetics and climate overlays. Enable GitHub Pages from the repository's `docs/` folder to turn it into a live observation station.\n\n"
-        "Deep-time branch tools: `python -m phylum compare ../OTHER-PHYLUM` and `python -m phylum contact ../OTHER-PHYLUM`. See `PHYLUM_MERGE.md` for the biological contact rule.\n")
-    if "## Observatory\n" not in text:
-        text=text.replace("\n## License", "\n"+observatory+"\n## License") if "\n## License" in text else text+"\n\n"+observatory
+        "Every generation regenerates a static Observatory in `docs/`. The layered World Atlas exposes biomes, tectonics, relief, rivers, territories, migration, ecology, predator/prey contact zones, disease, current-generation events, fossils, scars, population density, biodiversity, genetics and climate.\n\n"
+        "WITNESS also adds a **CHANGES** view for generation-to-generation population, range, lineage, pathogen, predation, movement and infection deltas. The Observatory retains lineage and fossil browsers, branch ancestry/contact history, event timelines and deep-time atlas snapshots. Enable GitHub Pages from the repository's `docs/` folder to turn it into a live observation station.\n\n"
+        "Branch tools: `python -m phylum compare ../OTHER-PHYLUM` and `python -m phylum contact ../OTHER-PHYLUM`. See `PHYLUM_MERGE.md` for the biological contact rule.\n")
+    if "## Observatory\n" in text:
+        text=re.sub(r"## Observatory\n.*?(?=\n## License)",observatory+"\n",text,flags=re.S)
+    else:
+        text=text.replace("\n## License","\n"+observatory+"\n## License") if "\n## License" in text else text+"\n\n"+observatory
     README_PATH.write_text(text,encoding='utf-8')
 
 

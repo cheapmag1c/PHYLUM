@@ -92,26 +92,58 @@ Scheduled Actions are not guaranteed to execute at the exact scheduled minute, s
 
 ```text
 PHYLUM/
-├── .github/workflows/evolve.yml  # autonomous evolution
-├── fossils/events.ndjson         # major events, append-only
-├── phylum/                       # simulation engine + CLI
-├── renders/current.svg           # current visible world
-├── tests/                        # invariant tests
-└── world/                        # persistent biosphere state
+├── .github/workflows/evolve.yml   # autonomous evolution
+├── docs/                           # generated Observatory / GitHub Pages
+├── fossils/
+│   ├── events.ndjson               # append-only event chronology
+│   ├── history.ndjson              # generation summaries
+│   ├── atlas-history.ndjson        # deep-time atlas snapshots
+│   ├── species/                    # extinct-lineage records
+│   └── checkpoints/                # periodic recovery state
+├── phylum/
+│   ├── biology.py                  # genetics, reproduction, ecology, speciation
+│   ├── branching.py                # fork identity, comparison and contact
+│   ├── disease.py                  # pathogens and immunity
+│   ├── observation.py              # WITNESS generation deltas
+│   ├── planet.py                   # climate, geography and tectonics
+│   ├── render.py                   # atlas, phylogeny, food web and Observatory
+│   └── ...
+├── renders/
+│   ├── current.svg                 # World Atlas
+│   ├── phylogeny.svg
+│   └── foodweb.svg
+├── tests/                          # invariant + observation tests
+└── world/
+    ├── current.json
+    ├── species.json
+    ├── environment.json
+    ├── pathogens.json
+    ├── interactions.json
+    ├── plates.json
+    ├── branch.json
+    └── changes.json                # most recent generation delta
 ```
 
-## Current model — DEEP TIME
 
-The living simulation now includes population genetics and sexual reproduction; genetic diversity, recombination, bottlenecks and inbreeding; inherited morphology and behavior; ecological niches, competition and predator/prey food webs; evolving pathogens and immunity; migration and isolation-driven speciation; generated geography, biomes, rivers, climate and tectonic drift; disasters and rare unscripted mass extinctions; explicit extinction causes, fossils and phylogeny; deep-time atlas snapshots; fork identity, branch comparison and biological branch-contact rules.
+## Current model — WITNESS
+
+PHYLUM currently runs **DEEP TIME** as its biological and planetary simulation, with **WITNESS** as the observation layer that records what changed between generations. **DEEP TIME governs the world. WITNESS records the evidence.**
+
+DEEP TIME includes population genetics and sexual reproduction; genetic diversity, recombination, bottlenecks and inbreeding; inherited morphology and behavior; ecological niches, competition and predator/prey food webs; evolving pathogens and immunity; migration and isolation-driven speciation; generated geography, biomes, rivers, climate and tectonic drift; disasters and rare unscripted mass extinctions; explicit extinction causes, fossils and phylogeny; deep-time atlas snapshots; fork identity, branch comparison and biological branch-contact rules.
+
+WITNESS adds persistent `world/changes.json` generation deltas, per-lineage population/range/movement/infection changes, current-generation event markers, migration history, predator/prey contact zones, disease overlays, the World Atlas Generation Delta panel, the Observatory **CHANGES** tab, and the `python -m phylum changes` report.
 
 Nothing is scheduled to happen at a specific generation. PHYLUM creates conditions and lets history emerge from them.
 
 
 ## Observatory
 
-Every generation also regenerates a static deep-time Observatory in `docs/`. It includes the layered World Atlas, lineage and fossil browsers, timeline/deep-time snapshots, branch ancestry/contact history, and analytical population, biodiversity, genetics and climate overlays. Enable GitHub Pages from the repository's `docs/` folder to turn it into a live observation station.
+Every generation regenerates a static Observatory in `docs/`. The layered World Atlas exposes biomes, tectonics, relief, rivers, territories, migration, ecology, predator/prey contact zones, disease, current-generation events, fossils, scars, population density, biodiversity, genetics and climate.
 
-Deep-time branch tools: `python -m phylum compare ../OTHER-PHYLUM` and `python -m phylum contact ../OTHER-PHYLUM`. See `PHYLUM_MERGE.md` for the biological contact rule.
+WITNESS also adds a **CHANGES** view for generation-to-generation population, range, lineage, pathogen, predation, movement and infection deltas. The Observatory retains lineage and fossil browsers, branch ancestry/contact history, event timelines and deep-time atlas snapshots. Enable GitHub Pages from the repository's `docs/` folder to turn it into a live observation station.
+
+Branch tools: `python -m phylum compare ../OTHER-PHYLUM` and `python -m phylum contact ../OTHER-PHYLUM`. See `PHYLUM_MERGE.md` for the biological contact rule.
+
 
 ## License
 
