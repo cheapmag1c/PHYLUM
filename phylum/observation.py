@@ -193,6 +193,7 @@ def build_changes(
     marker_glyph={
         "migration":"→","speciation":"◇","extinction":"†","disease":"✣","pandemic":"✣",
         "disaster":"!","mass_extinction":"☄","tectonic":"△","climate":"≈","contact":"⇄","era":"◆",
+        "tool_use":"⌘","culture":"◎","communication":"∿","learning":"+","behavior":"•",
     }
     for idx,e in enumerate(events):
         pos=_event_position(e,byid,pathogen_byid,env)

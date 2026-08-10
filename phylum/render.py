@@ -621,3 +621,65 @@ def render_all(world, species, env, pathogens, plates, branch, interactions):
     _paleon_legacy_render_all(world, species, env, pathogens, plates, branch, interactions)
     _render_paleon_assets(world, species, env, plates, Path(__file__).resolve().parents[1])
 # === PALEON RENDER LAYER v2 END ===
+
+# === NERVE RENDER LAYER v1 START ===
+# NERVE is layered after PALEON/SOMA/WITNESS so older renderers remain valid.
+import re as _nerve_re
+from .nerve import render_nerve_assets as _render_nerve_assets
+
+_nerve_legacy_update_readme = update_readme
+def update_readme(world, species, pathogens, interactions):
+    _nerve_legacy_update_readme(world, species, pathogens, interactions)
+    gen = int(world.get("generation", 0))
+    text = README_PATH.read_text(encoding="utf-8")
+    if "renders/nerve.svg" not in text:
+        marker = "## Planetary system — PALEON" if "## Planetary system — PALEON" in text else "## Living organisms — SOMA"
+        insertion = f"## Living minds — NERVE\n\n![PHYLUM NERVE ethogram](renders/nerve.svg?gen={gen:06d})\n\n"
+        text = text.replace(marker, insertion + marker) if marker in text else text + "\n\n" + insertion
+    else:
+        text = _nerve_re.sub(r"renders/nerve\.svg\?gen=[^\)\s]+", f"renders/nerve.svg?gen={gen:06d}", text)
+    model = (
+        "## Current model — NERVE + SOMA + PALEON\n\n"
+        "PHYLUM runs **PALEON (DEEP TIME 2.0)** as its coupled planetary engine, **SOMA** as its organismal biology layer, **NERVE** as its cognition and behavior layer, and **WITNESS** as its observation system. "
+        "**PALEON gives life a changing planet. SOMA gives life bodies. NERVE gives life experience. WITNESS records the evidence.**\n\n"
+        "NERVE adds nervous-system complexity, perception, spatial and threat memory, learning, behavioral repertoires, temperament, social recognition, cooperation, communication complexity, cultural traditions, social transmission, costly cognition and the possibility of object-assisted behavior. Learned state persists inside a lineage but is not treated as genetic code; descendant lineages inherit cognitive architecture while cultural traditions only cross a split through founder transmission.\n\n"
+        "Cognition has energetic and life-history costs, and no intelligence milestone is scheduled. Tool use, teaching, complex communication and persistent culture are possibilities produced by anatomy, ecology, selection and experience rather than guaranteed progression.\n\n"
+        "The generated `renders/nerve.svg` ethogram and `docs/nerve.html` browser expose the current cognitive and behavioral state alongside the SOMA field guide and PALEON planetary dossier.\n"
+    )
+    if _nerve_re.search(r"## Current model(?: — [^\n]+)?\n", text):
+        text = _nerve_re.sub(r"## Current model(?: — [^\n]+)?\n.*?(?=\n## Observatory|\n## License)", model + "\n", text, flags=_nerve_re.S)
+    else:
+        anchor = "\n## Observatory" if "\n## Observatory" in text else "\n## License"
+        text = text.replace(anchor, "\n" + model + anchor) if anchor in text else text + "\n\n" + model
+    if "│   ├── nerve.py" not in text:
+        marker = "│   ├── paleon.py                   # DEEP TIME 2.0 coupled planetary engine\n"
+        if marker in text:
+            text = text.replace(marker, marker + "│   ├── nerve.py                    # cognition, memory, learning and culture\n", 1)
+    if "│   ├── nerve.svg" not in text:
+        marker = "│   ├── paleon.svg                  # PALEON planetary systems plate\n"
+        if marker in text:
+            text = text.replace(marker, marker + "│   ├── nerve.svg                   # NERVE ethogram / living minds plate\n", 1)
+    if "NERVE ethogram" not in text and "## Observatory\n" in text:
+        text = text.replace(
+            "Open the generated **SOMA Field Guide** at `docs/soma.html` for organism plates, life cycles, physiology, reproduction and behavior.",
+            "Open the generated **SOMA Field Guide** at `docs/soma.html` for organism plates, life cycles, physiology, reproduction and behavior. Open the **NERVE ethogram** at `docs/nerve.html` for cognition, memory, learned behavior and cultural traditions.",
+            1,
+        )
+    README_PATH.write_text(text, encoding="utf-8")
+
+_nerve_legacy_render_all = render_all
+def render_all(world, species, env, pathogens, plates, branch, interactions):
+    _nerve_legacy_render_all(world, species, env, pathogens, plates, branch, interactions)
+    root = Path(__file__).resolve().parents[1]
+    _render_nerve_assets(world, species, env, interactions, root)
+    # Add NERVE to the already-generated static Observatory navigation.
+    index = root / "docs" / "index.html"
+    if index.exists():
+        html_text = index.read_text(encoding="utf-8")
+        if 'href="nerve.html"' not in html_text:
+            soma_link = '<a href="soma.html" style="background:#0f2022;color:var(--text);border:1px solid #2e4743;padding:8px 11px;border-radius:6px;text-decoration:none">SOMA</a>'
+            nerve_link = '<a href="nerve.html" style="background:#0f2022;color:var(--text);border:1px solid #2e4743;padding:8px 11px;border-radius:6px;text-decoration:none">NERVE</a>'
+            html_text = html_text.replace(soma_link, soma_link + nerve_link, 1) if soma_link in html_text else html_text
+            index.write_text(html_text, encoding="utf-8")
+# === NERVE RENDER LAYER v1 END ===
+

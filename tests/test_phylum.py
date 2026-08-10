@@ -15,6 +15,7 @@ from phylum.disease import migrate_pathogen_schema
 from phylum.planet import biome_at, geography_at, initialize_plates, region_name
 from phylum.observation import build_changes, capture_observation, format_change_report
 from phylum.soma import ensure_soma_schema
+from phylum.nerve import ensure_nerve_schema
 
 
 class PhylumTests(unittest.TestCase):
@@ -109,6 +110,7 @@ class PhylumTests(unittest.TestCase):
         world={"schema_version":SCHEMA_VERSION}
         sp={"id":"sp-1","population":1,"extinct_generation":None,"genome":{"temp_pref":.5},"range":[[0,0]]}
         ensure_soma_schema(sp,1,0,{sp["id"]:sp})
+        ensure_nerve_schema(sp,1,0,{sp["id"]:sp})
         branch={"root_fingerprint":"root"}
         self.assertEqual(validate_state(world,[sp],env,[],plates,branch,[]),[])
 

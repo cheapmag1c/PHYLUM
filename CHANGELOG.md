@@ -1,3 +1,18 @@
+## 1.4.0 — NERVE
+
+**Organisms lived. Now they learn.**
+
+- Adds persistent NERVE cognition state to every lineage: nervous architecture, perception, memory, learning, temperament and social cognition.
+- Adds learned behavioral repertoires, spatial/resource/threat memories and bounded memory decay.
+- Adds persistent cultural traditions and social transmission without treating culture as genetic inheritance.
+- Adds communication complexity, cooperation, recognition, reciprocity and rare teaching behavior.
+- Adds costly cognition and demographic feedback into DEEP TIME/SOMA ecology.
+- Adds weak cognition-related natural selection without scripted intelligence milestones.
+- Adds a rare, anatomy-gated path to object-assisted foraging/tool use.
+- Adds NERVE ethogram render, static browser and CLI status command.
+- WITNESS recognizes behavioral, cultural, learning, communication and tool-use events.
+- Hardens GitHub Actions against queued scheduled/manual runs starting from stale event SHAs.
+
 ## 1.3.1 — PALEON / DEEP TIME 2.0
 
 - Coupled atmosphere, ocean, cryosphere, hydrology, soil, nutrient and carbon-cycle state.

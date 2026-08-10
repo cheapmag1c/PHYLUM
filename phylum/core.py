@@ -17,6 +17,7 @@ from .disease import evolve_diseases, migrate_pathogen_schema
 from .observation import build_changes, capture_observation
 from .soma import ensure_soma_schema, finalize_soma_generation, prepare_soma_generation, validate_soma_state
 from .paleon import ensure_paleon_state, finalize_paleon_generation, validate_paleon_state
+from .nerve import ensure_nerve_schema, finalize_nerve_generation, prepare_nerve_generation, validate_nerve_state
 from .planet import climate_at, initialize_plates, region_name
 from .storage import (
     ATLAS_HISTORY_PATH, BRANCH_PATH, CHANGES_PATH, CHECKPOINT_DIR, ENV_PATH, EVENTS_PATH, HISTORY_PATH, INTERACTIONS_PATH,
@@ -108,6 +109,7 @@ def ensure_schema(lineage: str | None = None, save: bool = False) -> tuple[dict[
     for sp in species: migrate_species_schema(sp,seed,int(world["generation"]))
     species_by_id={str(s.get("id")):s for s in species if s.get("id")}
     for sp in species: ensure_soma_schema(sp,seed,int(world["generation"]),species_by_id)
+    for sp in species: ensure_nerve_schema(sp,seed,int(world["generation"]),species_by_id)
     migrate_pathogen_schema(pathogens)
     if not plates or not plates.get("plates"): plates=initialize_plates(seed,env)
     ensure_paleon_state(world,env,plates,species)
@@ -180,6 +182,7 @@ def validate_state(world: dict[str,Any], species: list[dict[str,Any]], env: dict
             if not(0<=x<GRID_COLS and 0<=y<GRID_ROWS): errors.append(f"bad range {sp.get('id')}")
         if sp.get("extinct_generation") is None and not sp.get("genome"): errors.append(f"missing genome {sp.get('id')}")
         errors.extend(validate_soma_state(sp))
+        errors.extend(validate_nerve_state(sp))
     pids=[p.get("id") for p in pathogens]
     if len(pids)!=len(set(pids)): errors.append("duplicate pathogen ids")
     if not branch.get("root_fingerprint"): errors.append("missing branch root fingerprint")
@@ -242,12 +245,14 @@ def evolve_one(lineage: str | None = None) -> dict[str,Any]:
     from .planet import evolve_planet
     events.extend(evolve_planet(world,env,plates,random.Random(rng.getrandbits(64))))
     events.extend(prepare_soma_generation(world,species,env,interactions,random.Random(rng.getrandbits(64))))
+    events.extend(prepare_nerve_generation(world,species,env,interactions,random.Random(rng.getrandbits(64))))
     disease_mortality,disease_events=evolve_diseases(world,species,pathogens,random.Random(rng.getrandbits(64))); events.extend(disease_events)
     interactions,eco_events=evolve_ecology(world,species,env,plates,disease_mortality,random.Random(rng.getrandbits(64))); events.extend(eco_events)
     apply_ecosystem_engineering(species,env)
     events.extend(apply_mass_extinction(world,species,env,plates,random.Random(rng.getrandbits(64))))
     events.extend(finalize_soma_generation(world,species,env,interactions,random.Random(rng.getrandbits(64))))
     events.extend(finalize_paleon_generation(world,species,env,plates,interactions,random.Random(rng.getrandbits(64))))
+    events.extend(finalize_nerve_generation(world,species,env,interactions,random.Random(rng.getrandbits(64))))
     _maybe_era(world,events,random.Random(rng.getrandbits(64)))
     world["last_evolved_utc"]=now_utc()
     _update_statistics(world,species,pathogens,interactions)
@@ -293,6 +298,8 @@ def contact(other_repo: str | Path) -> list[dict[str,Any]]:
     # SOMA contact backfill: foreign founders receive organismal state before validation.
     species_by_id={str(s.get("id")):s for s in species if s.get("id")}
     for sp in species: ensure_soma_schema(sp,int(world.get("seed",0)),int(world.get("generation",0)),species_by_id)
+    # NERVE contact backfill: foreign founders receive cognitive state before validation.
+    for sp in species: ensure_nerve_schema(sp,int(world.get("seed",0)),int(world.get("generation",0)),species_by_id)
     _update_statistics(world,species,pathogens,interactions)
     errors=validate_state(world,species,env,pathogens,plates,branch,interactions)
     if errors: raise ValueError("Contact validation failed: "+"; ".join(errors))

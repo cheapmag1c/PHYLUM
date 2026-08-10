@@ -31,6 +31,10 @@ Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 
 ![PHYLUM food web](renders/foodweb.svg?gen=000015)
 
+## Living minds — NERVE
+
+![PHYLUM NERVE ethogram](renders/nerve.svg?gen=000015)
+
 ## Planetary system — PALEON
 
 ![PHYLUM PALEON planetary system](renders/paleon.svg?gen=000015)
@@ -115,6 +119,7 @@ PHYLUM/
 │   ├── observation.py              # WITNESS generation deltas
 │   ├── soma.py                     # organismal biology, development and field guide
 │   ├── paleon.py                   # DEEP TIME 2.0 coupled planetary engine
+│   ├── nerve.py                    # cognition, memory, learning and culture
 │   ├── planet.py                   # compatibility surface delegated to PALEON
 │   ├── render.py                   # atlas, phylogeny, food web and Observatory
 │   └── ...
@@ -122,6 +127,7 @@ PHYLUM/
 │   ├── current.svg                 # World Atlas
 │   ├── soma.svg                    # SOMA organism field guide
 │   ├── paleon.svg                  # PALEON planetary systems plate
+│   ├── nerve.svg                   # NERVE ethogram / living minds plate
 │   ├── organisms/                  # per-lineage schematic plates
 │   ├── phylogeny.svg
 │   └── foodweb.svg
@@ -138,15 +144,15 @@ PHYLUM/
 ```
 
 
-## Current model — PALEON + SOMA
+## Current model — NERVE + SOMA + PALEON
 
-PHYLUM runs **PALEON (DEEP TIME 2.0)** as its coupled planetary engine, **WITNESS** as its observation layer, and **SOMA** as its organismal biology layer. **PALEON makes the planet an evolutionary force. SOMA gives the lineages bodies and lives. WITNESS records the evidence.**
+PHYLUM runs **PALEON (DEEP TIME 2.0)** as its coupled planetary engine, **SOMA** as its organismal biology layer, **NERVE** as its cognition and behavior layer, and **WITNESS** as its observation system. **PALEON gives life a changing planet. SOMA gives life bodies. NERVE gives life experience. WITNESS records the evidence.**
 
-PALEON adds interacting atmosphere, ocean, cryosphere, hydrology, carbon and nutrient cycles, soil fertility, ecological succession, tectonic boundary mechanics, erosion/sedimentation proxies, dynamic sea level, extreme weather and SOMA-aware life-to-planet feedback. Climate and productivity now emerge from latitude, relief, greenhouse forcing, water availability, ocean influence, nutrients and long-lived disturbances rather than a single global noise field.
+NERVE adds nervous-system complexity, perception, spatial and threat memory, learning, behavioral repertoires, temperament, social recognition, cooperation, communication complexity, cultural traditions, social transmission, costly cognition and the possibility of object-assisted behavior. Learned state persists inside a lineage but is not treated as genetic code; descendant lineages inherit cognitive architecture while cultural traditions only cross a split through founder transmission.
 
-Life is no longer only responding to the world: autotrophy, respiration, decomposition, ecosystem engineering and aquatic productivity can slowly alter atmospheric chemistry, soils, nutrients and ocean oxygen. Those planetary changes feed back into DEEP TIME ecology and SOMA physiology.
+Cognition has energetic and life-history costs, and no intelligence milestone is scheduled. Tool use, teaching, complex communication and persistent culture are possibilities produced by anatomy, ecology, selection and experience rather than guaranteed progression.
 
-The generated `renders/paleon.svg` plate and `docs/paleon.html` dossier expose the current planetary system. Nothing is scheduled for a particular generation; thresholds, climate regimes, tectonic events and feedbacks emerge from state.
+The generated `renders/nerve.svg` ethogram and `docs/nerve.html` browser expose the current cognitive and behavioral state alongside the SOMA field guide and PALEON planetary dossier.
 
 
 ## Observatory

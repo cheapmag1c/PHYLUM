@@ -8,6 +8,7 @@ from .core import commit_message, compare, contact, evolve_one, load_state, migr
 from .observation import format_change_report
 from .soma import soma_catalog
 from .paleon import paleon_summary
+from .nerve import nerve_catalog
 from .storage import CHANGES_PATH, load_extended, load_json
 
 
@@ -20,6 +21,7 @@ def main() -> None:
     sub.add_parser("changes",help="Print what changed in the most recent generation")
     sub.add_parser("soma",help="Print organism-level SOMA profiles for living lineages")
     sub.add_parser("paleon",help="Print DEEP TIME 2.0 planetary-system state")
+    sub.add_parser("nerve",help="Print NERVE cognition, memory, behavior and culture profiles")
     m=sub.add_parser("migrate",help="Upgrade the current world schema without advancing a generation"); m.add_argument("--lineage",default=None)
     c=sub.add_parser("compare",help="Compare this PHYLUM timeline with another checkout"); c.add_argument("other_repo")
     ct=sub.add_parser("contact",help="Resolve a branch encounter as a biological contact event"); ct.add_argument("other_repo")
@@ -38,6 +40,8 @@ def main() -> None:
         w,s,e,p,plates,b,i=load_extended(); live=[x for x in soma_catalog(s) if x.get("extinct_generation") is None]; print(json.dumps({"generation":w.get("generation"),"lineages":live},indent=2))
     elif args.command=="paleon":
         w,s,e,p,plates,b,i=load_extended(); print(json.dumps(paleon_summary(w,e,plates),indent=2))
+    elif args.command=="nerve":
+        w,s,e,p,plates,b,i=load_extended(); live=[x for x in nerve_catalog(s) if x.get("extinct_generation") is None]; print(json.dumps({"generation":w.get("generation"),"lineages":live},indent=2))
     elif args.command=="migrate":
         result=migrate_current_state(args.lineage,True); print(f"Migrated PHYLUM generation {result['world']['generation']} to schema {result['world']['schema_version']} without advancing time.")
     elif args.command=="compare": print(json.dumps(compare(args.other_repo),indent=2))
