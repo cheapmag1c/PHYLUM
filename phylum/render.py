@@ -1,0 +1,453 @@
+from __future__ import annotations
+
+import colorsys
+import html
+import json
+import math
+import shutil
+from pathlib import Path
+from typing import Any
+
+from .biology import behavior_profile, morphology, normalize_range, trophic_role
+from .constants import BIOME_LABELS, GRID_COLS, GRID_ROWS, MAP_SAMPLE_COLS, MAP_SAMPLE_ROWS
+from .planet import biome_at, cell_world_xy, climate_at, geography_at, plate_at
+from .storage import ATLAS_HISTORY_PATH, DOCS_DIR, EVENTS_PATH, HISTORY_PATH, README_PATH, RENDER_DIR, read_ndjson
+from .utils import clamp, mean, stable_int
+
+WORLD_SVG = RENDER_DIR / "current.svg"
+PHYLO_SVG = RENDER_DIR / "phylogeny.svg"
+FOODWEB_SVG = RENDER_DIR / "foodweb.svg"
+
+
+def _esc(v: Any) -> str:
+    return html.escape(str(v), quote=True)
+
+
+def _species_color(sp: dict[str, Any]) -> tuple[str, str, str]:
+    h = (stable_int(sp.get("id", sp.get("name", "x"))) % 360) / 360.0
+    r,g,b = colorsys.hls_to_rgb(h, 0.61, 0.62)
+    base=f"#{int(r*255):02x}{int(g*255):02x}{int(b*255):02x}"
+    r2,g2,b2 = colorsys.hls_to_rgb(h, 0.32, 0.56)
+    dark=f"#{int(r2*255):02x}{int(g2*255):02x}{int(b2*255):02x}"
+    r3,g3,b3 = colorsys.hls_to_rgb(h, 0.79, 0.7)
+    pale=f"#{int(r3*255):02x}{int(g3*255):02x}{int(b3*255):02x}"
+    return base,dark,pale
+
+
+BIOME_COLORS = {
+    "abyss":"#08121b", "shelf":"#123040", "ice":"#d4e0df", "tundra":"#697876",
+    "alpine":"#7c7770", "desert":"#8d7953", "steppe":"#66704b", "temperate":"#405c45",
+    "wetland":"#315957", "rainforest":"#274f3f", "barren":"#615d53",
+}
+
+
+def _centroid(sp: dict[str, Any]) -> tuple[float,float]:
+    cells=normalize_range(sp)
+    if not cells: return (GRID_COLS/2,GRID_ROWS/2)
+    return (mean(x for x,_ in cells),mean(y for _,y in cells))
+
+
+def _map_xy(cell: tuple[float,float], mx: float,my: float,mw: float,mh: float) -> tuple[float,float]:
+    return mx+(cell[0]+0.5)/GRID_COLS*mw, my+(cell[1]+0.5)/GRID_ROWS*mh
+
+
+def _territory_blob(sp: dict[str, Any], mx: float,my: float,mw: float,mh: float, opacity: float=0.34, fossil: bool=False) -> str:
+    cells=normalize_range(sp) if not fossil else {(int(c[0]),int(c[1])) for c in sp.get("last_range",[]) if isinstance(c,list) and len(c)==2}
+    if not cells: return ""
+    base,dark,pale=_species_color(sp)
+    cw,ch=mw/GRID_COLS,mh/GRID_ROWS
+    radius=min(cw,ch)*0.69
+    connections=[]; blobs=[]
+    for x,y in sorted(cells):
+        cx,cy=_map_xy((x,y),mx,my,mw,mh)
+        jitter=((stable_int(f"{sp.get('id')}:{x}:{y}")%100)/100-0.5)*0.16
+        rr=radius*(0.88+jitter)
+        # Circle as two arc segments inside one path.
+        blobs.append(f"M{cx-rr:.1f},{cy:.1f}a{rr:.1f},{rr:.1f} 0 1,0 {rr*2:.1f},0a{rr:.1f},{rr:.1f} 0 1,0 {-rr*2:.1f},0")
+        for n in ((x+1,y),(x,y+1)):
+            if n in cells:
+                x2,y2=_map_xy(n,mx,my,mw,mh); connections.append(f"M{cx:.1f},{cy:.1f}L{x2:.1f},{y2:.1f}")
+    dash=' stroke-dasharray="3 3"' if fossil else ''
+    conn=f'<path d="{" ".join(connections)}" fill="none" stroke="{base}" stroke-width="{radius*1.45:.2f}" stroke-linecap="round"/>' if connections else ''
+    circles=f'<path d="{" ".join(blobs)}" fill="{base}" stroke="{pale if fossil else dark}" stroke-width="{0.7 if fossil else 0.45}"{dash}/>'
+    return f'<g class="species-range" data-species="{_esc(sp.get("id"))}" opacity="{opacity:.3f}">{conn}{circles}</g>'
+
+def _morph_glyph(sp: dict[str, Any], x: float,y: float,scale: float=1.0) -> str:
+    m=morphology(sp); base,dark,pale=_species_color(sp)
+    size=clamp(math.log1p(float(m["body_scale"]))*4.5,3.5,10)*scale
+    append=int(m["appendages"])
+    lines=[]
+    for i in range(append):
+        a=i/max(append,1)*math.tau
+        length=size*(1.0+0.35*math.sin(i*1.7))
+        lines.append(f'<line x1="{x:.1f}" y1="{y:.1f}" x2="{x+math.cos(a)*length:.1f}" y2="{y+math.sin(a)*length:.1f}" stroke="{pale}" stroke-width="1" stroke-linecap="round"/>')
+    armor=2.1 if m["armor"]=="heavy" else 1.2 if m["armor"]=="plated" else 0.6
+    return f'<g>{"".join(lines)}<ellipse cx="{x:.1f}" cy="{y:.1f}" rx="{size:.1f}" ry="{size*0.58:.1f}" fill="{base}" stroke="{dark}" stroke-width="{armor}"/><circle cx="{x+size*0.45:.1f}" cy="{y-size*0.12:.1f}" r="{max(0.8,size*0.09):.1f}" fill="#e9f0e9"/></g>'
+
+
+def render_world_svg(world: dict[str,Any], species: list[dict[str,Any]], env: dict[str,Any], pathogens: list[dict[str,Any]], plates: dict[str,Any], branch: dict[str,Any], interactions: list[dict[str,Any]]) -> str:
+    RENDER_DIR.mkdir(parents=True,exist_ok=True)
+    W,H=1600,1040
+    mx,my,mw,mh=54,132,1080,700
+    live=[s for s in species if s.get("extinct_generation") is None and float(s.get("population",0))>0]
+    dead=[s for s in species if s.get("extinct_generation") is not None]
+    total=int(sum(float(s.get("population",0)) for s in live))
+    occupied=len(set().union(*(normalize_range(s) for s in live))) if live else 0
+    gen=int(world.get("generation",0)); era=world.get("era",{}).get("name","Origin Era")
+    parts=[f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="PHYLUM generation {gen} world atlas">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#071015"/><stop offset="1" stop-color="#0c1415"/></linearGradient>
+  <filter id="soft"><feGaussianBlur stdDeviation="2.4"/></filter>
+  <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 z" fill="#b7c8c1"/></marker>
+  <style>
+    text{{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#dce8e2}}
+    .muted{{fill:#768c84}} .tiny{{font-size:10px}} .small{{font-size:12px}} .label{{font-size:13px;letter-spacing:1px}}
+    .metric{{font-size:22px;font-weight:600}} .hair{{stroke:#2b3c3a;stroke-width:1}} .panel{{fill:#0b1518;stroke:#263837;stroke-width:1}}
+  </style>
+</defs><rect width="100%" height="100%" fill="url(#bg)"/>
+<text x="54" y="52" font-size="26" letter-spacing="5">PHYLUM / WORLD ATLAS</text>
+<text x="54" y="82" class="small muted">LINEAGE {_esc(branch.get('lineage',world.get('active_lineage','unknown')))} · GEN {gen:06d} · {_esc(era).upper()}</text>
+<text x="1545" y="52" text-anchor="end" class="small">{len(live)} LIVING / {len(dead)} EXTINCT / {total:,} ORGANISMS</text>
+<text x="1545" y="78" text-anchor="end" class="tiny muted">{occupied} OCCUPIED CELLS · {len([p for p in pathogens if p.get('extinct_generation') is None])} ACTIVE PATHOGENS · {len(plates.get('plates',[]))} PLATES</text>
+<rect x="{mx}" y="{my}" width="{mw}" height="{mh}" rx="10" fill="#071013" stroke="#31423f"/>
+''']
+    # Terrain / biome field at double ecology resolution. Rectangles are batched into one path per biome to keep Git diffs compact.
+    parts.append('<g id="layer-biomes">')
+    sw,sh=mw/MAP_SAMPLE_COLS,mh/MAP_SAMPLE_ROWS
+    seed=int(world.get("seed",0))
+    biome_paths={k:[] for k in BIOME_COLORS}
+    for gy in range(MAP_SAMPLE_ROWS):
+        y=(gy+0.5)/MAP_SAMPLE_ROWS*float(env.get("height",100))
+        for gx in range(MAP_SAMPLE_COLS):
+            x=(gx+0.5)/MAP_SAMPLE_COLS*float(env.get("width",160))
+            biome=biome_at(env,plates,x,y,seed)
+            xx=mx+gx*sw; yy=my+gy*sh; ww=sw+0.5; hh=sh+0.5
+            biome_paths[biome].append(f"M{xx:.1f},{yy:.1f}h{ww:.1f}v{hh:.1f}h{-ww:.1f}Z")
+    for biome,d in biome_paths.items():
+        if d: parts.append(f'<path d="{"".join(d)}" fill="{BIOME_COLORS[biome]}"/>')
+    parts.append('</g>')
+    # Survey grid + coordinate marks.
+    parts.append('<g id="layer-grid" opacity="0.18">')
+    for i in range(1,12):
+        x=mx+i*mw/12; parts.append(f'<line x1="{x:.1f}" y1="{my}" x2="{x:.1f}" y2="{my+mh}" class="hair"/>')
+    for i in range(1,8):
+        y=my+i*mh/8; parts.append(f'<line x1="{mx}" y1="{y:.1f}" x2="{mx+mw}" y2="{y:.1f}" class="hair"/>')
+    parts.append('</g>')
+    # Plate boundaries sampled on ecology grid.
+    parts.append('<g id="layer-plates" opacity="0.44">')
+    cw,ch=mw/GRID_COLS,mh/GRID_ROWS
+    plate_ids={}
+    for gy in range(GRID_ROWS):
+        for gx in range(GRID_COLS):
+            x,y=cell_world_xy((gx,gy),env); plate_ids[(gx,gy)]=plate_at(plates,x,y,env)["id"]
+    for gy in range(GRID_ROWS):
+        for gx in range(GRID_COLS):
+            pid=plate_ids[(gx,gy)]
+            if gx+1<GRID_COLS and plate_ids[(gx+1,gy)]!=pid:
+                xx=mx+(gx+1)*cw; yy=my+gy*ch; parts.append(f'<line x1="{xx:.1f}" y1="{yy:.1f}" x2="{xx:.1f}" y2="{yy+ch:.1f}" stroke="#b48a66" stroke-width="1" stroke-dasharray="2 4"/>')
+            if gy+1<GRID_ROWS and plate_ids[(gx,gy+1)]!=pid:
+                xx=mx+gx*cw; yy=my+(gy+1)*ch; parts.append(f'<line x1="{xx:.1f}" y1="{yy:.1f}" x2="{xx+cw:.1f}" y2="{yy:.1f}" stroke="#b48a66" stroke-width="1" stroke-dasharray="2 4"/>')
+    parts.append('</g>')
+    # Elevation contours and deterministic river-like drainage paths.
+    parts.append('<g id="layer-contours" opacity="0.22" fill="none">')
+    elevations={}
+    for gy in range(GRID_ROWS):
+        for gx in range(GRID_COLS):
+            xx,yy=cell_world_xy((gx,gy),env); elevations[(gx,gy)]=geography_at(env,plates,xx,yy,seed)["elevation"]
+    for gy in range(GRID_ROWS-1):
+        for gx in range(GRID_COLS-1):
+            v=elevations[(gx,gy)]
+            for level in (0.47,0.58,0.70,0.82):
+                right=elevations[(gx+1,gy)]; down=elevations[(gx,gy+1)]
+                if (v-level)*(right-level)<0:
+                    xx=mx+(gx+1)*cw; yy=my+(gy+.5)*ch; parts.append(f'<line x1="{xx:.1f}" y1="{yy-ch*.5:.1f}" x2="{xx:.1f}" y2="{yy+ch*.5:.1f}" stroke="#9aa79f" stroke-width="0.55"/>')
+                if (v-level)*(down-level)<0:
+                    xx=mx+(gx+.5)*cw; yy=my+(gy+1)*ch; parts.append(f'<line x1="{xx-cw*.5:.1f}" y1="{yy:.1f}" x2="{xx+cw*.5:.1f}" y2="{yy:.1f}" stroke="#9aa79f" stroke-width="0.55"/>')
+    parts.append('</g>')
+    parts.append('<g id="layer-hydrology" opacity="0.48" fill="none" stroke="#77a7b7" stroke-width="1.1">')
+    # Start rivers at deterministic high cells and descend greedily.
+    starts=sorted(elevations,key=lambda c:(elevations[c],stable_int(f"river:{seed}:{c}")),reverse=True)[:40]
+    chosen=[]
+    for st in starts:
+        if all(math.dist(st,q)>7 for q in chosen): chosen.append(st)
+        if len(chosen)>=9: break
+    for st in chosen:
+        path=[st]; cur=st; seen={st}
+        for _ in range(34):
+            neigh=[n for n in ((cur[0]+1,cur[1]),(cur[0]-1,cur[1]),(cur[0],cur[1]+1),(cur[0],cur[1]-1)) if n in elevations and n not in seen]
+            if not neigh: break
+            nxt=min(neigh,key=lambda n:elevations[n]+((stable_int(f"riverstep:{seed}:{n}")%100)/100)*0.006)
+            if elevations[nxt]>elevations[cur]+0.025: break
+            path.append(nxt); seen.add(nxt); cur=nxt
+            xx,yy=cell_world_xy(cur,env)
+            if not geography_at(env,plates,xx,yy,seed)["land"]: break
+        if len(path)>4:
+            pts=' '.join(f"{_map_xy(c,mx,my,mw,mh)[0]:.1f},{_map_xy(c,mx,my,mw,mh)[1]:.1f}" for c in path)
+            parts.append(f'<polyline points="{pts}"/>')
+    parts.append('</g>')
+    # Hidden analytical overlays exposed by the Observatory.
+    cell_species={}
+    for sp in live:
+        for c in normalize_range(sp): cell_species.setdefault(c,[]).append(sp)
+    parts.append('<g id="layer-population" style="display:none" opacity="0.62">')
+    maxdens=max([sum(float(q.get("population",0))/max(1,len(normalize_range(q))) for q in qs) for qs in cell_species.values()] or [1])
+    for c,qs in cell_species.items():
+        dens=sum(float(q.get("population",0))/max(1,len(normalize_range(q))) for q in qs); x,y=_map_xy(c,mx,my,mw,mh); a=clamp(dens/maxdens,0,1)
+        parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{2+7*a:.1f}" fill="#f0cf8d" opacity="{0.12+0.55*a:.2f}"/>')
+    parts.append('</g>')
+    parts.append('<g id="layer-biodiversity" style="display:none" opacity="0.65">')
+    maxbio=max([len(qs) for qs in cell_species.values()] or [1])
+    for c,qs in cell_species.items():
+        x,y=_map_xy(c,mx,my,mw,mh); a=len(qs)/maxbio
+        parts.append(f'<rect x="{x-cw*.45:.1f}" y="{y-ch*.45:.1f}" width="{cw*.9:.1f}" height="{ch*.9:.1f}" rx="3" fill="#d9b56c" opacity="{0.12+0.5*a:.2f}"/>')
+    parts.append('</g>')
+    parts.append('<g id="layer-genetics" style="display:none" opacity="0.68">')
+    for c,qs in cell_species.items():
+        x,y=_map_xy(c,mx,my,mw,mh); a=mean(float(q.get("genetic_diversity",0)) for q in qs)
+        parts.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{2+6*a:.1f}" fill="#a984c7" opacity="{0.18+0.5*a:.2f}"/>')
+    parts.append('</g>')
+    parts.append('<g id="layer-climate" style="display:none" opacity="0.42">')
+    for gy in range(0,MAP_SAMPLE_ROWS,2):
+        for gx in range(0,MAP_SAMPLE_COLS,2):
+            xx=(gx+.5)/MAP_SAMPLE_COLS*float(env.get("width",160)); yy=(gy+.5)/MAP_SAMPLE_ROWS*float(env.get("height",100)); t,mo,_=climate_at(env,plates,xx,yy,seed)
+            col="#c46f58" if t>0.58 else "#6a9fc0"; op=abs(t-.5)*0.7+abs(mo-.5)*0.15
+            parts.append(f'<rect x="{mx+gx*sw:.1f}" y="{my+gy*sh:.1f}" width="{sw*2+1:.1f}" height="{sh*2+1:.1f}" fill="{col}" opacity="{clamp(op,0.04,0.5):.2f}"/>')
+    parts.append('</g>')
+    # Environmental scars.
+    parts.append('<g id="layer-scars">')
+    for scar in env.get("scars",[]):
+        sx=mx+float(scar.get("x",0))/float(env.get("width",160))*mw; sy=my+float(scar.get("y",0))/float(env.get("height",100))*mh
+        rr=float(scar.get("radius",20))/float(env.get("width",160))*mw
+        kind=scar.get("kind",""); col="#c16a52" if kind in {"fire","impact","volcanic"} else "#9d8a58" if kind=="drought" else "#6a91a2"
+        parts.append(f'<circle cx="{sx:.1f}" cy="{sy:.1f}" r="{rr:.1f}" fill="{col}" opacity="{0.06+float(scar.get("strength",0.1))*0.12:.3f}" stroke="{col}" stroke-width="1" stroke-dasharray="4 5"/>')
+        if float(scar.get("severity",0))>0.55: parts.append(f'<text x="{sx:.1f}" y="{sy:.1f}" class="tiny" text-anchor="middle">{_esc(kind.upper())}</text>')
+    parts.append('</g>')
+    # Fossil ghost ranges, only recently extinct or important.
+    parts.append('<g id="layer-fossils" opacity="0.22">')
+    for sp in dead[-30:]: parts.append(_territory_blob(sp,mx,my,mw,mh,0.28,True))
+    parts.append('</g>')
+    # Living territories.
+    parts.append('<g id="layer-territory">')
+    for sp in sorted(live,key=lambda s:float(s.get("population",0))):
+        parts.append(_territory_blob(sp,mx,my,mw,mh,0.34,False))
+        # population cores
+        cells=normalize_range(sp); base,dark,pale=_species_color(sp)
+        if cells:
+            density=float(sp.get("population",0))/max(1,len(cells)); rr=clamp(math.sqrt(density)*0.26,1.4,5.8); cores=[]
+            for x,y in cells:
+                cx,cy=_map_xy((x,y),mx,my,mw,mh); cores.append(f"M{cx-rr:.1f},{cy:.1f}a{rr:.1f},{rr:.1f} 0 1,0 {rr*2:.1f},0a{rr:.1f},{rr:.1f} 0 1,0 {-rr*2:.1f},0")
+            parts.append(f'<path d="{" ".join(cores)}" fill="{pale}" opacity="0.24"/>')
+    parts.append('</g>')
+    # Migration trails.
+    parts.append('<g id="layer-migration" fill="none" stroke="#c1d0c9" stroke-width="1.2" opacity="0.5" marker-end="url(#arrow)">')
+    for sp in live:
+        trails=sp.get("migration_trail",[])[-4:]
+        for tr in trails:
+            a=tr.get("from"); b=tr.get("to")
+            if a and b:
+                x1,y1=_map_xy((float(a[0]),float(a[1])),mx,my,mw,mh); x2,y2=_map_xy((float(b[0]),float(b[1])),mx,my,mw,mh)
+                parts.append(f'<path d="M{x1:.1f},{y1:.1f} Q{(x1+x2)/2:.1f},{min(y1,y2)-16:.1f} {x2:.1f},{y2:.1f}"/>')
+    parts.append('</g>')
+    # Ecological interactions.
+    byid={s["id"]:s for s in live}; parts.append('<g id="layer-ecology" opacity="0.7">')
+    for it in sorted(interactions,key=lambda i:float(i.get("strength",0)),reverse=True)[:32]:
+        a,b=byid.get(it.get("source")),byid.get(it.get("target"))
+        if not a or not b: continue
+        ca,cb=_centroid(a),_centroid(b); x1,y1=_map_xy(ca,mx,my,mw,mh); x2,y2=_map_xy(cb,mx,my,mw,mh)
+        pred=it.get("type")=="predation"; col="#d99776" if pred else "#9caa92"
+        parts.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="{col}" stroke-width="{clamp(float(it.get("strength",0))*2,0.6,2.5):.2f}" stroke-dasharray="{'' if pred else '3 4'}" {"marker-end='url(#arrow)'" if pred else ''}/>')
+    parts.append('</g>')
+    # Disease outbreaks.
+    parts.append('<g id="layer-disease">')
+    for sp in live:
+        prevalence=max([float(v) for v in sp.get("infections",{}).values()] or [0])
+        if prevalence<0.01: continue
+        cx,cy=_map_xy(_centroid(sp),mx,my,mw,mh); rr=14+prevalence*34
+        parts.append(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{rr:.1f}" fill="none" stroke="#d06e73" stroke-width="2" opacity="{0.25+prevalence*0.5:.2f}" stroke-dasharray="5 5"/>')
+    parts.append('</g>')
+    # Labels and organism glyphs.
+    parts.append('<g id="layer-labels">')
+    for i,sp in enumerate(sorted(live,key=lambda s:float(s.get("population",0)),reverse=True)[:24]):
+        cx,cy=_map_xy(_centroid(sp),mx,my,mw,mh); base,dark,pale=_species_color(sp)
+        side=-1 if cx>mx+mw*0.66 else 1; lx=cx+side*(28+(i%3)*5); ly=cy-18-(i%4)*6
+        parts.append(f'<line x1="{cx:.1f}" y1="{cy:.1f}" x2="{lx:.1f}" y2="{ly:.1f}" stroke="{pale}" stroke-width="0.8" opacity="0.6"/>')
+        parts.append(_morph_glyph(sp,cx,cy,0.72))
+        anch="end" if side<0 else "start"
+        parts.append(f'<text x="{lx+side*4:.1f}" y="{ly:.1f}" text-anchor="{anch}" class="small" fill="{pale}">{_esc(sp["name"])}</text><text x="{lx+side*4:.1f}" y="{ly+13:.1f}" text-anchor="{anch}" class="tiny muted">{int(sp.get("population",0)):,} · {_esc(trophic_role(sp))}</text>')
+    parts.append('</g>')
+    # Compass / scale.
+    parts.append(f'<g transform="translate({mx+mw-38},{my+48})"><circle r="24" fill="#071013" stroke="#5b6f69"/><path d="M0,-18 L5,2 L0,-2 L-5,2 Z" fill="#d7e4de"/><text y="-29" text-anchor="middle" class="tiny">N</text></g>')
+    # Sidebar.
+    sx=1160; parts.append(f'<rect x="{sx}" y="132" width="386" height="700" rx="10" class="panel"/>')
+    parts.append(f'<text x="{sx+24}" y="168" class="label">BIOSPHERE STATE</text>')
+    metrics=[("POPULATION",f"{total:,}"),("LIVING",str(len(live))),("EXTINCT",str(len(dead))),("PATHOGENS",str(len([p for p in pathogens if p.get("extinct_generation") is None]))),("PLATES",str(len(plates.get("plates",[])))),("DIVERSITY",f"{mean(float(s.get('genetic_diversity',0)) for s in live):.2f}")]
+    for j,(lab,val) in enumerate(metrics):
+        col=j%2; row=j//2; x=sx+24+col*178; y=202+row*66
+        parts.append(f'<text x="{x}" y="{y}" class="tiny muted">{lab}</text><text x="{x}" y="{y+27}" class="metric">{val}</text>')
+    # Climate bars.
+    y0=410; parts.append(f'<text x="{sx+24}" y="{y0}" class="label">PLANETARY CONDITIONS</text>')
+    cond=[("TEMP",float(env.get("temperature",0))), ("MOISTURE",float(env.get("moisture",0))), ("RESOURCES",float(env.get("resources",0)))]
+    for k,(lab,val) in enumerate(cond):
+        y=y0+28+k*34; parts.append(f'<text x="{sx+24}" y="{y}" class="tiny muted">{lab}</text><rect x="{sx+104}" y="{y-9}" width="205" height="8" rx="4" fill="#1d2a29"/><rect x="{sx+104}" y="{y-9}" width="{205*clamp(val,0,1):.1f}" height="8" rx="4" fill="#8aa99a"/><text x="{sx+326}" y="{y}" class="tiny">{val:.2f}</text>')
+    # Lineage cards.
+    y1=545; parts.append(f'<text x="{sx+24}" y="{y1}" class="label">DOMINANT LINEAGES</text>')
+    for k,sp in enumerate(sorted(live,key=lambda s:float(s.get("population",0)),reverse=True)[:4]):
+        y=y1+34+k*58; base,dark,pale=_species_color(sp)
+        parts.append(_morph_glyph(sp,sx+38,y+10,0.56))
+        parts.append(f'<text x="{sx+60}" y="{y+5}" class="small" fill="{pale}">{_esc(sp["name"])}</text><text x="{sx+60}" y="{y+22}" class="tiny muted">{_esc(trophic_role(sp))} · fit {float(sp.get("last_fitness",0)):.2f} · range {len(normalize_range(sp))}</text><text x="{sx+340}" y="{y+6}" class="small" text-anchor="end">{int(sp.get("population",0)):,}</text>')
+    # Footer event strip + legend.
+    recent=read_ndjson(EVENTS_PATH,8)
+    fy=874; parts.append(f'<line x1="54" y1="852" x2="1546" y2="852" class="hair"/><text x="54" y="{fy}" class="label">RECENT FOSSIL RECORD</text>')
+    for k,e in enumerate(recent[-5:]):
+        parts.append(f'<text x="54" y="{fy+25+k*23}" class="small"><tspan class="muted">{int(e.get("generation",0)):06d} / {_esc(str(e.get("kind","event")).upper())}</tspan><tspan dx="15">{_esc(e.get("text",""))[:150]}</tspan></text>')
+    legendx=1160; legendy=874; parts.append(f'<text x="{legendx}" y="{legendy}" class="label">ATLAS LAYERS</text>')
+    legend=[("BIOMES","terrain / ocean"),("PLATES","dashed boundaries"),("RANGES","living territory"),("ECOLOGY","predation / competition"),("DISEASE","outbreak rings"),("FOSSILS","ghost ranges")]
+    for i,(a,b) in enumerate(legend): parts.append(f'<text x="{legendx}" y="{legendy+25+i*22}" class="tiny"><tspan fill="#bcd0c6">{a}</tspan><tspan dx="12" class="muted">{b}</tspan></text>')
+    parts.append('</svg>')
+    svg=''.join(parts)
+    WORLD_SVG.write_text(svg,encoding='utf-8')
+    return svg
+
+
+def render_phylogeny_svg(world: dict[str,Any], species: list[dict[str,Any]]) -> str:
+    RENDER_DIR.mkdir(parents=True,exist_ok=True)
+    nodes=sorted(species,key=lambda s:(int(s.get("born_generation",0)),s.get("id","")))
+    maxgen=max([int(s.get("extinct_generation") or world.get("generation",0)) for s in nodes] or [1])
+    H=max(420,100+len(nodes)*46); W=1600; left=220; right=80; top=70
+    row={s["id"]:top+i*44 for i,s in enumerate(nodes)}
+    def gx(g:int)->float: return left+(W-left-right)*g/max(maxgen,1)
+    p=[f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}"><rect width="100%" height="100%" fill="#091215"/><style>text{{font-family:ui-monospace,monospace;fill:#dce8e2}}.m{{fill:#71867e;font-size:11px}}</style><text x="36" y="38" font-size="20" letter-spacing="4">PHYLUM / PHYLOGENETIC RECORD</text>']
+    for s in nodes:
+        pid=s.get("parent_id")
+        if pid in row:
+            parent=next((x for x in nodes if x["id"]==pid),None)
+            if parent:
+                x1=gx(int(s.get("born_generation",0))); y1=row[pid]; y2=row[s["id"]]
+                p.append(f'<path d="M{x1-20:.1f},{y1:.1f} C{x1-8:.1f},{y1:.1f} {x1-8:.1f},{y2:.1f} {x1:.1f},{y2:.1f}" fill="none" stroke="#526b63" stroke-width="1.2"/>')
+    for s in nodes:
+        born=int(s.get("born_generation",0)); end=int(s.get("extinct_generation") or world.get("generation",0)); y=row[s["id"]]; x1=gx(born); x2=gx(end); alive=s.get("extinct_generation") is None
+        base,dark,pale=_species_color(s); col=base if alive else "#66706c"
+        p.append(f'<line x1="{x1:.1f}" y1="{y:.1f}" x2="{x2:.1f}" y2="{y:.1f}" stroke="{col}" stroke-width="{3.5 if alive else 1.5}" {"" if alive else "stroke-dasharray=\"4 4\""}/><circle cx="{x1:.1f}" cy="{y:.1f}" r="4" fill="{col}"/>')
+        p.append(f'<text x="36" y="{y+4:.1f}" font-size="12" fill="{pale if alive else '#8a9691'}">{_esc(s.get("name"))}{"" if alive else " †"}</text><text x="{x1+8:.1f}" y="{y-8:.1f}" class="m">gen {born}</text>')
+    p.append(f'<text x="{gx(0):.1f}" y="{H-26}" class="m">GEN 0</text><text x="{gx(maxgen):.1f}" y="{H-26}" class="m" text-anchor="end">GEN {maxgen}</text></svg>')
+    svg=''.join(p); PHYLO_SVG.write_text(svg,encoding='utf-8'); return svg
+
+
+def render_foodweb_svg(world: dict[str,Any], species: list[dict[str,Any]], interactions: list[dict[str,Any]]) -> str:
+    live=sorted([s for s in species if s.get("extinct_generation") is None],key=lambda s:s.get("id",""))[:80]
+    W,H=1400,820; cx,cy=W/2,H/2; radius=min(W,H)*0.37; pos={}
+    for i,s in enumerate(live):
+        a=i/max(1,len(live))*math.tau-math.pi/2; pos[s["id"]]=(cx+math.cos(a)*radius,cy+math.sin(a)*radius)
+    p=[f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}"><rect width="100%" height="100%" fill="#091215"/><style>text{{font-family:ui-monospace,monospace;fill:#dce8e2}}</style><defs><marker id="a" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0L7,3.5L0,7z" fill="#b87964"/></marker></defs><text x="36" y="42" font-size="20" letter-spacing="4">PHYLUM / FOOD WEB</text>']
+    for it in sorted(interactions,key=lambda x:float(x.get("strength",0)),reverse=True)[:120]:
+        if it.get("source") not in pos or it.get("target") not in pos: continue
+        x1,y1=pos[it["source"]]; x2,y2=pos[it["target"]]; pred=it.get("type")=="predation"
+        p.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="{'#b87964' if pred else '#6f827a'}" stroke-width="{clamp(float(it.get("strength",0))*2,0.5,2.2):.2f}" opacity="0.55" {"marker-end=\"url(#a)\"" if pred else "stroke-dasharray=\"3 4\""}/>')
+    for s in live:
+        x,y=pos[s["id"]]; base,dark,pale=_species_color(s); rr=7+math.log1p(float(s.get("population",0)))*1.2
+        p.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{rr:.1f}" fill="{base}" stroke="{dark}"/><text x="{x:.1f}" y="{y+rr+15:.1f}" font-size="10" text-anchor="middle">{_esc(s.get("name"))}</text>')
+    p.append('</svg>'); svg=''.join(p); FOODWEB_SVG.write_text(svg,encoding='utf-8'); return svg
+
+
+def _fossil_catalog(species: list[dict[str,Any]]) -> list[dict[str,Any]]:
+    out=[]
+    for s in species:
+        out.append({
+            "id":s.get("id"),"name":s.get("name"),"parent_id":s.get("parent_id"),"born_generation":s.get("born_generation",0),
+            "extinct_generation":s.get("extinct_generation"),"extinction_cause":s.get("extinction_cause"),"population":round(float(s.get("population",0)),2),
+            "peak_population":round(float(s.get("peak_population",0)),2),"peak_range":int(s.get("peak_range",0)),"role":trophic_role(s),
+            "genetic_diversity":round(float(s.get("genetic_diversity",0)),4),"native_lineage":s.get("native_lineage"),"behavior":behavior_profile(s),
+            "morphology":morphology(s),"offspring_lineages":s.get("offspring_lineages",[]),"regions_seen":s.get("regions_seen",[]),
+        })
+    return out
+
+
+def render_observatory(world: dict[str,Any], species: list[dict[str,Any]], env: dict[str,Any], pathogens: list[dict[str,Any]], plates: dict[str,Any], branch: dict[str,Any], interactions: list[dict[str,Any]], world_svg: str) -> None:
+    DOCS_DIR.mkdir(parents=True,exist_ok=True)
+    (DOCS_DIR/".nojekyll").write_text("",encoding="utf-8")
+    # Pages publishes docs/ as an isolated root, so mirror the generated observation plates into it.
+    if WORLD_SVG.exists(): shutil.copy2(WORLD_SVG,DOCS_DIR/"current.svg")
+    if PHYLO_SVG.exists(): shutil.copy2(PHYLO_SVG,DOCS_DIR/"phylogeny.svg")
+    if FOODWEB_SVG.exists(): shutil.copy2(FOODWEB_SVG,DOCS_DIR/"foodweb.svg")
+    events=read_ndjson(EVENTS_PATH,400)
+    history=read_ndjson(HISTORY_PATH,500)
+    atlas_history=read_ndjson(ATLAS_HISTORY_PATH,500)
+    catalog=_fossil_catalog(species)
+    data={"world":world,"environment":env,"branch":branch,"species":catalog,"pathogens":pathogens,"interactions":interactions,"events":events,"history":history}
+    (DOCS_DIR/"data.json").write_text(json.dumps(data,indent=2,sort_keys=True),encoding="utf-8")
+    # Deep-time atlas history is split from current data so ordinary generations do not rewrite a multi-megabyte HTML file.
+    (DOCS_DIR/"atlas-history.js").write_text("window.PHYLUM_ATLAS_HISTORY="+json.dumps(atlas_history,separators=(",",":"),ensure_ascii=True)+";\n",encoding="utf-8")
+    data_json=json.dumps(data,separators=(",",":"),ensure_ascii=True).replace("</","<\\/")
+    html_doc=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PHYLUM Observatory</title>
+<style>
+:root{{--bg:#071014;--panel:#0b1619;--line:#263b38;--text:#dce8e2;--muted:#748a82;--accent:#9bb8aa}}
+*{{box-sizing:border-box}} body{{margin:0;background:var(--bg);color:var(--text);font:14px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}} header{{padding:22px 28px;border-bottom:1px solid var(--line);display:flex;gap:28px;align-items:end;flex-wrap:wrap}} h1{{font-size:20px;letter-spacing:.28em;margin:0}} .sub{{color:var(--muted)}} nav{{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}} button,input{{font:inherit}} button{{background:#0f2022;color:var(--text);border:1px solid #2e4743;padding:8px 11px;border-radius:6px;cursor:pointer}} button.active{{background:#244238;border-color:#668d7d}} main{{padding:20px 24px;max-width:1800px;margin:auto}} .tab{{display:none}} .tab.active{{display:block}} .atlas svg{{width:100%;height:auto;border:1px solid var(--line);border-radius:8px}} .layers{{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 12px}} .grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}} .card{{background:var(--panel);border:1px solid var(--line);padding:15px;border-radius:8px}} .metric{{font-size:28px;margin-top:5px}} .muted{{color:var(--muted)}} table{{width:100%;border-collapse:collapse}} th,td{{text-align:left;padding:9px;border-bottom:1px solid #1d312e}} .dead{{opacity:.62}} .event{{border-left:2px solid #4c6d62;padding:7px 12px;margin:7px 0;background:#0a1517}} input{{background:#071013;border:1px solid var(--line);color:var(--text);padding:9px;width:min(420px,100%);border-radius:6px}} .bar{{height:7px;background:#172724;border-radius:9px;overflow:hidden}} .bar i{{display:block;height:100%;background:#7eaa98}} code{{color:#b7cfc4}} @media(max-width:700px){{main{{padding:12px}}header{{padding:16px}}}}
+</style></head><body><header><div><h1>PHYLUM / OBSERVATORY</h1><div class="sub">lineage {_esc(branch.get('lineage',world.get('active_lineage','unknown')))} · generation {int(world.get('generation',0)):06d} · {_esc(world.get('era',{}).get('name','Origin Era'))}</div></div><nav><button data-tab="atlas" class="active">ATLAS</button><button data-tab="lineages">LINEAGES</button><button data-tab="fossils">FOSSILS</button><button data-tab="timeline">TIMELINE</button><button data-tab="branches">BRANCHES</button></nav></header><main>
+<section id="atlas" class="tab active"><div class="layers"><button data-layer="layer-biomes" class="active">BIOMES</button><button data-layer="layer-plates" class="active">TECTONICS</button><button data-layer="layer-contours" class="active">RELIEF</button><button data-layer="layer-hydrology" class="active">RIVERS</button><button data-layer="layer-territory" class="active">TERRITORIES</button><button data-layer="layer-migration" class="active">MIGRATION</button><button data-layer="layer-ecology" class="active">ECOLOGY</button><button data-layer="layer-disease" class="active">DISEASE</button><button data-layer="layer-fossils" class="active">FOSSILS</button><button data-layer="layer-scars" class="active">SCARS</button><button data-layer="layer-labels" class="active">LABELS</button><button data-layer="layer-population">POPULATION</button><button data-layer="layer-biodiversity">BIODIVERSITY</button><button data-layer="layer-genetics">GENETICS</button><button data-layer="layer-climate">CLIMATE</button></div><div class="atlas"><object id="atlasObject" type="image/svg+xml" data="current.svg?gen={int(world.get('generation',0)):06d}" style="width:100%;aspect-ratio:1600/1040;display:block"></object></div></section>
+<section id="lineages" class="tab"><div class="grid" id="lineageCards"></div></section>
+<section id="fossils" class="tab"><p><input id="fossilSearch" placeholder="search lineage, role, cause, region"></p><div id="fossilTable"></div></section>
+<section id="timeline" class="tab"><div class="card" style="margin-bottom:14px"><div class="muted">DEEP-TIME ATLAS SNAPSHOTS</div><input id="timeSlider" type="range" min="0" max="0" value="0" style="width:100%;margin:14px 0"><div id="timeLabel"></div><canvas id="timeCanvas" width="960" height="480" style="width:100%;height:auto;border:1px solid #263b38;margin-top:10px"></canvas></div><div id="timelineList"></div></section>
+<section id="branches" class="tab"><div class="grid"><div class="card"><div class="muted">ACTIVE LINEAGE</div><div class="metric">{_esc(branch.get('lineage','unknown'))}</div></div><div class="card"><div class="muted">ROOT FINGERPRINT</div><div style="font-size:18px;margin-top:8px">{_esc(branch.get('root_fingerprint','unknown'))}</div></div><div class="card"><div class="muted">CONTACT EVENTS</div><div class="metric">{len(branch.get('contacts',[]))}</div></div></div><h3>CONTACT HISTORY</h3><div id="contacts"></div><p class="muted">Compare two worlds locally with <code>python -m phylum compare path/to/other/PHYLUM</code>. Resolve a branch encounter biologically with <code>python -m phylum contact path/to/other/PHYLUM</code>.</p></section>
+</main><script src="atlas-history.js"></script><script>const DATA={data_json};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+$$('[data-tab]').forEach(b=>b.addEventListener('click',()=>{{$$('[data-tab]').forEach(x=>x.classList.remove('active'));b.classList.add('active');$$('.tab').forEach(x=>x.classList.remove('active'));$('#'+b.dataset.tab).classList.add('active')}}));
+$$('[data-layer]').forEach(b=>b.addEventListener('click',()=>{{const obj=$('#atlasObject');const doc=obj&&obj.contentDocument;const el=doc&&doc.getElementById(b.dataset.layer);if(!el)return;b.classList.toggle('active');el.style.display=b.classList.contains('active')?'':'none'}}));
+function lineageCards(){{const live=DATA.species.filter(s=>s.extinct_generation===null).sort((a,b)=>b.population-a.population);$('#lineageCards').innerHTML=live.map(s=>`<div class="card"><div class="muted">${{s.id}} / ${{s.role.toUpperCase()}}</div><h3>${{s.name}}</h3><div class="metric">${{Math.round(s.population).toLocaleString()}}</div><div class="muted">organisms · peak ${{Math.round(s.peak_population).toLocaleString()}}</div><p>${{s.behavior.join(' · ')}}</p><div class="muted">GENETIC DIVERSITY ${{s.genetic_diversity.toFixed(2)}}</div><div class="bar"><i style="width:${{s.genetic_diversity*100}}%"></i></div><p class="muted">born gen ${{s.born_generation}} · peak range ${{s.peak_range}} cells</p></div>`).join('')}}lineageCards();
+function fossils(q=''){{q=q.toLowerCase();const rows=DATA.species.filter(s=>JSON.stringify(s).toLowerCase().includes(q));$('#fossilTable').innerHTML=`<table><thead><tr><th>lineage</th><th>born</th><th>ended</th><th>role</th><th>peak pop.</th><th>cause</th></tr></thead><tbody>${{rows.map(s=>`<tr class="${{s.extinct_generation!==null?'dead':''}}"><td>${{s.name}}${{s.extinct_generation!==null?' †':''}}</td><td>${{s.born_generation}}</td><td>${{s.extinct_generation??'living'}}</td><td>${{s.role}}</td><td>${{Math.round(s.peak_population).toLocaleString()}}</td><td>${{s.extinction_cause??'—'}}</td></tr>`).join('')}}</tbody></table>`}}fossils();$('#fossilSearch').addEventListener('input',e=>fossils(e.target.value));
+$('#timelineList').innerHTML=DATA.events.slice().reverse().map(e=>`<div class="event"><span class="muted">GEN ${{String(e.generation??0).padStart(6,'0')}} / ${{String(e.kind).toUpperCase()}}</span><br>${{e.text}}</div>`).join('')||'<p class="muted">No events recorded.</p>';
+const snaps=window.PHYLUM_ATLAS_HISTORY||[];const slider=$('#timeSlider'),canvas=$('#timeCanvas'),ctx=canvas.getContext('2d');slider.max=Math.max(0,snaps.length-1);slider.value=Math.max(0,snaps.length-1);function drawSnap(){{const s=snaps[+slider.value];ctx.fillStyle='#071013';ctx.fillRect(0,0,canvas.width,canvas.height);if(!s){{$('#timeLabel').textContent='No atlas snapshots yet';return}};$('#timeLabel').textContent=`GEN ${{String(s.generation).padStart(6,'0')}} · ${{s.era||''}} · ${{s.species.filter(x=>!x.extinct).length}} living lineages`;ctx.strokeStyle='#243834';ctx.globalAlpha=.5;for(let i=1;i<12;i++){{ctx.beginPath();ctx.moveTo(i*80,0);ctx.lineTo(i*80,480);ctx.stroke()}}for(let i=1;i<6;i++){{ctx.beginPath();ctx.moveTo(0,i*80);ctx.lineTo(960,i*80);ctx.stroke()}}ctx.globalAlpha=1;(s.species||[]).filter(x=>!x.extinct).forEach((sp,idx)=>{{const hue=(idx*71+37)%360;ctx.fillStyle=`hsla(${{hue}},55%,65%,.45)`;(sp.range||[]).forEach(c=>{{ctx.beginPath();ctx.arc((c[0]+.5)/48*960,(c[1]+.5)/30*480,8,0,Math.PI*2);ctx.fill()}})}})}}slider.addEventListener('input',drawSnap);drawSnap();
+$('#contacts').innerHTML=(DATA.branch.contacts||[]).map(c=>`<div class="event">GEN ${{String(c.generation).padStart(6,'0')}} / CONTACT WITH ${{c.with}} — ${{c.introduced_lineages}} lineages, ${{c.pathogens_transferred}} pathogens</div>`).join('')||'<p class="muted">No branch contact has occurred.</p>';
+</script></body></html>'''
+    (DOCS_DIR/"index.html").write_text(html_doc,encoding="utf-8")
+
+
+def update_readme(world: dict[str,Any], species: list[dict[str,Any]], pathogens: list[dict[str,Any]], interactions: list[dict[str,Any]]) -> None:
+    if README_PATH.exists(): text=README_PATH.read_text(encoding='utf-8')
+    else: text="# PHYLUM\n\n**An evolutionary simulation written into Git history.**\n"
+    gen=int(world.get("generation",0)); live=[s for s in species if s.get("extinct_generation") is None]; dead=[s for s in species if s.get("extinct_generation") is not None]
+    total=int(sum(float(s.get("population",0)) for s in live)); occupied=len(set().union(*(normalize_range(s) for s in live))) if live else 0
+    dominant=max(live,key=lambda s:float(s.get("population",0)),default=None)
+    events=read_ndjson(EVENTS_PATH,1); latest=(events[-1].get("text") or events[-1].get("message") or "No fossil event yet.") if events else "No fossil event yet."
+    block=("<!-- PHYLUM:STATE:START -->\n"
+           f"**Generation:** `{gen}`  \n**Era:** `{world.get('era',{}).get('name','Origin Era')}`  \n**Living lineages:** `{len(live)}`  \n**Extinct lineages:** `{len(dead)}`  \n"
+           f"**Population:** `{total:,}`  \n**Occupied cells:** `{occupied}` / `{GRID_COLS*GRID_ROWS}`  \n**Active pathogens:** `{len([p for p in pathogens if p.get('extinct_generation') is None])}`  \n"
+           f"**Predator/prey links:** `{len([i for i in interactions if i.get('type')=='predation'])}`  \n**Dominant lineage:** `{dominant.get('name') if dominant else 'none'}`  \n**Latest fossil:** {latest}\n"
+           "<!-- PHYLUM:STATE:END -->")
+    import re
+    if "<!-- PHYLUM:STATE:START -->" in text:
+        text=re.sub(r"<!-- PHYLUM:STATE:START -->.*?<!-- PHYLUM:STATE:END -->",block,text,flags=re.S)
+    else: text += "\n\n"+block+"\n"
+    # Cache-bust all generated render URLs and ensure the atlas is visible near top.
+    text=re.sub(r"renders/current\.svg\?gen=[^\)\s]+",f"renders/current.svg?gen={gen:06d}",text)
+    text=re.sub(r"renders/phylogeny\.svg\?gen=[^\)\s]+",f"renders/phylogeny.svg?gen={gen:06d}",text)
+    if "renders/foodweb.svg" not in text:
+        marker="## The idea"
+        insertion=f"## Living food web\n\n![PHYLUM food web](renders/foodweb.svg?gen={gen:06d})\n\n"
+        text=text.replace(marker,insertion+marker) if marker in text else text+"\n"+insertion
+    else:
+        text=re.sub(r"renders/foodweb\.svg\?gen=[^\)\s]+",f"renders/foodweb.svg?gen={gen:06d}",text)
+    # Replace old model/roadmap copy with the integrated DEEP TIME model.
+    model_text=("## Current model — DEEP TIME\n\n"
+        "The living simulation now includes population genetics and sexual reproduction; genetic diversity, recombination, bottlenecks and inbreeding; inherited morphology and behavior; ecological niches, competition and predator/prey food webs; evolving pathogens and immunity; migration and isolation-driven speciation; generated geography, biomes, rivers, climate and tectonic drift; disasters and rare unscripted mass extinctions; explicit extinction causes, fossils and phylogeny; deep-time atlas snapshots; fork identity, branch comparison and biological branch-contact rules.\n\n"
+        "Nothing is scheduled to happen at a specific generation. PHYLUM creates conditions and lets history emerge from them.\n")
+    # Replace the entire legacy model/roadmap region in one pass so repeated migrations
+    # cannot duplicate the DEEP TIME section.
+    if re.search(r"## Current model(?: — DEEP TIME)?\n", text):
+        text=re.sub(r"## Current model(?: — DEEP TIME)?\n.*?(?=\n## License)",model_text+"\n",text,flags=re.S)
+    elif "## What comes next\n" in text:
+        text=re.sub(r"## What comes next\n.*?(?=\n## License)",model_text+"\n",text,flags=re.S)
+    observatory=("## Observatory\n\n"
+        "Every generation also regenerates a static deep-time Observatory in `docs/`. It includes the layered World Atlas, lineage and fossil browsers, timeline/deep-time snapshots, branch ancestry/contact history, and analytical population, biodiversity, genetics and climate overlays. Enable GitHub Pages from the repository's `docs/` folder to turn it into a live observation station.\n\n"
+        "Deep-time branch tools: `python -m phylum compare ../OTHER-PHYLUM` and `python -m phylum contact ../OTHER-PHYLUM`. See `PHYLUM_MERGE.md` for the biological contact rule.\n")
+    if "## Observatory\n" not in text:
+        text=text.replace("\n## License", "\n"+observatory+"\n## License") if "\n## License" in text else text+"\n\n"+observatory
+    README_PATH.write_text(text,encoding='utf-8')
+
+
+def render_all(world: dict[str,Any], species: list[dict[str,Any]], env: dict[str,Any], pathogens: list[dict[str,Any]], plates: dict[str,Any], branch: dict[str,Any], interactions: list[dict[str,Any]]) -> None:
+    svg=render_world_svg(world,species,env,pathogens,plates,branch,interactions)
+    render_phylogeny_svg(world,species)
+    render_foodweb_svg(world,species,interactions)
+    update_readme(world,species,pathogens,interactions)
+    render_observatory(world,species,env,pathogens,plates,branch,interactions,svg)

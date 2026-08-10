@@ -14,7 +14,9 @@ Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 **Living lineages:** `3`  
 **Extinct lineages:** `0`  
 **Population:** `1,040`  
-**Occupied cells:** `37` / `1,440`  
+**Occupied cells:** `37` / `1440`  
+**Active pathogens:** `0`  
+**Predator/prey links:** `0`  
 **Dominant lineage:** `silt frond`  
 **Latest fossil:** Three primitive lineages occupy the first habitat.
 <!-- PHYLUM:STATE:END -->
@@ -23,6 +25,10 @@ Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 ## Living phylogeny
 
 ![PHYLUM phylogeny](renders/phylogeny.svg?gen=000007)
+
+## Living food web
+
+![PHYLUM food web](renders/foodweb.svg?gen=000007)
 
 ## The idea
 
@@ -93,25 +99,18 @@ PHYLUM/
 └── world/                        # persistent biosphere state
 ```
 
-## Current model
+## Current model — DEEP TIME
 
-The first version deliberately keeps the rules understandable:
+The living simulation now includes population genetics and sexual reproduction; genetic diversity, recombination, bottlenecks and inbreeding; inherited morphology and behavior; ecological niches, competition and predator/prey food webs; evolving pathogens and immunity; migration and isolation-driven speciation; generated geography, biomes, rivers, climate and tectonic drift; disasters and rare unscripted mass extinctions; explicit extinction causes, fossils and phylogeny; deep-time atlas snapshots; fork identity, branch comparison and biological branch-contact rules.
 
-- procedural geography with local temperature, moisture, and resources
-- inherited temperature/moisture preferences
-- environmental tolerance
-- mobility, fecundity, and body size traits
-- population growth constrained by local carrying capacity
-- migration toward more suitable nearby habitat
-- heritable mutation and speciation
-- extinction when a population collapses
-- slow climate drift plus uncommon drought, cooling, and resource-bloom events
+Nothing is scheduled to happen at a specific generation. PHYLUM creates conditions and lets history emerge from them.
 
-The simulation is deterministic for a given world seed, generation, and lineage identifier. That makes histories reproducible while allowing Git forks to diverge naturally.
 
-## What comes next
+## Observatory
 
-PHYLUM is designed to grow into stranger territory: predator/prey relationships, sexual reproduction, continental drift, diseases, mass extinctions, phylogenetic tree rendering, fossil browsers, branch comparison, and eventually a rule for what happens when two independently evolved Git branches are merged.
+Every generation also regenerates a static deep-time Observatory in `docs/`. It includes the layered World Atlas, lineage and fossil browsers, timeline/deep-time snapshots, branch ancestry/contact history, and analytical population, biodiversity, genetics and climate overlays. Enable GitHub Pages from the repository's `docs/` folder to turn it into a live observation station.
+
+Deep-time branch tools: `python -m phylum compare ../OTHER-PHYLUM` and `python -m phylum contact ../OTHER-PHYLUM`. See `PHYLUM_MERGE.md` for the biological contact rule.
 
 ## License
 

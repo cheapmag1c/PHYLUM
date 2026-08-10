@@ -1,0 +1,181 @@
+{
+  "branch": {
+    "ancestor_fingerprint": "9b4ca63e176c1fa9263d",
+    "contacts": [],
+    "diverged_generation": null,
+    "lineage": "zerrfeit/PHYLUM",
+    "parent_lineage": null,
+    "root_fingerprint": "9b4ca63e176c1fa9263d",
+    "schema_version": 2
+  },
+  "environment": {
+    "ancestral_refugia": [
+      {
+        "radius": 13,
+        "species_id": "sp-00001",
+        "x": 65.278,
+        "y": 29.722
+      },
+      {
+        "radius": 13,
+        "species_id": "sp-00002",
+        "x": 90.278,
+        "y": 80.0
+      },
+      {
+        "radius": 13,
+        "species_id": "sp-00003",
+        "x": 133.974,
+        "y": 41.667
+      }
+    ],
+    "height": 100,
+    "moisture": 0.5425,
+    "resources": 0.6929,
+    "scars": [],
+    "season_phase": 0.0,
+    "temperature": 0.5389,
+    "width": 160
+  },
+  "events": [
+    {
+      "generation": 0,
+      "kind": "origin",
+      "subject": "world",
+      "text": "Three primitive lineages occupy the first habitat."
+    }
+  ],
+  "history": [],
+  "interactions": [],
+  "pathogens": [],
+  "species": [
+    {
+      "behavior": [
+        "wandering"
+      ],
+      "born_generation": 0,
+      "extinct_generation": null,
+      "extinction_cause": null,
+      "genetic_diversity": 0.3932,
+      "id": "sp-00001",
+      "morphology": {
+        "appendages": 3,
+        "armor": "soft",
+        "body_scale": 0.62,
+        "profile": "producer",
+        "sensory": "simple",
+        "symmetry": "radial"
+      },
+      "name": "pale filament",
+      "native_lineage": "PHYLUM/origin",
+      "offspring_lineages": [],
+      "parent_id": null,
+      "peak_population": 338.82,
+      "peak_range": 12,
+      "population": 338.82,
+      "regions_seen": [
+        "central reach",
+        "northern reach"
+      ],
+      "role": "producer"
+    },
+    {
+      "behavior": [
+        "wandering"
+      ],
+      "born_generation": 0,
+      "extinct_generation": null,
+      "extinction_cause": null,
+      "genetic_diversity": 0.472,
+      "id": "sp-00002",
+      "morphology": {
+        "appendages": 3,
+        "armor": "soft",
+        "body_scale": 0.88,
+        "profile": "producer",
+        "sensory": "simple",
+        "symmetry": "bilateral"
+      },
+      "name": "silt frond",
+      "native_lineage": "PHYLUM/origin",
+      "offspring_lineages": [],
+      "parent_id": null,
+      "peak_population": 382.3,
+      "peak_range": 12,
+      "population": 382.3,
+      "regions_seen": [
+        "central reach",
+        "southern reach"
+      ],
+      "role": "producer"
+    },
+    {
+      "behavior": [
+        "wandering"
+      ],
+      "born_generation": 0,
+      "extinct_generation": null,
+      "extinction_cause": null,
+      "genetic_diversity": 0.395,
+      "id": "sp-00003",
+      "morphology": {
+        "appendages": 3,
+        "armor": "soft",
+        "body_scale": 0.43,
+        "profile": "producer",
+        "sensory": "simple",
+        "symmetry": "bilateral"
+      },
+      "name": "glass mote",
+      "native_lineage": "PHYLUM/origin",
+      "offspring_lineages": [],
+      "parent_id": null,
+      "peak_population": 319.69,
+      "peak_range": 13,
+      "population": 319.69,
+      "regions_seen": [
+        "eastern reach"
+      ],
+      "role": "producer"
+    }
+  ],
+  "world": {
+    "active_lineage": "zerrfeit/PHYLUM",
+    "clocks": {
+      "climate": 0.0,
+      "ecology": 7,
+      "evolution": 0.0,
+      "geology": 0.0
+    },
+    "created_utc": "2026-08-08T22:26:00+00:00",
+    "detritus": 0.0,
+    "era": {
+      "index": 1,
+      "name": "Origin Era",
+      "started_generation": 0
+    },
+    "extinct_species": 0,
+    "generation": 7,
+    "last_evolved_utc": "2026-08-10T00:29:43+00:00",
+    "living_species": 3,
+    "name": "PHYLUM",
+    "next_pathogen_id": 1,
+    "next_species_id": 4,
+    "occupied_cells": 37,
+    "root_lineage": "PHYLUM/origin",
+    "schema_version": 10,
+    "seed": 314159265,
+    "statistics": {
+      "active_pathogens": 0,
+      "competition_links": 0,
+      "largest_population_ever": 382.3,
+      "largest_range_ever": 13,
+      "most_descendants": "pale filament",
+      "oldest_living_lineage": "pale filament",
+      "pathogens_ever": 0,
+      "predator_prey_links": 0,
+      "species_ever": 3
+    },
+    "total_population": 1040.81
+  }
+}

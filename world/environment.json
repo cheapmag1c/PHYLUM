@@ -1,8 +1,29 @@
 {
+  "ancestral_refugia": [
+    {
+      "radius": 13,
+      "species_id": "sp-00001",
+      "x": 65.278,
+      "y": 29.722
+    },
+    {
+      "radius": 13,
+      "species_id": "sp-00002",
+      "x": 90.278,
+      "y": 80.0
+    },
+    {
+      "radius": 13,
+      "species_id": "sp-00003",
+      "x": 133.974,
+      "y": 41.667
+    }
+  ],
   "height": 100,
   "moisture": 0.5425,
   "resources": 0.6929,
   "scars": [],
+  "season_phase": 0.0,
   "temperature": 0.5389,
   "width": 160
 }

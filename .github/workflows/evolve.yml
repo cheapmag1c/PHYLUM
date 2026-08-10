@@ -15,28 +15,30 @@ concurrency:
 jobs:
   evolve:
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out lineage
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
       - name: Advance one generation
         run: python -m phylum evolve --steps 1 --lineage "$GITHUB_REPOSITORY"
 
-      - name: Verify simulation
+      - name: Verify simulation invariants
         run: python -m unittest discover -s tests -v
+
+      - name: Print state
+        run: python -m phylum status
 
       - name: Commit fossil record
         shell: bash
         run: |
-          if git diff --quiet; then
+          if git diff --quiet && [ -z "$(git ls-files --others --exclude-standard)" ]; then
             echo "No world changes detected."
             exit 0
           fi
@@ -46,6 +48,6 @@ jobs:
 
           MESSAGE="$(python -m phylum commit-message)"
 
-          git add world/ renders/ fossils/ README.md
+          git add world/ renders/ fossils/ docs/ README.md
           git commit -m "$MESSAGE"
           git push origin "HEAD:${GITHUB_REF_NAME}"

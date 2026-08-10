@@ -2,47 +2,35 @@ from __future__ import annotations
 
 import argparse
 import json
+from pathlib import Path
 
-from .core import commit_message, evolve_one, load_state
+from .core import commit_message, compare, contact, evolve_one, load_state, migrate_current_state
+from .storage import load_extended
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(prog="phylum", description="A world that evolves through Git history.")
-    sub = parser.add_subparsers(dest="command", required=True)
+    parser=argparse.ArgumentParser(prog="phylum",description="A living world whose fossil record is Git history.")
+    sub=parser.add_subparsers(dest="command",required=True)
+    e=sub.add_parser("evolve",help="Advance the biosphere"); e.add_argument("--steps",type=int,default=1); e.add_argument("--lineage",default=None)
+    sub.add_parser("status",help="Print current state")
+    sub.add_parser("commit-message",help="Print the canonical generation commit message")
+    m=sub.add_parser("migrate",help="Upgrade the current world schema without advancing a generation"); m.add_argument("--lineage",default=None)
+    c=sub.add_parser("compare",help="Compare this PHYLUM timeline with another checkout"); c.add_argument("other_repo")
+    ct=sub.add_parser("contact",help="Resolve a branch encounter as a biological contact event"); ct.add_argument("other_repo")
+    args=parser.parse_args()
+    if args.command=="evolve":
+        result=None
+        for _ in range(max(1,args.steps)): result=evolve_one(args.lineage)
+        w=result["world"]; print(f"PHYLUM generation {w['generation']} · {w['living_species']} living lineages · {int(w['total_population'])} organisms")
+        for ev in result["events"]: print(f"- {ev['text']}")
+    elif args.command=="status":
+        w,s,e,p,plates,b,i=load_extended(); live=sorted((x for x in s if x.get("extinct_generation") is None),key=lambda x:x.get("population",0),reverse=True)
+        print(json.dumps({"generation":w.get("generation"),"era":w.get("era",{}).get("name"),"lineage":b.get("lineage",w.get("active_lineage")),"living_species":len(live),"extinct_species":sum(x.get("extinct_generation") is not None for x in s),"population":int(sum(float(x.get("population",0)) for x in live)),"dominant":live[0].get("name") if live else None,"active_pathogens":sum(x.get("extinct_generation") is None for x in p),"plates":len(plates.get("plates",[])),"predator_prey_links":sum(x.get("type")=="predation" for x in i)},indent=2))
+    elif args.command=="commit-message": print(commit_message())
+    elif args.command=="migrate":
+        result=migrate_current_state(args.lineage,True); print(f"Migrated PHYLUM generation {result['world']['generation']} to schema {result['world']['schema_version']} without advancing time.")
+    elif args.command=="compare": print(json.dumps(compare(args.other_repo),indent=2))
+    elif args.command=="contact":
+        events=contact(args.other_repo); print("\n".join(e["text"] for e in events) if events else "No new contact event was required.")
 
-    evolve = sub.add_parser("evolve", help="Advance the world")
-    evolve.add_argument("--steps", type=int, default=1)
-    evolve.add_argument("--lineage", default=None, help="Lineage salt, normally owner/repository")
-
-    sub.add_parser("status", help="Print current state")
-    sub.add_parser("commit-message", help="Print a commit message for the current generation")
-
-    args = parser.parse_args()
-    if args.command == "evolve":
-        result = None
-        for _ in range(max(1, args.steps)):
-            result = evolve_one(args.lineage)
-        assert result is not None
-        w = result["world"]
-        print(f"PHYLUM generation {w['generation']} · {w['living_species']} living lineages · {int(w['total_population'])} organisms")
-        for e in result["events"]:
-            print(f"- {e['text']}")
-    elif args.command == "status":
-        w, species, env = load_state()
-        living = sorted((s for s in species if s.get("extinct_generation") is None), key=lambda s: s["population"], reverse=True)
-        payload = {
-            "generation": w["generation"],
-            "lineage": w["active_lineage"],
-            "living_species": len(living),
-            "extinct_species": w["extinct_species"],
-            "population": int(w["total_population"]),
-            "dominant": living[0]["name"] if living else None,
-            "climate": {k: env[k] for k in ("temperature", "moisture", "resources")},
-        }
-        print(json.dumps(payload, indent=2))
-    elif args.command == "commit-message":
-        print(commit_message())
-
-
-if __name__ == "__main__":
-    main()
+if __name__=="__main__": main()
