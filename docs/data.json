@@ -8,7 +8,134 @@
     "root_fingerprint": "9b4ca63e176c1fa9263d",
     "schema_version": 2
   },
-  "changes": {},
+  "changes": {
+    "ended_interactions": [],
+    "events": [
+      {
+        "generation": 11,
+        "kind": "observation",
+        "subject": "world",
+        "text": "The biosphere advances through generation 11."
+      }
+    ],
+    "from_generation": 10,
+    "lineages": [
+      {
+        "centroid_from": [
+          26.583,
+          23.5
+        ],
+        "centroid_to": [
+          26.818,
+          23.455
+        ],
+        "genetic_diversity_after": 0.47804,
+        "genetic_diversity_before": 0.4783,
+        "id": "sp-00002",
+        "infection_peak_after": 0,
+        "infection_peak_before": 0,
+        "movement": 0.239,
+        "name": "silt frond",
+        "population_after": 326.05,
+        "population_before": 339.22,
+        "population_delta": -13.17,
+        "population_percent": -3.88,
+        "range_after": 11,
+        "range_before": 12,
+        "range_delta": -1,
+        "role": "producer",
+        "status": "living"
+      },
+      {
+        "centroid_from": [
+          39.429,
+          12.143
+        ],
+        "centroid_to": [
+          39.429,
+          12.143
+        ],
+        "genetic_diversity_after": 0.40126,
+        "genetic_diversity_before": 0.3976,
+        "id": "sp-00003",
+        "infection_peak_after": 0,
+        "infection_peak_before": 0,
+        "movement": 0.0,
+        "name": "glass mote",
+        "population_after": 334.48,
+        "population_before": 329.38,
+        "population_delta": 5.1,
+        "population_percent": 1.55,
+        "range_after": 14,
+        "range_before": 14,
+        "range_delta": 0,
+        "role": "producer",
+        "status": "living"
+      },
+      {
+        "centroid_from": [
+          18.769,
+          8.538
+        ],
+        "centroid_to": [
+          18.769,
+          8.538
+        ],
+        "genetic_diversity_after": 0.39809,
+        "genetic_diversity_before": 0.396,
+        "id": "sp-00001",
+        "infection_peak_after": 0,
+        "infection_peak_before": 0,
+        "movement": 0.0,
+        "name": "pale filament",
+        "population_after": 355.75,
+        "population_before": 352.24,
+        "population_delta": 3.51,
+        "population_percent": 1.0,
+        "range_after": 13,
+        "range_before": 13,
+        "range_delta": 0,
+        "role": "producer",
+        "status": "living"
+      }
+    ],
+    "markers": [
+      {
+        "glyph": "\u2022",
+        "id": "ev-000011-00",
+        "kind": "observation",
+        "position": null,
+        "subject": "world",
+        "text": "The biosphere advances through generation 11."
+      }
+    ],
+    "new_interactions": [],
+    "new_pathogens": [],
+    "resolved_pathogens": [],
+    "schema_version": 1,
+    "summary": {
+      "ended_predation_links": 0,
+      "events": 1,
+      "living_after": 3,
+      "living_before": 3,
+      "living_delta": 0,
+      "moisture_delta": 0.0044,
+      "new_competition_links": 0,
+      "new_pathogens": 0,
+      "new_predation_links": 0,
+      "occupied_after": 38,
+      "occupied_before": 39,
+      "occupied_delta": -1,
+      "population_after": 1016.28,
+      "population_before": 1020.84,
+      "population_delta": -4.56,
+      "population_percent": -0.45,
+      "resolved_pathogens": 0,
+      "resources_delta": -0.0023,
+      "temperature_delta": 0.0026
+    },
+    "to_generation": 11
+  },
   "environment": {
     "ancestral_refugia": [
       {
@@ -32,11 +159,11 @@
     ],
     "biotic_modifiers": [],
     "height": 100,
-    "moisture": 0.5462,
-    "resources": 0.6958,
+    "moisture": 0.5506,
+    "resources": 0.6935,
     "scars": [],
-    "season_phase": 0.99,
-    "temperature": 0.5399,
+    "season_phase": 1.32,
+    "temperature": 0.5425,
     "width": 160
   },
   "events": [
@@ -63,6 +190,12 @@
       "kind": "observation",
       "subject": "world",
       "text": "The biosphere advances through generation 10."
+    },
+    {
+      "generation": 11,
+      "kind": "observation",
+      "subject": "world",
+      "text": "The biosphere advances through generation 11."
     }
   ],
   "history": [
@@ -113,6 +246,22 @@
       "predation_links": 0,
       "resources": 0.6958,
       "temperature": 0.5399
+    },
+    {
+      "era": "Origin Era",
+      "events": [
+        "observation"
+      ],
+      "extinct": 0,
+      "generation": 11,
+      "living": 3,
+      "moisture": 0.5506,
+      "occupied_cells": 38,
+      "pathogens": 0,
+      "population": 1016.28,
+      "predation_links": 0,
+      "resources": 0.6935,
+      "temperature": 0.5425
     }
   ],
   "interactions": [],
@@ -125,7 +274,7 @@
       "born_generation": 0,
       "extinct_generation": null,
       "extinction_cause": null,
-      "genetic_diversity": 0.396,
+      "genetic_diversity": 0.3981,
       "id": "sp-00001",
       "morphology": {
         "appendages": 3,
@@ -139,9 +288,9 @@
       "native_lineage": "PHYLUM/origin",
       "offspring_lineages": [],
       "parent_id": null,
-      "peak_population": 352.24,
+      "peak_population": 355.75,
       "peak_range": 13,
-      "population": 352.24,
+      "population": 355.75,
       "regions_seen": [
         "central reach",
         "northern reach",
@@ -156,7 +305,7 @@
       "born_generation": 0,
       "extinct_generation": null,
       "extinction_cause": null,
-      "genetic_diversity": 0.4783,
+      "genetic_diversity": 0.478,
       "id": "sp-00002",
       "morphology": {
         "appendages": 3,
@@ -172,7 +321,7 @@
       "parent_id": null,
       "peak_population": 382.3,
       "peak_range": 12,
-      "population": 339.22,
+      "population": 326.05,
       "regions_seen": [
         "central reach",
         "southern reach"
@@ -186,7 +335,7 @@
       "born_generation": 0,
       "extinct_generation": null,
       "extinction_cause": null,
-      "genetic_diversity": 0.3976,
+      "genetic_diversity": 0.4013,
       "id": "sp-00003",
       "morphology": {
         "appendages": 3,
@@ -200,9 +349,9 @@
       "native_lineage": "PHYLUM/origin",
       "offspring_lineages": [],
       "parent_id": null,
-      "peak_population": 329.38,
+      "peak_population": 334.48,
       "peak_range": 14,
-      "population": 329.38,
+      "population": 334.48,
       "regions_seen": [
         "eastern reach"
       ],
@@ -212,26 +361,26 @@
   "world": {
     "active_lineage": "zerrfeit/PHYLUM",
     "clocks": {
-      "climate": 0.105,
-      "ecology": 10,
-      "evolution": 0.54,
-      "geology": 0.018
+      "climate": 0.14,
+      "ecology": 11,
+      "evolution": 0.72,
+      "geology": 0.024
     },
     "created_utc": "2026-08-08T22:26:00+00:00",
-    "detritus": 13.19,
+    "detritus": 15.98,
     "era": {
       "index": 1,
       "name": "Origin Era",
       "started_generation": 0
     },
     "extinct_species": 0,
-    "generation": 10,
-    "last_evolved_utc": "2026-08-10T10:44:50+00:00",
+    "generation": 11,
+    "last_evolved_utc": "2026-08-10T15:09:43+00:00",
     "living_species": 3,
     "name": "PHYLUM",
     "next_pathogen_id": 1,
     "next_species_id": 4,
-    "occupied_cells": 39,
+    "occupied_cells": 38,
     "root_lineage": "PHYLUM/origin",
     "schema_version": 10,
     "seed": 314159265,
@@ -246,6 +395,6 @@
       "predator_prey_links": 0,
       "species_ever": 3
     },
-    "total_population": 1020.84
+    "total_population": 1016.28
   }
 }

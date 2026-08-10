@@ -1,3 +1,4 @@
 {"era": "Origin Era", "events": ["migration"], "extinct": 0, "generation": 8, "living": 3, "moisture": 0.5437, "occupied_cells": 39, "pathogens": 0, "population": 1032.78, "predation_links": 0, "resources": 0.6927, "temperature": 0.5428}
 {"era": "Origin Era", "events": ["observation"], "extinct": 0, "generation": 9, "living": 3, "moisture": 0.5432, "occupied_cells": 39, "pathogens": 0, "population": 1026.57, "predation_links": 0, "resources": 0.693, "temperature": 0.5439}
 {"era": "Origin Era", "events": ["observation"], "extinct": 0, "generation": 10, "living": 3, "moisture": 0.5462, "occupied_cells": 39, "pathogens": 0, "population": 1020.84, "predation_links": 0, "resources": 0.6958, "temperature": 0.5399}
+{"era": "Origin Era", "events": ["observation"], "extinct": 0, "generation": 11, "living": 3, "moisture": 0.5506, "occupied_cells": 38, "pathogens": 0, "population": 1016.28, "predation_links": 0, "resources": 0.6935, "temperature": 0.5425}
