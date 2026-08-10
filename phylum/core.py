@@ -16,6 +16,7 @@ from .constants import CHECKPOINT_INTERVAL, EVENT_PRIORITY, GRID_COLS, GRID_ROWS
 from .disease import evolve_diseases, migrate_pathogen_schema
 from .observation import build_changes, capture_observation
 from .soma import ensure_soma_schema, finalize_soma_generation, prepare_soma_generation, validate_soma_state
+from .paleon import ensure_paleon_state, finalize_paleon_generation, validate_paleon_state
 from .planet import climate_at, initialize_plates, region_name
 from .storage import (
     ATLAS_HISTORY_PATH, BRANCH_PATH, CHANGES_PATH, CHECKPOINT_DIR, ENV_PATH, EVENTS_PATH, HISTORY_PATH, INTERACTIONS_PATH,
@@ -109,6 +110,7 @@ def ensure_schema(lineage: str | None = None, save: bool = False) -> tuple[dict[
     for sp in species: ensure_soma_schema(sp,seed,int(world["generation"]),species_by_id)
     migrate_pathogen_schema(pathogens)
     if not plates or not plates.get("plates"): plates=initialize_plates(seed,env)
+    ensure_paleon_state(world,env,plates,species)
     lineage=lineage or os.getenv("GITHUB_REPOSITORY") or world.get("active_lineage") or "local/PHYLUM"
     ensure_branch(world,branch,lineage)
     world["next_species_id"]=max(int(world.get("next_species_id",1)),max([int(str(s.get("id","sp-0")).split("-")[-1]) for s in species if str(s.get("id","")).startswith("sp-")] or [0])+1)
@@ -170,6 +172,7 @@ def validate_state(world: dict[str,Any], species: list[dict[str,Any]], env: dict
     if not 0<=float(env.get("temperature",0.5))<=1: errors.append("temperature out of bounds")
     if not 0<=float(env.get("moisture",0.5))<=1: errors.append("moisture out of bounds")
     if not plates.get("plates"): errors.append("no tectonic plates")
+    errors.extend(validate_paleon_state(world,env,plates))
     for sp in species:
         pop=float(sp.get("population",0))
         if pop<0 or pop>1e10: errors.append(f"invalid population {sp.get('id')}")
@@ -244,6 +247,7 @@ def evolve_one(lineage: str | None = None) -> dict[str,Any]:
     apply_ecosystem_engineering(species,env)
     events.extend(apply_mass_extinction(world,species,env,plates,random.Random(rng.getrandbits(64))))
     events.extend(finalize_soma_generation(world,species,env,interactions,random.Random(rng.getrandbits(64))))
+    events.extend(finalize_paleon_generation(world,species,env,plates,interactions,random.Random(rng.getrandbits(64))))
     _maybe_era(world,events,random.Random(rng.getrandbits(64)))
     world["last_evolved_utc"]=now_utc()
     _update_statistics(world,species,pathogens,interactions)

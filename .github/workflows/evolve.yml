@@ -38,6 +38,9 @@ jobs:
       - name: Print generation delta
         run: python -m phylum changes
 
+      - name: Print PALEON planetary state
+        run: python -m phylum paleon
+
       - name: Commit fossil record
         shell: bash
         run: |

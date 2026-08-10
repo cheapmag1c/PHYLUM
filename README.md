@@ -31,6 +31,10 @@ Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 
 ![PHYLUM food web](renders/foodweb.svg?gen=000014)
 
+## Planetary system — PALEON
+
+![PHYLUM PALEON planetary system](renders/paleon.svg?gen=000014)
+
 ## Living organisms — SOMA
 
 ![PHYLUM SOMA field guide](renders/soma.svg?gen=000014)
@@ -110,12 +114,14 @@ PHYLUM/
 │   ├── disease.py                  # pathogens and immunity
 │   ├── observation.py              # WITNESS generation deltas
 │   ├── soma.py                     # organismal biology, development and field guide
-│   ├── planet.py                   # climate, geography and tectonics
+│   ├── paleon.py                   # DEEP TIME 2.0 coupled planetary engine
+│   ├── planet.py                   # compatibility surface delegated to PALEON
 │   ├── render.py                   # atlas, phylogeny, food web and Observatory
 │   └── ...
 ├── renders/
 │   ├── current.svg                 # World Atlas
 │   ├── soma.svg                    # SOMA organism field guide
+│   ├── paleon.svg                  # PALEON planetary systems plate
 │   ├── organisms/                  # per-lineage schematic plates
 │   ├── phylogeny.svg
 │   └── foodweb.svg
@@ -132,15 +138,15 @@ PHYLUM/
 ```
 
 
-## Current model — SOMA
+## Current model — PALEON + SOMA
 
-PHYLUM runs **DEEP TIME** as its planetary and evolutionary engine, **WITNESS** as its observation layer, and **SOMA** as its organismal biology layer. **DEEP TIME governs the world. WITNESS records the evidence. SOMA gives the lineages bodies and lives.**
+PHYLUM runs **PALEON (DEEP TIME 2.0)** as its coupled planetary engine, **WITNESS** as its observation layer, and **SOMA** as its organismal biology layer. **PALEON makes the planet an evolutionary force. SOMA gives the lineages bodies and lives. WITNESS records the evidence.**
 
-SOMA adds demographic life stages, aging and lifespan, reproductive and mating systems, sexual selection, parental care, development and metamorphosis, inherited body plans, locomotion, feeding structures, sensory systems, defenses, physiology, metabolism, thermoregulation, dormancy, microbiome traits, social organization, communication, phenotypic variation, predator/prey selection pressure and emergent symbiosis. Descendants inherit organismal architecture from their ancestors, so morphology remains continuous across the phylogeny.
+PALEON adds interacting atmosphere, ocean, cryosphere, hydrology, carbon and nutrient cycles, soil fertility, ecological succession, tectonic boundary mechanics, erosion/sedimentation proxies, dynamic sea level, extreme weather and SOMA-aware life-to-planet feedback. Climate and productivity now emerge from latitude, relief, greenhouse forcing, water availability, ocean influence, nutrients and long-lived disturbances rather than a single global noise field.
 
-The generated `renders/soma.svg` field guide and `docs/soma.html` catalog reconstruct every lineage from deterministic inherited state. SOMA remains population-aggregate rather than simulating every individual, preserving PHYLUM's ability to run for deep time in GitHub Actions.
+Life is no longer only responding to the world: autotrophy, respiration, decomposition, ecosystem engineering and aquatic productivity can slowly alter atmospheric chemistry, soils, nutrients and ocean oxygen. Those planetary changes feed back into DEEP TIME ecology and SOMA physiology.
 
-Nothing is scheduled to happen at a specific generation. PHYLUM creates conditions and lets history emerge from them.
+The generated `renders/paleon.svg` plate and `docs/paleon.html` dossier expose the current planetary system. Nothing is scheduled for a particular generation; thresholds, climate regimes, tectonic events and feedbacks emerge from state.
 
 
 ## Observatory
@@ -149,7 +155,7 @@ Every generation regenerates a static Observatory in `docs/`. The layered World 
 
 WITNESS also adds a **CHANGES** view for generation-to-generation population, range, lineage, pathogen, predation, movement and infection deltas. The Observatory retains lineage and fossil browsers, branch ancestry/contact history, event timelines and deep-time atlas snapshots. Enable GitHub Pages from the repository's `docs/` folder to turn it into a live observation station.
 
-Open the generated **SOMA Field Guide** at `docs/soma.html` for organism plates, life cycles, physiology, reproduction and behavior.
+Open the generated **SOMA Field Guide** at `docs/soma.html` for organism plates, life cycles, physiology, reproduction and behavior. Open the **PALEON planetary dossier** at `docs/paleon.html` for atmosphere, ocean, cryosphere, nutrient-cycle and hydrology state.
 
 Branch tools: `python -m phylum compare ../OTHER-PHYLUM` and `python -m phylum contact ../OTHER-PHYLUM`. See `PHYLUM_MERGE.md` for the biological contact rule.
 

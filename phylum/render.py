@@ -559,3 +559,65 @@ def render_all(world: dict[str,Any], species: list[dict[str,Any]], env: dict[str
     render_soma_assets(world,species,env,interactions,Path(__file__).resolve().parents[1])
     update_readme(world,species,pathogens,interactions)
     render_observatory(world,species,env,pathogens,plates,branch,interactions,svg)
+
+# === PALEON RENDER LAYER v2 START ===
+# Keep the existing World Atlas / WITNESS / SOMA render stack intact and layer
+# the DEEP TIME 2.0 planetary dossier on top of it.
+import re as _paleon_re
+from .paleon import render_paleon_assets as _render_paleon_assets
+
+_paleon_legacy_update_readme = update_readme
+
+def update_readme(world, species, pathogens, interactions):
+    _paleon_legacy_update_readme(world, species, pathogens, interactions)
+    gen = int(world.get("generation", 0))
+    text = README_PATH.read_text(encoding="utf-8")
+    if "renders/paleon.svg" not in text:
+        marker = "## Living organisms — SOMA"
+        insertion = f"## Planetary system — PALEON\n\n![PHYLUM PALEON planetary system](renders/paleon.svg?gen={gen:06d})\n\n"
+        text = text.replace(marker, insertion + marker) if marker in text else text + "\n\n" + insertion
+    else:
+        text = _paleon_re.sub(r"renders/paleon\.svg\?gen=[^\)\s]+", f"renders/paleon.svg?gen={gen:06d}", text)
+
+    model = (
+        "## Current model — PALEON + SOMA\n\n"
+        "PHYLUM runs **PALEON (DEEP TIME 2.0)** as its coupled planetary engine, **WITNESS** as its observation layer, and **SOMA** as its organismal biology layer. "
+        "**PALEON makes the planet an evolutionary force. SOMA gives the lineages bodies and lives. WITNESS records the evidence.**\n\n"
+        "PALEON adds interacting atmosphere, ocean, cryosphere, hydrology, carbon and nutrient cycles, soil fertility, ecological succession, tectonic boundary mechanics, erosion/sedimentation proxies, dynamic sea level, extreme weather and SOMA-aware life-to-planet feedback. "
+        "Climate and productivity now emerge from latitude, relief, greenhouse forcing, water availability, ocean influence, nutrients and long-lived disturbances rather than a single global noise field.\n\n"
+        "Life is no longer only responding to the world: autotrophy, respiration, decomposition, ecosystem engineering and aquatic productivity can slowly alter atmospheric chemistry, soils, nutrients and ocean oxygen. Those planetary changes feed back into DEEP TIME ecology and SOMA physiology.\n\n"
+        "The generated `renders/paleon.svg` plate and `docs/paleon.html` dossier expose the current planetary system. Nothing is scheduled for a particular generation; thresholds, climate regimes, tectonic events and feedbacks emerge from state.\n"
+    )
+    if _paleon_re.search(r"## Current model(?: — [^\n]+)?\n", text):
+        text = _paleon_re.sub(r"## Current model(?: — [^\n]+)?\n.*?(?=\n## Observatory|\n## License)", model + "\n", text, flags=_paleon_re.S)
+    else:
+        anchor = "\n## Observatory" if "\n## Observatory" in text else "\n## License"
+        text = text.replace(anchor, "\n" + model + anchor) if anchor in text else text + "\n\n" + model
+
+    # The legacy generator writes Anatomy first; upgrade just the planet section
+    # after it runs so future generations cannot regress the documentation.
+    if "│   ├── paleon.py" not in text:
+        text = text.replace(
+            "│   ├── planet.py                   # climate, geography and tectonics\n",
+            "│   ├── paleon.py                   # DEEP TIME 2.0 coupled planetary engine\n"
+            "│   ├── planet.py                   # compatibility surface delegated to PALEON\n",
+        )
+    if "│   ├── paleon.svg" not in text:
+        text = text.replace(
+            "│   ├── soma.svg                    # SOMA organism field guide\n",
+            "│   ├── soma.svg                    # SOMA organism field guide\n"
+            "│   ├── paleon.svg                  # PALEON planetary systems plate\n",
+        )
+    if "PALEON planetary dossier" not in text and "## Observatory\n" in text:
+        text = text.replace(
+            "Open the generated **SOMA Field Guide** at `docs/soma.html` for organism plates, life cycles, physiology, reproduction and behavior.\n\n",
+            "Open the generated **SOMA Field Guide** at `docs/soma.html` for organism plates, life cycles, physiology, reproduction and behavior. Open the **PALEON planetary dossier** at `docs/paleon.html` for atmosphere, ocean, cryosphere, nutrient-cycle and hydrology state.\n\n",
+        )
+    README_PATH.write_text(text, encoding="utf-8")
+
+_paleon_legacy_render_all = render_all
+
+def render_all(world, species, env, pathogens, plates, branch, interactions):
+    _paleon_legacy_render_all(world, species, env, pathogens, plates, branch, interactions)
+    _render_paleon_assets(world, species, env, plates, Path(__file__).resolve().parents[1])
+# === PALEON RENDER LAYER v2 END ===

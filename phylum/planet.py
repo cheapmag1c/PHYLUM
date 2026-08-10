@@ -290,3 +290,15 @@ def evolve_planet(world: dict[str, Any], env: dict[str, Any], plates: dict[str, 
             "scar_id": scar["id"], "severity": severity,
         })
     return events
+
+# === PALEON ENGINE OVERRIDE v2 START ===
+# DEEP TIME 2.0 keeps planet.py as PHYLUM's compatibility surface while the
+# coupled planetary model lives in paleon.py. Import-time rebinding means
+# biology.py and render.py automatically receive the PALEON implementations.
+from .paleon import (
+    evolve_paleon_planet as evolve_planet,
+    paleon_biome_at as biome_at,
+    paleon_climate_at as climate_at,
+    paleon_geography_at as geography_at,
+)
+# === PALEON ENGINE OVERRIDE v2 END ===

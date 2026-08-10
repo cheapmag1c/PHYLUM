@@ -1,2 +1,2 @@
 """PHYLUM — an autonomous evolutionary world written into Git history."""
-__version__ = "1.2.0"
+__version__ = "1.3.1"

@@ -1,3 +1,11 @@
+## 1.3.1 — PALEON / DEEP TIME 2.0
+
+- Coupled atmosphere, ocean, cryosphere, hydrology, soil, nutrient and carbon-cycle state.
+- Dynamic tectonic boundary mechanics, sea level, ecological succession and climate extremes.
+- SOMA-aware life → planet feedback and planet → ecology feedback.
+- Generated PALEON planetary systems plate and dossier.
+- No generation is consumed during migration.
+
 ## 1.2.0 — SOMA
 
 - Adds population-aggregate life stages, aging, maturity and lifespan.
