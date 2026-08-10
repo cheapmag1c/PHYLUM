@@ -1,21 +1,21 @@
 {
   "active_lineage": "zerrfeit/PHYLUM",
   "clocks": {
-    "climate": 0.175,
-    "ecology": 12,
-    "evolution": 0.9,
-    "geology": 0.03
+    "climate": 0.21,
+    "ecology": 13,
+    "evolution": 1.08,
+    "geology": 0.036
   },
   "created_utc": "2026-08-08T22:26:00+00:00",
-  "detritus": 18.19,
+  "detritus": 19.93,
   "era": {
     "index": 1,
     "name": "Origin Era",
     "started_generation": 0
   },
   "extinct_species": 0,
-  "generation": 12,
-  "last_evolved_utc": "2026-08-10T15:14:19+00:00",
+  "generation": 13,
+  "last_evolved_utc": "2026-08-10T15:33:41+00:00",
   "living_species": 3,
   "name": "PHYLUM",
   "next_pathogen_id": 1,
@@ -35,5 +35,5 @@
     "predator_prey_links": 0,
     "species_ever": 3
   },
-  "total_population": 1012.99
+  "total_population": 1010.88
 }

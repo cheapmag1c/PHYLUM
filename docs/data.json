@@ -12,13 +12,13 @@
     "ended_interactions": [],
     "events": [
       {
-        "generation": 12,
+        "generation": 13,
         "kind": "observation",
         "subject": "world",
-        "text": "The biosphere advances through generation 12."
+        "text": "The biosphere advances through generation 13."
       }
     ],
-    "from_generation": 11,
+    "from_generation": 12,
     "lineages": [
       {
         "centroid_from": [
@@ -29,17 +29,17 @@
           26.818,
           23.455
         ],
-        "genetic_diversity_after": 0.47781,
-        "genetic_diversity_before": 0.47804,
+        "genetic_diversity_after": 0.47908,
+        "genetic_diversity_before": 0.47781,
         "id": "sp-00002",
         "infection_peak_after": 0,
         "infection_peak_before": 0,
         "movement": 0.0,
         "name": "silt frond",
-        "population_after": 313.6,
-        "population_before": 326.05,
-        "population_delta": -12.45,
-        "population_percent": -3.82,
+        "population_after": 301.8,
+        "population_before": 313.6,
+        "population_delta": -11.8,
+        "population_percent": -3.76,
         "range_after": 11,
         "range_before": 11,
         "range_delta": 0,
@@ -55,17 +55,17 @@
           39.429,
           12.143
         ],
-        "genetic_diversity_after": 0.40114,
-        "genetic_diversity_before": 0.40126,
+        "genetic_diversity_after": 0.40022,
+        "genetic_diversity_before": 0.40114,
         "id": "sp-00003",
         "infection_peak_after": 0,
         "infection_peak_before": 0,
         "movement": 0.0,
         "name": "glass mote",
-        "population_after": 340.53,
-        "population_before": 334.48,
-        "population_delta": 6.05,
-        "population_percent": 1.81,
+        "population_after": 347.33,
+        "population_before": 340.53,
+        "population_delta": 6.8,
+        "population_percent": 2.0,
         "range_after": 14,
         "range_before": 14,
         "range_delta": 0,
@@ -81,17 +81,17 @@
           18.769,
           8.538
         ],
-        "genetic_diversity_after": 0.4015,
-        "genetic_diversity_before": 0.39809,
+        "genetic_diversity_after": 0.40346,
+        "genetic_diversity_before": 0.4015,
         "id": "sp-00001",
         "infection_peak_after": 0,
         "infection_peak_before": 0,
         "movement": 0.0,
         "name": "pale filament",
-        "population_after": 358.86,
-        "population_before": 355.75,
-        "population_delta": 3.11,
-        "population_percent": 0.87,
+        "population_after": 361.75,
+        "population_before": 358.86,
+        "population_delta": 2.89,
+        "population_percent": 0.81,
         "range_after": 13,
         "range_before": 13,
         "range_delta": 0,
@@ -102,11 +102,11 @@
     "markers": [
       {
         "glyph": "\u2022",
-        "id": "ev-000012-00",
+        "id": "ev-000013-00",
         "kind": "observation",
         "position": null,
         "subject": "world",
-        "text": "The biosphere advances through generation 12."
+        "text": "The biosphere advances through generation 13."
       }
     ],
     "new_interactions": [],
@@ -119,22 +119,22 @@
       "living_after": 3,
       "living_before": 3,
       "living_delta": 0,
-      "moisture_delta": -0.0007,
+      "moisture_delta": 0.0003,
       "new_competition_links": 0,
       "new_pathogens": 0,
       "new_predation_links": 0,
       "occupied_after": 38,
       "occupied_before": 38,
       "occupied_delta": 0,
-      "population_after": 1012.99,
-      "population_before": 1016.28,
-      "population_delta": -3.29,
-      "population_percent": -0.32,
+      "population_after": 1010.88,
+      "population_before": 1012.99,
+      "population_delta": -2.11,
+      "population_percent": -0.21,
       "resolved_pathogens": 0,
-      "resources_delta": 0.0013,
-      "temperature_delta": -0.0001
+      "resources_delta": -0.0025,
+      "temperature_delta": 0.001
     },
-    "to_generation": 12
+    "to_generation": 13
   },
   "environment": {
     "ancestral_refugia": [
@@ -159,11 +159,11 @@
     ],
     "biotic_modifiers": [],
     "height": 100,
-    "moisture": 0.5499,
-    "resources": 0.6948,
+    "moisture": 0.5502,
+    "resources": 0.6923,
     "scars": [],
-    "season_phase": 1.65,
-    "temperature": 0.5424,
+    "season_phase": 1.98,
+    "temperature": 0.5434,
     "width": 160
   },
   "events": [
@@ -202,6 +202,12 @@
       "kind": "observation",
       "subject": "world",
       "text": "The biosphere advances through generation 12."
+    },
+    {
+      "generation": 13,
+      "kind": "observation",
+      "subject": "world",
+      "text": "The biosphere advances through generation 13."
     }
   ],
   "history": [
@@ -284,6 +290,22 @@
       "predation_links": 0,
       "resources": 0.6948,
       "temperature": 0.5424
+    },
+    {
+      "era": "Origin Era",
+      "events": [
+        "observation"
+      ],
+      "extinct": 0,
+      "generation": 13,
+      "living": 3,
+      "moisture": 0.5502,
+      "occupied_cells": 38,
+      "pathogens": 0,
+      "population": 1010.88,
+      "predation_links": 0,
+      "resources": 0.6923,
+      "temperature": 0.5434
     }
   ],
   "interactions": [],
@@ -296,7 +318,7 @@
       "born_generation": 0,
       "extinct_generation": null,
       "extinction_cause": null,
-      "genetic_diversity": 0.4015,
+      "genetic_diversity": 0.4035,
       "id": "sp-00001",
       "morphology": {
         "appendages": 3,
@@ -310,9 +332,9 @@
       "native_lineage": "PHYLUM/origin",
       "offspring_lineages": [],
       "parent_id": null,
-      "peak_population": 358.86,
+      "peak_population": 361.75,
       "peak_range": 13,
-      "population": 358.86,
+      "population": 361.75,
       "regions_seen": [
         "central reach",
         "northern reach",
@@ -327,7 +349,7 @@
       "born_generation": 0,
       "extinct_generation": null,
       "extinction_cause": null,
-      "genetic_diversity": 0.4778,
+      "genetic_diversity": 0.4791,
       "id": "sp-00002",
       "morphology": {
         "appendages": 3,
@@ -343,7 +365,7 @@
       "parent_id": null,
       "peak_population": 382.3,
       "peak_range": 12,
-      "population": 313.6,
+      "population": 301.8,
       "regions_seen": [
         "central reach",
         "southern reach"
@@ -357,7 +379,7 @@
       "born_generation": 0,
       "extinct_generation": null,
       "extinction_cause": null,
-      "genetic_diversity": 0.4011,
+      "genetic_diversity": 0.4002,
       "id": "sp-00003",
       "morphology": {
         "appendages": 3,
@@ -371,9 +393,9 @@
       "native_lineage": "PHYLUM/origin",
       "offspring_lineages": [],
       "parent_id": null,
-      "peak_population": 340.53,
+      "peak_population": 347.33,
       "peak_range": 14,
-      "population": 340.53,
+      "population": 347.33,
       "regions_seen": [
         "eastern reach"
       ],
@@ -383,21 +405,21 @@
   "world": {
     "active_lineage": "zerrfeit/PHYLUM",
     "clocks": {
-      "climate": 0.175,
-      "ecology": 12,
-      "evolution": 0.9,
-      "geology": 0.03
+      "climate": 0.21,
+      "ecology": 13,
+      "evolution": 1.08,
+      "geology": 0.036
     },
     "created_utc": "2026-08-08T22:26:00+00:00",
-    "detritus": 18.19,
+    "detritus": 19.93,
     "era": {
       "index": 1,
       "name": "Origin Era",
       "started_generation": 0
     },
     "extinct_species": 0,
-    "generation": 12,
-    "last_evolved_utc": "2026-08-10T15:14:19+00:00",
+    "generation": 13,
+    "last_evolved_utc": "2026-08-10T15:33:41+00:00",
     "living_species": 3,
     "name": "PHYLUM",
     "next_pathogen_id": 1,
@@ -417,6 +439,6 @@
       "predator_prey_links": 0,
       "species_ever": 3
     },
-    "total_population": 1012.99
+    "total_population": 1010.88
   }
 }
