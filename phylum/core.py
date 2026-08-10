@@ -690,113 +690,259 @@ def _species_color(sp_id: str, lightness: float = 0.68, saturation: float = 0.52
 
 
 def render_svg(world: dict[str, Any], species: list[dict[str, Any]], env: dict[str, Any]) -> None:
-    width_px, height_px = 960, 600
-    cw, ch = width_px / GRID_COLS, height_px / GRID_ROWS
+    """Render PHYLUM's v0.3 observation map.
+
+    The simulation still operates on the 48x30 biological grid, but the map is
+    deliberately rendered as a continuous scientific observation plate: a
+    higher-resolution environmental field, organic connected ranges, core vs
+    frontier structure, terrain contours, climate telemetry, and lineage cards.
+    """
+    canvas_w, canvas_h = 1200, 760
+    map_x, map_y = 26, 88
+    map_w, map_h = 850, 638
+    panel_x, panel_y = 900, 88
+    panel_w, panel_h = 274, 638
+    cw, ch = map_w / GRID_COLS, map_h / GRID_ROWS
+
+    def rgb(hex_color: str) -> tuple[int, int, int]:
+        value = hex_color.lstrip("#")
+        return tuple(int(value[i:i+2], 16) for i in (0, 2, 4))
+
+    def hx(color: tuple[float, float, float]) -> str:
+        return "#" + "".join(f"{round(clamp(c, 0, 255)):02x}" for c in color)
+
+    def mix(a: str, b: str, amount: float) -> str:
+        ar, ag, ab = rgb(a)
+        br, bg, bb = rgb(b)
+        q = clamp(amount, 0.0, 1.0)
+        return hx((ar + (br-ar)*q, ag + (bg-ag)*q, ab + (bb-ab)*q))
+
+    def terrain_color(temp: float, moisture: float, resources: float, gx: float, gy: float) -> str:
+        # Continuous palette: cold stone -> dry ochre -> moss -> wet forest.
+        dry = "#776d58"
+        temperate = "#526052"
+        wet = "#344f49"
+        cold = "#8a9189"
+        fertile = "#496449"
+        base = mix(dry, wet, moisture)
+        base = mix(base, fertile, clamp((resources - 0.52) * 1.35, 0, 0.62))
+        base = mix(base, cold, clamp((0.34 - temp) * 1.7, 0, 0.62))
+        # Deterministic micro-shading breaks up the old tile-map appearance.
+        phase = (int(world["seed"]) % 271) / 271.0 * math.tau
+        relief = (
+            math.sin(gx * 0.39 + phase)
+            + math.cos(gy * 0.51 - phase * 0.7)
+            + math.sin((gx + gy) * 0.22 + 1.4)
+        ) / 3.0
+        return mix(base, "#b5b09f" if relief > 0 else "#171c19", abs(relief) * 0.09)
+
+    def cell_center(cell: tuple[int, int]) -> tuple[float, float]:
+        gx, gy = cell
+        return map_x + (gx + 0.5) * cw, map_y + (gy + 0.5) * ch
+
+    def local_density(cells: set[tuple[int, int]], cell: tuple[int, int]) -> int:
+        return sum((n in cells) for n in _neighbors(cell))
+
+    def species_profile(sp: dict[str, Any]) -> str:
+        tr = sp["traits"]
+        scores = [
+            (float(tr.get("mobility", 0)), "mobile"),
+            (float(tr.get("fecundity", 0)), "prolific"),
+            (float(tr.get("tolerance", 0)), "tolerant"),
+            (float(tr.get("body_size", 1)) / 8.0, "large-bodied"),
+        ]
+        strongest = max(scores, key=lambda x: x[0])[1]
+        if float(tr.get("tolerance", 0)) < 0.22:
+            return "specialist"
+        if float(tr.get("mobility", 0)) > 0.34:
+            return "disperser"
+        if float(tr.get("fecundity", 0)) > 0.52:
+            return "colonizer"
+        return strongest
+
+    living = [s for s in species if s.get("extinct_generation") is None and s.get("population", 0) > 0]
+    living.sort(key=lambda s: float(s.get("population", 0)), reverse=True)
+    max_pop = max((float(s.get("population", 0)) for s in living), default=1.0)
+    era = str(world.get("era", {}).get("name", "Origin Era"))
+
     parts = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width_px} {height_px}" role="img" aria-label="PHYLUM generation {world["generation"]}">',
-        '<rect width="100%" height="100%" fill="#11110f"/>',
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {canvas_w} {canvas_h}" role="img" aria-label="PHYLUM generation {world["generation"]}">',
+        '<defs>',
+        '<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b0f0d"/><stop offset="1" stop-color="#121813"/></linearGradient>',
+        '<linearGradient id="hudglass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#171d19" stop-opacity=".96"/><stop offset="1" stop-color="#0e120f" stop-opacity=".92"/></linearGradient>',
+        '<filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/><feOffset dy="3" result="o"/><feColorMatrix in="o" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>',
+        '<filter id="softglow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>',
+        '<pattern id="grain" width="17" height="17" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r=".65" fill="#fff" opacity=".035"/><circle cx="11" cy="8" r=".5" fill="#000" opacity=".08"/><circle cx="6" cy="15" r=".45" fill="#fff" opacity=".02"/></pattern>',
+        '</defs>',
+        '<rect width="100%" height="100%" fill="url(#bg)"/>',
+        '<rect x="18" y="18" width="1164" height="724" rx="14" fill="#101511" stroke="#29312b" stroke-width="1.2"/>',
+        '<text x="32" y="51" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="23" font-weight="700" letter-spacing="1.5" fill="#edf1e9">PHYLUM</text>',
+        f'<text x="145" y="51" font-family="ui-monospace, monospace" font-size="12" letter-spacing="1.6" fill="#78857b">OBSERVATION PLATE / GEN {int(world["generation"]):06d}</text>',
+        '<circle cx="1145" cy="42" r="4" fill="#9ccf83"/><text x="1132" y="64" text-anchor="end" font-family="ui-monospace, monospace" font-size="9" fill="#718077">AUTONOMOUS</text>',
+        f'<rect x="{map_x}" y="{map_y}" width="{map_w}" height="{map_h}" rx="9" fill="#1a211c" stroke="#39443b" stroke-width="1"/>',
     ]
 
-    for gy in range(GRID_ROWS):
-        for gx in range(GRID_COLS):
-            x, y = _cell_world_xy((gx, gy), env)
-            t, m, r = env_at(env, x, y, world["seed"])
-            c = _biome_color(t, m, r)
-            parts.append(
-                f'<rect x="{gx*cw:.2f}" y="{gy*ch:.2f}" width="{cw+0.4:.2f}" '
-                f'height="{ch+0.4:.2f}" fill="{c}"/>'
-            )
+    # High-resolution environmental raster. 2x biological resolution removes
+    # visible simulation tiles while keeping the render deterministic.
+    render_cols, render_rows = GRID_COLS * 2, GRID_ROWS * 2
+    rw, rh = map_w / render_cols, map_h / render_rows
+    for sy in range(render_rows):
+        for sx in range(render_cols):
+            wx = (sx + 0.5) / render_cols * env["width"]
+            wy = (sy + 0.5) / render_rows * env["height"]
+            t, m, r = env_at(env, wx, wy, int(world["seed"]))
+            c = terrain_color(t, m, r, sx, sy)
+            parts.append(f'<rect x="{map_x + sx*rw:.2f}" y="{map_y + sy*rh:.2f}" width="{rw+0.35:.2f}" height="{rh+0.35:.2f}" fill="{c}"/>')
 
-    # Shock epicenters remain visible as restrained cartographic scars.
+    # Terrain texture, latitude/longitude reference grid, and procedural contour lines.
+    parts.append(f'<rect x="{map_x}" y="{map_y}" width="{map_w}" height="{map_h}" rx="9" fill="url(#grain)"/>')
+    for gx in range(0, GRID_COLS + 1, 4):
+        px = map_x + gx * cw
+        parts.append(f'<path d="M {px:.2f} {map_y} V {map_y+map_h}" stroke="#d7ddd4" stroke-opacity=".045" stroke-width=".7"/>')
+    for gy in range(0, GRID_ROWS + 1, 4):
+        py = map_y + gy * ch
+        parts.append(f'<path d="M {map_x} {py:.2f} H {map_x+map_w}" stroke="#d7ddd4" stroke-opacity=".045" stroke-width=".7"/>')
+    for i in range(8):
+        yy = map_y + 55 + i * 72
+        wobble = 12 + (i % 3) * 5
+        parts.append(
+            f'<path d="M {map_x} {yy:.1f} C {map_x+180} {yy-wobble:.1f}, {map_x+310} {yy+wobble:.1f}, {map_x+450} {yy-5:.1f} '
+            f'S {map_x+690} {yy+wobble:.1f}, {map_x+map_w} {yy-3:.1f}" fill="none" stroke="#e8ece5" stroke-opacity=".075" stroke-width="1"/>'
+        )
+
+    # Environmental shocks become luminous/charred cartographic overlays.
+    scar_palette = {"drought": "#c39a5a", "cooling": "#9bb8c6", "bloom": "#7dab65"}
     for scar in env.get("scars", []):
-        px = scar["x"] / (env["width"] - 1) * width_px
-        py = scar["y"] / (env["height"] - 1) * height_px
-        rr = scar["radius"] / env["width"] * width_px
-        strength = clamp(float(scar.get("strength", 0)), 0.02, 0.30)
-        parts.append(
-            f'<circle cx="{px:.2f}" cy="{py:.2f}" r="{rr:.2f}" fill="none" '
-            f'stroke="#161512" stroke-opacity="{0.18 + strength:.3f}" stroke-width="2" '
-            f'stroke-dasharray="4 5"><title>{html.escape(str(scar.get("kind", "environmental scar")))}</title></circle>'
-        )
+        px = map_x + float(scar.get("x", 0)) / max(env["width"], 1) * map_w
+        py = map_y + float(scar.get("y", 0)) / max(env["height"], 1) * map_h
+        rr = float(scar.get("radius", 20)) / max(env["width"], 1) * map_w
+        strength = clamp(float(scar.get("strength", 0.1)), 0.02, 0.3)
+        color = scar_palette.get(str(scar.get("kind")), "#b5a889")
+        parts.append(f'<circle cx="{px:.1f}" cy="{py:.1f}" r="{rr:.1f}" fill="{color}" fill-opacity="{strength*0.16:.3f}" stroke="{color}" stroke-opacity="{0.18+strength:.3f}" stroke-width="1.3" stroke-dasharray="5 7"/>')
 
-    # Subtle contour-like lines.
-    for i in range(1, 10):
-        y = i * height_px / 10
-        parts.append(
-            f'<path d="M 0 {y:.1f} C 220 {y-24:.1f}, 420 {y+26:.1f}, 620 {y-10:.1f} '
-            f'S 840 {y+20:.1f}, 960 {y:.1f}" fill="none" stroke="#11110f" '
-            f'stroke-opacity="0.12" stroke-width="1"/>'
-        )
-
-    living = [s for s in species if s.get("extinct_generation") is None and s["population"] > 0]
-
-    # Render extinct ranges first as quiet fossil outlines.
+    # Quiet fossils from recently extinct ranges.
     recent_extinct = sorted(
         (s for s in species if s.get("extinct_generation") is not None and s.get("range")),
-        key=lambda s: int(s["extinct_generation"]),
-        reverse=True,
-    )[:18]
+        key=lambda s: int(s["extinct_generation"]), reverse=True,
+    )[:16]
     for sp in recent_extinct:
-        for gx, gy in _normalize_range(sp):
-            parts.append(
-                f'<rect x="{gx*cw+1.2:.2f}" y="{gy*ch+1.2:.2f}" width="{cw-2.4:.2f}" '
-                f'height="{ch-2.4:.2f}" fill="none" stroke="#171612" stroke-opacity="0.28" '
-                f'stroke-width="1" stroke-dasharray="2 3"/>'
-            )
-
-    # Living lineages are literal geographical ranges now.
-    for sp in sorted(living, key=lambda s: s["population"]):
-        fill_color = _species_color(sp["id"], 0.68, 0.52)
-        stroke_color = _species_color(sp["id"], 0.30, 0.58)
         cells = _normalize_range(sp)
-        for gx, gy in cells:
-            parts.append(
-                f'<rect x="{gx*cw+0.7:.2f}" y="{gy*ch+0.7:.2f}" width="{cw-1.4:.2f}" '
-                f'height="{ch-1.4:.2f}" rx="2" fill="{fill_color}" '
-                f'fill-opacity="0.58" stroke="{stroke_color}" stroke-opacity="0.65" '
-                f'stroke-width="0.8"><title>{html.escape(sp["name"])} — {int(sp["population"])} organisms</title></rect>'
-            )
+        for cell in cells:
+            cx, cy = cell_center(cell)
+            parts.append(f'<circle cx="{cx:.2f}" cy="{cy:.2f}" r="{min(cw,ch)*0.40:.2f}" fill="none" stroke="#b8b09b" stroke-opacity=".18" stroke-width="1" stroke-dasharray="2.5 4"/>')
 
-    # Labels sit at range centroids.
-    max_pop = max((s["population"] for s in living), default=1.0)
-    for sp in living:
+    # Organic ranges. Thick rounded bridges connect occupied cells; a second pass
+    # creates a crisp inner body, making territories read as organisms instead of squares.
+    for sp in reversed(living):
         cells = _normalize_range(sp)
         if not cells:
             continue
-        x, y = _centroid(cells, env)
-        px = x / (env["width"] - 1) * width_px
-        py = y / (env["height"] - 1) * height_px
-        if sp["population"] == max_pop or len(living) <= 10:
-            label = html.escape(sp["name"])
-            parts.append(
-                f'<circle cx="{px:.2f}" cy="{py:.2f}" r="3.2" fill="#f1efe7" stroke="#11110f" stroke-width="1"/>'
-            )
-            parts.append(
-                f'<text x="{px+7:.2f}" y="{py+4:.2f}" font-family="ui-monospace, monospace" '
-                f'font-size="12" fill="#f1efe7" stroke="#11110f" stroke-width="1.3" '
-                f'paint-order="stroke">{label}</text>'
-            )
+        base = _species_color(sp["id"], 0.64, 0.58)
+        edge = _species_color(sp["id"], 0.31, 0.64)
+        core = _species_color(sp["id"], 0.76, 0.52)
+        outer_r = min(cw, ch) * 0.62
+        inner_r = min(cw, ch) * 0.49
+        # Outer silhouette / edge glow.
+        for cell in cells:
+            cx, cy = cell_center(cell)
+            for nx, ny in ((cell[0]+1, cell[1]), (cell[0], cell[1]+1), (cell[0]+1, cell[1]+1), (cell[0]-1, cell[1]+1)):
+                if (nx, ny) in cells:
+                    ex, ey = cell_center((nx, ny))
+                    parts.append(f'<line x1="{cx:.2f}" y1="{cy:.2f}" x2="{ex:.2f}" y2="{ey:.2f}" stroke="{edge}" stroke-opacity=".74" stroke-width="{outer_r*1.85:.2f}" stroke-linecap="round"/>')
+            parts.append(f'<circle cx="{cx:.2f}" cy="{cy:.2f}" r="{outer_r:.2f}" fill="{edge}" fill-opacity=".78"/>')
+        # Inner territory with core/frontier density distinction.
+        for cell in cells:
+            cx, cy = cell_center(cell)
+            density = local_density(cells, cell)
+            opacity = 0.56 + min(density, 8) * 0.035
+            cell_color = core if density >= 5 else base
+            for nx, ny in ((cell[0]+1, cell[1]), (cell[0], cell[1]+1), (cell[0]+1, cell[1]+1), (cell[0]-1, cell[1]+1)):
+                if (nx, ny) in cells:
+                    ex, ey = cell_center((nx, ny))
+                    parts.append(f'<line x1="{cx:.2f}" y1="{cy:.2f}" x2="{ex:.2f}" y2="{ey:.2f}" stroke="{cell_color}" stroke-opacity="{opacity:.3f}" stroke-width="{inner_r*1.72:.2f}" stroke-linecap="round"/>')
+            parts.append(f'<circle cx="{cx:.2f}" cy="{cy:.2f}" r="{inner_r:.2f}" fill="{cell_color}" fill-opacity="{opacity:.3f}"><title>{html.escape(sp["name"])} · {int(sp["population"])} organisms</title></circle>')
+            # Population texture: denser occupied cells contain more luminous observations.
+            dots = 1 + min(3, density // 2)
+            for d in range(dots):
+                token = _stable_int(f'{sp["id"]}:{cell[0]}:{cell[1]}:{d}')
+                angle = (token % 360) / 360 * math.tau
+                rad = (0.20 + ((token // 360) % 55) / 100) * inner_r
+                dx, dy = math.cos(angle) * rad, math.sin(angle) * rad
+                parts.append(f'<circle cx="{cx+dx:.2f}" cy="{cy+dy:.2f}" r="1.05" fill="#f4f1e8" fill-opacity=".26"/>')
 
-    era = world.get("era", {}).get("name", "Origin Era")
-    parts.append('<rect x="16" y="16" width="310" height="91" rx="3" fill="#11110f" fill-opacity="0.84"/>')
-    parts.append(
-        f'<text x="30" y="43" font-family="ui-monospace, monospace" font-size="20" fill="#f1efe7">'
-        f'PHYLUM / GEN {world["generation"]:06d}</text>'
-    )
-    parts.append(
-        f'<text x="30" y="66" font-family="ui-monospace, monospace" font-size="12" fill="#c9c5b8">'
-        f'{len(living)} living lineages · {int(world["total_population"])} organisms · '
-        f'{world.get("occupied_cells", 0)} occupied cells</text>'
-    )
-    parts.append(
-        f'<text x="30" y="88" font-family="ui-monospace, monospace" font-size="12" fill="#c9c5b8">'
-        f'ERA / {html.escape(str(era).upper())}</text>'
-    )
+    # Territory labels are observation callouts rather than map text dropped on top.
+    for idx, sp in enumerate(living[:12]):
+        cells = _normalize_range(sp)
+        if not cells:
+            continue
+        wx, wy = _centroid(cells, env)
+        cx = map_x + wx / max(env["width"], 1) * map_w
+        cy = map_y + wy / max(env["height"], 1) * map_h
+        to_left = cx > map_x + map_w * 0.69
+        lx = cx - 112 if to_left else cx + 22
+        ly = cy + (-18 if idx % 2 == 0 else 20)
+        lx = clamp(lx, map_x + 12, map_x + map_w - 150)
+        ly = clamp(ly, map_y + 28, map_y + map_h - 26)
+        anchor_x = lx + (102 if to_left else 0)
+        color = _species_color(sp["id"], 0.76, 0.54)
+        parts.append(f'<path d="M {cx:.1f} {cy:.1f} L {(cx+anchor_x)/2:.1f} {ly:.1f} L {anchor_x:.1f} {ly:.1f}" fill="none" stroke="{color}" stroke-opacity=".72" stroke-width="1"/>')
+        parts.append(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="3.5" fill="#f1f4ee" stroke="{color}" stroke-width="1.8"/>')
+        parts.append(f'<text x="{lx:.1f}" y="{ly-4:.1f}" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#f4f5f1">{html.escape(sp["name"].upper())}</text>')
+        parts.append(f'<text x="{lx:.1f}" y="{ly+10:.1f}" font-family="ui-monospace, monospace" font-size="8.8" fill="#c0c9c1">{int(sp["population"]):,} · {len(cells)} CELLS · FIT {float(sp.get("last_fitness",0)):.2f}</text>')
+
+    # Map telemetry strips.
+    temp = float(env.get("temperature", 0.5))
+    moist = float(env.get("moisture", 0.5))
+    resources = float(env.get("resources", 0.5))
+    parts.extend([
+        f'<rect x="{map_x+14}" y="{map_y+14}" width="332" height="74" rx="7" fill="url(#hudglass)" stroke="#465148" stroke-width=".8" filter="url(#shadow)"/>',
+        f'<text x="{map_x+30}" y="{map_y+40}" font-family="ui-monospace, monospace" font-size="19" font-weight="700" fill="#f0f3ed">GEN {int(world["generation"]):06d}</text>',
+        f'<text x="{map_x+30}" y="{map_y+61}" font-family="ui-monospace, monospace" font-size="10" letter-spacing="1.1" fill="#9eaaa0">{html.escape(era.upper())}</text>',
+        f'<text x="{map_x+190}" y="{map_y+39}" font-family="ui-monospace, monospace" font-size="10" fill="#d4dbd4">{len(living)} LINEAGES</text>',
+        f'<text x="{map_x+190}" y="{map_y+57}" font-family="ui-monospace, monospace" font-size="10" fill="#d4dbd4">{int(world.get("total_population",0)):,} ORGANISMS</text>',
+        f'<text x="{map_x+190}" y="{map_y+75}" font-family="ui-monospace, monospace" font-size="10" fill="#d4dbd4">{int(world.get("occupied_cells",0)):,} CELLS</text>',
+    ])
+
+    # Compass / scale marks.
+    parts.append(f'<g opacity=".62"><circle cx="{map_x+map_w-35}" cy="{map_y+38}" r="18" fill="#111611" fill-opacity=".72" stroke="#bfc8bf" stroke-opacity=".45"/><path d="M {map_x+map_w-35} {map_y+22} L {map_x+map_w-30} {map_y+39} L {map_x+map_w-35} {map_y+36} L {map_x+map_w-40} {map_y+39} Z" fill="#dce2da"/><text x="{map_x+map_w-35}" y="{map_y+64}" text-anchor="middle" font-family="ui-monospace, monospace" font-size="8" fill="#c5cec5">N</text></g>')
+
+    # Right observation panel.
+    parts.extend([
+        f'<rect x="{panel_x}" y="{panel_y}" width="{panel_w}" height="{panel_h}" rx="9" fill="#0d120f" stroke="#354039" stroke-width="1"/>',
+        f'<text x="{panel_x+18}" y="{panel_y+30}" font-family="ui-monospace, monospace" font-size="11" letter-spacing="1.2" fill="#8e9c92">ENVIRONMENT</text>',
+    ])
+    gauges = [("TEMP", temp, "#c49a72"), ("MOIST", moist, "#78a9a0"), ("RESOURCE", resources, "#83a66f")]
+    gy = panel_y + 50
+    for label, value, color in gauges:
+        parts.append(f'<text x="{panel_x+18}" y="{gy+9}" font-family="ui-monospace, monospace" font-size="9" fill="#c8d0c9">{label}</text>')
+        parts.append(f'<text x="{panel_x+250}" y="{gy+9}" text-anchor="end" font-family="ui-monospace, monospace" font-size="9" fill="#87958b">{value:.3f}</text>')
+        parts.append(f'<rect x="{panel_x+72}" y="{gy+1}" width="142" height="7" rx="3.5" fill="#222b25"/>')
+        parts.append(f'<rect x="{panel_x+72}" y="{gy+1}" width="{142*clamp(value,0,1):.1f}" height="7" rx="3.5" fill="{color}" fill-opacity=".86"/>')
+        gy += 22
+
+    parts.append(f'<path d="M {panel_x+16} {panel_y+126} H {panel_x+panel_w-16}" stroke="#344038"/>')
+    parts.append(f'<text x="{panel_x+18}" y="{panel_y+151}" font-family="ui-monospace, monospace" font-size="11" letter-spacing="1.2" fill="#8e9c92">LIVING LINEAGES</text>')
+
+    card_y = panel_y + 169
+    for sp in living[:7]:
+        cells = _normalize_range(sp)
+        color = _species_color(sp["id"], 0.68, 0.58)
+        pct = float(sp["population"]) / max_pop if max_pop else 0
+        parts.append(f'<rect x="{panel_x+14}" y="{card_y}" width="{panel_w-28}" height="58" rx="6" fill="#141b16" stroke="#2a352d"/>')
+        parts.append(f'<rect x="{panel_x+14}" y="{card_y}" width="4" height="58" rx="2" fill="{color}"/>')
+        parts.append(f'<text x="{panel_x+28}" y="{card_y+19}" font-family="ui-monospace, monospace" font-size="10.5" font-weight="700" fill="#edf1ec">{html.escape(sp["name"].upper())}</text>')
+        parts.append(f'<text x="{panel_x+28}" y="{card_y+35}" font-family="ui-monospace, monospace" font-size="8.5" fill="#8f9d92">{species_profile(sp).upper()} · {len(cells)} CELLS</text>')
+        parts.append(f'<rect x="{panel_x+28}" y="{card_y+44}" width="150" height="5" rx="2.5" fill="#273129"/>')
+        parts.append(f'<rect x="{panel_x+28}" y="{card_y+44}" width="{150*pct:.1f}" height="5" rx="2.5" fill="{color}" fill-opacity=".85"/>')
+        parts.append(f'<text x="{panel_x+246}" y="{card_y+49}" text-anchor="end" font-family="ui-monospace, monospace" font-size="9" fill="#d0d8d1">{int(sp["population"]):,}</text>')
+        card_y += 66
+
+    # Footer metadata.
+    parts.append(f'<text x="{map_x}" y="746" font-family="ui-monospace, monospace" font-size="8.5" fill="#66736a">BIOLOGICAL GRID {GRID_COLS}×{GRID_ROWS} · DISPLAY FIELD {render_cols}×{render_rows} · SEED {world["seed"]}</text>')
+    parts.append(f'<text x="1170" y="746" text-anchor="end" font-family="ui-monospace, monospace" font-size="8.5" fill="#66736a">GIT IS THE FOSSIL RECORD</text>')
     parts.append('</svg>')
-
     RENDER_PATH.parent.mkdir(parents=True, exist_ok=True)
     RENDER_PATH.write_text("\n".join(parts) + "\n", encoding="utf-8")
-
 
 def render_phylogeny(world: dict[str, Any], species: list[dict[str, Any]]) -> None:
     # Keep the artifact readable even after the biosphere becomes huge.
