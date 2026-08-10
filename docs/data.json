@@ -31,11 +31,11 @@
     ],
     "biotic_modifiers": [],
     "height": 100,
-    "moisture": 0.5432,
-    "resources": 0.693,
+    "moisture": 0.5462,
+    "resources": 0.6958,
     "scars": [],
-    "season_phase": 0.66,
-    "temperature": 0.5439,
+    "season_phase": 0.99,
+    "temperature": 0.5399,
     "width": 160
   },
   "events": [
@@ -56,6 +56,12 @@
       "kind": "observation",
       "subject": "world",
       "text": "The biosphere advances through generation 9."
+    },
+    {
+      "generation": 10,
+      "kind": "observation",
+      "subject": "world",
+      "text": "The biosphere advances through generation 10."
     }
   ],
   "history": [
@@ -90,6 +96,22 @@
       "predation_links": 0,
       "resources": 0.693,
       "temperature": 0.5439
+    },
+    {
+      "era": "Origin Era",
+      "events": [
+        "observation"
+      ],
+      "extinct": 0,
+      "generation": 10,
+      "living": 3,
+      "moisture": 0.5462,
+      "occupied_cells": 39,
+      "pathogens": 0,
+      "population": 1020.84,
+      "predation_links": 0,
+      "resources": 0.6958,
+      "temperature": 0.5399
     }
   ],
   "interactions": [],
@@ -102,7 +124,7 @@
       "born_generation": 0,
       "extinct_generation": null,
       "extinction_cause": null,
-      "genetic_diversity": 0.3937,
+      "genetic_diversity": 0.396,
       "id": "sp-00001",
       "morphology": {
         "appendages": 3,
@@ -116,9 +138,9 @@
       "native_lineage": "PHYLUM/origin",
       "offspring_lineages": [],
       "parent_id": null,
-      "peak_population": 348.25,
+      "peak_population": 352.24,
       "peak_range": 13,
-      "population": 348.25,
+      "population": 352.24,
       "regions_seen": [
         "central reach",
         "northern reach",
@@ -133,7 +155,7 @@
       "born_generation": 0,
       "extinct_generation": null,
       "extinction_cause": null,
-      "genetic_diversity": 0.4775,
+      "genetic_diversity": 0.4783,
       "id": "sp-00002",
       "morphology": {
         "appendages": 3,
@@ -149,7 +171,7 @@
       "parent_id": null,
       "peak_population": 382.3,
       "peak_range": 12,
-      "population": 353.07,
+      "population": 339.22,
       "regions_seen": [
         "central reach",
         "southern reach"
@@ -163,7 +185,7 @@
       "born_generation": 0,
       "extinct_generation": null,
       "extinction_cause": null,
-      "genetic_diversity": 0.3983,
+      "genetic_diversity": 0.3976,
       "id": "sp-00003",
       "morphology": {
         "appendages": 3,
@@ -177,9 +199,9 @@
       "native_lineage": "PHYLUM/origin",
       "offspring_lineages": [],
       "parent_id": null,
-      "peak_population": 325.25,
+      "peak_population": 329.38,
       "peak_range": 14,
-      "population": 325.25,
+      "population": 329.38,
       "regions_seen": [
         "eastern reach"
       ],
@@ -189,21 +211,21 @@
   "world": {
     "active_lineage": "zerrfeit/PHYLUM",
     "clocks": {
-      "climate": 0.07,
-      "ecology": 9,
-      "evolution": 0.36,
-      "geology": 0.012
+      "climate": 0.105,
+      "ecology": 10,
+      "evolution": 0.54,
+      "geology": 0.018
     },
     "created_utc": "2026-08-08T22:26:00+00:00",
-    "detritus": 9.7,
+    "detritus": 13.19,
     "era": {
       "index": 1,
       "name": "Origin Era",
       "started_generation": 0
     },
     "extinct_species": 0,
-    "generation": 9,
-    "last_evolved_utc": "2026-08-10T05:11:49+00:00",
+    "generation": 10,
+    "last_evolved_utc": "2026-08-10T10:44:50+00:00",
     "living_species": 3,
     "name": "PHYLUM",
     "next_pathogen_id": 1,
@@ -223,6 +245,6 @@
       "predator_prey_links": 0,
       "species_ever": 3
     },
-    "total_population": 1026.57
+    "total_population": 1020.84
   }
 }
