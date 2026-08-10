@@ -6,38 +6,38 @@ PHYLUM is a small artificial biosphere that advances itself inside a Git reposit
 
 Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 
-![Current PHYLUM world](renders/current.svg?gen=000014)
+![Current PHYLUM world](renders/current.svg?gen=000015)
 
 <!-- PHYLUM:STATE:START -->
-**Generation:** `14`  
+**Generation:** `15`  
 **Era:** `Origin Era`  
 **Living lineages:** `3`  
 **Extinct lineages:** `0`  
-**Population:** `1,017`  
-**Occupied cells:** `39` / `1440`  
+**Population:** `991`  
+**Occupied cells:** `38` / `1440`  
 **Active pathogens:** `1`  
 **Predator/prey links:** `0`  
 **Dominant lineage:** `pale filament`  
-**Last generation Δ:** `+6` organisms · `+1` occupied cells  
-**Latest fossil:** red spore emerges in silt frond.
+**Last generation Δ:** `-25` organisms · `-1` occupied cells  
+**Latest fossil:** The biosphere advances through generation 15.
 <!-- PHYLUM:STATE:END -->
 
 
 ## Living phylogeny
 
-![PHYLUM phylogeny](renders/phylogeny.svg?gen=000014)
+![PHYLUM phylogeny](renders/phylogeny.svg?gen=000015)
 
 ## Living food web
 
-![PHYLUM food web](renders/foodweb.svg?gen=000014)
+![PHYLUM food web](renders/foodweb.svg?gen=000015)
 
 ## Planetary system — PALEON
 
-![PHYLUM PALEON planetary system](renders/paleon.svg?gen=000014)
+![PHYLUM PALEON planetary system](renders/paleon.svg?gen=000015)
 
 ## Living organisms — SOMA
 
-![PHYLUM SOMA field guide](renders/soma.svg?gen=000014)
+![PHYLUM SOMA field guide](renders/soma.svg?gen=000015)
 
 ## The idea
 

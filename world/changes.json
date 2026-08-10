@@ -2,38 +2,37 @@
   "ended_interactions": [],
   "events": [
     {
-      "generation": 14,
-      "host": "sp-00002",
-      "kind": "disease",
-      "subject": "pa-00001",
-      "text": "red spore emerges in silt frond."
+      "generation": 15,
+      "kind": "observation",
+      "subject": "world",
+      "text": "The biosphere advances through generation 15."
     }
   ],
-  "from_generation": 13,
+  "from_generation": 14,
   "lineages": [
     {
       "centroid_from": [
-        39.429,
-        12.143
-      ],
-      "centroid_to": [
         39.2,
         12.2
       ],
-      "genetic_diversity_after": 0.40109,
-      "genetic_diversity_before": 0.40022,
+      "centroid_to": [
+        39.071,
+        12.286
+      ],
+      "genetic_diversity_after": 0.39995,
+      "genetic_diversity_before": 0.40109,
       "id": "sp-00003",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
-      "movement": 0.236,
+      "movement": 0.155,
       "name": "glass mote",
-      "population_after": 357.76,
-      "population_before": 347.33,
-      "population_delta": 10.43,
-      "population_percent": 3.0,
-      "range_after": 15,
-      "range_before": 14,
-      "range_delta": 1,
+      "population_after": 346.5,
+      "population_before": 357.76,
+      "population_delta": -11.26,
+      "population_percent": -3.15,
+      "range_after": 14,
+      "range_before": 15,
+      "range_delta": -1,
       "role": "producer",
       "status": "living"
     },
@@ -46,17 +45,17 @@
         26.818,
         23.455
       ],
-      "genetic_diversity_after": 0.48018,
-      "genetic_diversity_before": 0.47908,
+      "genetic_diversity_after": 0.47971,
+      "genetic_diversity_before": 0.48018,
       "id": "sp-00002",
-      "infection_peak_after": 0.04585,
-      "infection_peak_before": 0,
+      "infection_peak_after": 0.04507,
+      "infection_peak_before": 0.04585,
       "movement": 0.0,
       "name": "silt frond",
-      "population_after": 291.75,
-      "population_before": 301.8,
-      "population_delta": -10.05,
-      "population_percent": -3.33,
+      "population_after": 282.49,
+      "population_before": 291.75,
+      "population_delta": -9.26,
+      "population_percent": -3.17,
       "range_after": 11,
       "range_before": 11,
       "range_delta": 0,
@@ -72,17 +71,17 @@
         18.769,
         8.538
       ],
-      "genetic_diversity_after": 0.40585,
-      "genetic_diversity_before": 0.40346,
+      "genetic_diversity_after": 0.40893,
+      "genetic_diversity_before": 0.40585,
       "id": "sp-00001",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
       "movement": 0.0,
       "name": "pale filament",
-      "population_after": 367.56,
-      "population_before": 361.75,
-      "population_delta": 5.81,
-      "population_percent": 1.61,
+      "population_after": 362.5,
+      "population_before": 367.56,
+      "population_delta": -5.06,
+      "population_percent": -1.38,
       "range_after": 13,
       "range_before": 13,
       "range_delta": 0,
@@ -92,21 +91,16 @@
   ],
   "markers": [
     {
-      "glyph": "\u2723",
-      "id": "ev-000014-00",
-      "kind": "disease",
-      "position": [
-        26.818,
-        23.455
-      ],
-      "subject": "pa-00001",
-      "text": "red spore emerges in silt frond."
+      "glyph": "\u2022",
+      "id": "ev-000015-00",
+      "kind": "observation",
+      "position": null,
+      "subject": "world",
+      "text": "The biosphere advances through generation 15."
     }
   ],
   "new_interactions": [],
-  "new_pathogens": [
-    "pa-00001"
-  ],
+  "new_pathogens": [],
   "resolved_pathogens": [],
   "schema_version": 1,
   "summary": {
@@ -115,20 +109,20 @@
     "living_after": 3,
     "living_before": 3,
     "living_delta": 0,
-    "moisture_delta": 0.0002,
+    "moisture_delta": 0.0004,
     "new_competition_links": 0,
-    "new_pathogens": 1,
+    "new_pathogens": 0,
     "new_predation_links": 0,
-    "occupied_after": 39,
-    "occupied_before": 38,
-    "occupied_delta": 1,
-    "population_after": 1017.07,
-    "population_before": 1010.88,
-    "population_delta": 6.19,
-    "population_percent": 0.61,
+    "occupied_after": 38,
+    "occupied_before": 39,
+    "occupied_delta": -1,
+    "population_after": 991.49,
+    "population_before": 1017.07,
+    "population_delta": -25.58,
+    "population_percent": -2.52,
     "resolved_pathogens": 0,
-    "resources_delta": -0.0006,
-    "temperature_delta": 0.004
+    "resources_delta": -0.38102,
+    "temperature_delta": 6e-05
   },
-  "to_generation": 14
+  "to_generation": 15
 }
