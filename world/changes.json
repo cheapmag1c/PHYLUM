@@ -2,37 +2,37 @@
   "ended_interactions": [],
   "events": [
     {
-      "generation": 15,
+      "generation": 16,
       "kind": "observation",
       "subject": "world",
-      "text": "The biosphere advances through generation 15."
+      "text": "The biosphere advances through generation 16."
     }
   ],
-  "from_generation": 14,
+  "from_generation": 15,
   "lineages": [
     {
       "centroid_from": [
-        39.2,
-        12.2
+        39.071,
+        12.286
       ],
       "centroid_to": [
         39.071,
         12.286
       ],
-      "genetic_diversity_after": 0.39995,
-      "genetic_diversity_before": 0.40109,
+      "genetic_diversity_after": 0.40045,
+      "genetic_diversity_before": 0.39995,
       "id": "sp-00003",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
-      "movement": 0.155,
+      "movement": 0.0,
       "name": "glass mote",
-      "population_after": 346.5,
-      "population_before": 357.76,
-      "population_delta": -11.26,
-      "population_percent": -3.15,
+      "population_after": 338.72,
+      "population_before": 346.5,
+      "population_delta": -7.78,
+      "population_percent": -2.25,
       "range_after": 14,
-      "range_before": 15,
-      "range_delta": -1,
+      "range_before": 14,
+      "range_delta": 0,
       "role": "producer",
       "status": "living"
     },
@@ -45,17 +45,17 @@
         26.818,
         23.455
       ],
-      "genetic_diversity_after": 0.47971,
-      "genetic_diversity_before": 0.48018,
+      "genetic_diversity_after": 0.48184,
+      "genetic_diversity_before": 0.47971,
       "id": "sp-00002",
-      "infection_peak_after": 0.04507,
-      "infection_peak_before": 0.04585,
+      "infection_peak_after": 0.05146,
+      "infection_peak_before": 0.04507,
       "movement": 0.0,
       "name": "silt frond",
-      "population_after": 282.49,
-      "population_before": 291.75,
-      "population_delta": -9.26,
-      "population_percent": -3.17,
+      "population_after": 275.72,
+      "population_before": 282.49,
+      "population_delta": -6.77,
+      "population_percent": -2.4,
       "range_after": 11,
       "range_before": 11,
       "range_delta": 0,
@@ -71,17 +71,17 @@
         18.769,
         8.538
       ],
-      "genetic_diversity_after": 0.40893,
-      "genetic_diversity_before": 0.40585,
+      "genetic_diversity_after": 0.40931,
+      "genetic_diversity_before": 0.40893,
       "id": "sp-00001",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
       "movement": 0.0,
       "name": "pale filament",
-      "population_after": 362.5,
-      "population_before": 367.56,
-      "population_delta": -5.06,
-      "population_percent": -1.38,
+      "population_after": 361.67,
+      "population_before": 362.5,
+      "population_delta": -0.83,
+      "population_percent": -0.23,
       "range_after": 13,
       "range_before": 13,
       "range_delta": 0,
@@ -92,11 +92,11 @@
   "markers": [
     {
       "glyph": "\u2022",
-      "id": "ev-000015-00",
+      "id": "ev-000016-00",
       "kind": "observation",
       "position": null,
       "subject": "world",
-      "text": "The biosphere advances through generation 15."
+      "text": "The biosphere advances through generation 16."
     }
   ],
   "new_interactions": [],
@@ -109,20 +109,20 @@
     "living_after": 3,
     "living_before": 3,
     "living_delta": 0,
-    "moisture_delta": 0.0004,
+    "moisture_delta": 0.00296,
     "new_competition_links": 0,
     "new_pathogens": 0,
     "new_predation_links": 0,
     "occupied_after": 38,
-    "occupied_before": 39,
-    "occupied_delta": -1,
-    "population_after": 991.49,
-    "population_before": 1017.07,
-    "population_delta": -25.58,
-    "population_percent": -2.52,
+    "occupied_before": 38,
+    "occupied_delta": 0,
+    "population_after": 976.11,
+    "population_before": 991.49,
+    "population_delta": -15.38,
+    "population_percent": -1.55,
     "resolved_pathogens": 0,
-    "resources_delta": -0.38102,
-    "temperature_delta": 6e-05
+    "resources_delta": 0.0006,
+    "temperature_delta": -0.00111
   },
-  "to_generation": 15
+  "to_generation": 16
 }

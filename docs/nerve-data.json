@@ -33,7 +33,7 @@
       "social_sensitivity": 0.26358,
       "threat_sensitivity": 0.18068
     },
-    "population": 362.5,
+    "population": 361.67,
     "repertoire": [
       {
         "kind": "inherited",
@@ -95,7 +95,18 @@
       "score": 0.20318,
       "tool_capability": false
     },
-    "memory": [],
+    "memory": [
+      {
+        "detail": "resource-poor habitat",
+        "generation": 16,
+        "kind": "resource",
+        "position": [
+          26.818,
+          23.455
+        ],
+        "strength": 0.3488
+      }
+    ],
     "name": "silt frond",
     "perception": {
       "modalities": [
@@ -108,7 +119,7 @@
       "social_sensitivity": 0.32858,
       "threat_sensitivity": 0.18058
     },
-    "population": 282.49,
+    "population": 275.72,
     "repertoire": [
       {
         "kind": "inherited",
@@ -181,7 +192,7 @@
       "social_sensitivity": 0.38263,
       "threat_sensitivity": 0.16303
     },
-    "population": 346.5,
+    "population": 338.72,
     "repertoire": [
       {
         "kind": "inherited",
