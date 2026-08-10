@@ -1,3 +1,11 @@
+## Licensing — MOURNINGSTAR Source License v1.0
+
+- Replaced the MIT License.
+- Copyright notice is now held under MOURNINGSTAR.
+- Source remains publicly viewable and usable for permitted non-commercial purposes.
+- Commercial use, sale, sublicensing, repackaging, and unauthorized redistribution are prohibited.
+- GitHub-native forks remain permitted for non-commercial PHYLUM experimentation and contribution.
+
 # PHYLUM changelog
 
 ## 1.1.1 — README SYNC

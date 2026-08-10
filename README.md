@@ -147,4 +147,17 @@ Branch tools: `python -m phylum compare ../OTHER-PHYLUM` and `python -m phylum c
 
 ## License
 
-MIT.
+PHYLUM is **source-available**, not MIT-licensed.
+
+Copyright (c) 2026 **MOURNINGSTAR**. All rights reserved.
+
+Personal, educational, research, evaluation, and other non-commercial use is
+permitted under the **MOURNINGSTAR Source License v1.0**. GitHub-native forks
+are permitted for non-commercial experimentation, contribution, and PHYLUM's
+branch-evolution features.
+
+**Sale, commercial use, sublicensing, repackaging, hosted commercial use, and
+redistribution outside the license's limited GitHub-fork permission are
+prohibited without prior written permission from MOURNINGSTAR.**
+
+See [`LICENSE`](LICENSE) for the complete terms.

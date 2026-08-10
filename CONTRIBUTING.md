@@ -13,3 +13,10 @@ python -m unittest discover -s tests -v
 ```
 
 Useful contribution areas include ecology models, visual renderers, fossil analysis, lineage comparison, and merge/collision experiments.
+
+## Contribution licensing
+
+PHYLUM is distributed under the **MOURNINGSTAR Source License v1.0**, not MIT.
+Submitting a contribution to the official repository grants MOURNINGSTAR the
+contribution rights described in Section 4 of [`LICENSE`](LICENSE). Forks and
+contributions do not waive MOURNINGSTAR's ownership or the license restrictions.

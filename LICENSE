@@ -1,21 +1,104 @@
-MIT License
+MOURNINGSTAR SOURCE LICENSE v1.0
 
-Copyright (c) 2026 PHYLUM contributors
+Copyright (c) 2026 MOURNINGSTAR
+All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This license applies to PHYLUM and the source code, documentation, assets,
+generated visualizations, and other materials distributed with PHYLUM
+(the "Software"), unless a file explicitly states otherwise.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. PERMITTED USE
+
+Subject to the restrictions below, MOURNINGSTAR grants you a limited,
+revocable, non-exclusive, non-transferable license to:
+
+a. View and study the source code.
+b. Download and run the Software for personal, educational, research,
+   evaluation, or other non-commercial purposes.
+c. Modify the Software privately for those same non-commercial purposes.
+d. Create and maintain a GitHub fork of the official PHYLUM repository for
+   non-commercial experimentation, testing, contribution, or PHYLUM's
+   branch-evolution features, to the extent permitted by GitHub's Terms of
+   Service.
+
+2. RESTRICTIONS
+
+Unless you have prior written permission from MOURNINGSTAR, you may not:
+
+a. Sell, rent, lease, sublicense, monetize, or commercially exploit the
+   Software or any modified or derivative version of it.
+b. Redistribute, republish, mirror, repackage, or otherwise provide copies of
+   the Software or substantial portions of it to third parties, except for the
+   GitHub-fork permission specifically granted in Section 1(d).
+c. Include the Software or substantial portions of it in another product,
+   service, paid offering, software bundle, hosted service, or commercial
+   repository.
+d. Offer the Software, or a modified version of it, as a hosted or managed
+   service for third parties.
+e. Remove, obscure, or alter copyright, ownership, attribution, or license
+   notices belonging to MOURNINGSTAR.
+f. Represent the Software, PHYLUM, or a derivative version as your own
+   original product.
+g. Use the MOURNINGSTAR or PHYLUM names, logos, marks, or branding in a way
+   that suggests endorsement, sponsorship, ownership, or affiliation without
+   written permission.
+
+3. MODIFIED GITHUB FORKS
+
+A public GitHub fork permitted by Section 1(d) may contain modifications,
+provided that:
+
+a. It remains non-commercial.
+b. It retains this license and all MOURNINGSTAR notices.
+c. It clearly identifies itself as a modified fork of PHYLUM.
+d. It is not presented as an official MOURNINGSTAR release.
+e. It is not redistributed outside the permissions granted by this license
+   and GitHub's applicable platform terms.
+
+4. CONTRIBUTIONS
+
+If you intentionally submit source code, documentation, assets, or other
+material to the official PHYLUM repository as a contribution, you grant
+MOURNINGSTAR a perpetual, worldwide, non-exclusive, royalty-free license to
+use, reproduce, modify, distribute, sublicense, and relicense that
+contribution as part of PHYLUM and related MOURNINGSTAR projects.
+
+You represent that you have the right to grant those permissions.
+
+5. OWNERSHIP
+
+The Software is licensed, not sold. MOURNINGSTAR retains all right, title,
+and interest in and to PHYLUM and the Software, excluding third-party
+materials that are separately licensed.
+
+No trademark rights are granted by this license.
+
+6. COMMERCIAL OR REDISTRIBUTION PERMISSION
+
+Commercial licensing, redistribution rights, sublicensing rights, or other
+exceptions may be granted separately only through written permission from
+MOURNINGSTAR.
+
+7. TERMINATION
+
+Your rights under this license terminate automatically if you materially
+violate its terms. Upon termination, you must stop using and distributing any
+copies or modified copies for which you no longer have permission.
+
+8. DISCLAIMER
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NONINFRINGEMENT.
+
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, MOURNINGSTAR AND THE COPYRIGHT
+HOLDER(S) SHALL NOT BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF,
+OR IN CONNECTION WITH THE SOFTWARE OR THE USE OF OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+9. CONTACT
+
+Requests for commercial licensing, redistribution permission, or other
+exceptions should be directed to MOURNINGSTAR through the official PHYLUM
+repository or another contact method published by MOURNINGSTAR.
