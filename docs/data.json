@@ -12,14 +12,41 @@
     "ended_interactions": [],
     "events": [
       {
-        "generation": 13,
-        "kind": "observation",
-        "subject": "world",
-        "text": "The biosphere advances through generation 13."
+        "generation": 14,
+        "host": "sp-00002",
+        "kind": "disease",
+        "subject": "pa-00001",
+        "text": "red spore emerges in silt frond."
       }
     ],
-    "from_generation": 12,
+    "from_generation": 13,
     "lineages": [
+      {
+        "centroid_from": [
+          39.429,
+          12.143
+        ],
+        "centroid_to": [
+          39.2,
+          12.2
+        ],
+        "genetic_diversity_after": 0.40109,
+        "genetic_diversity_before": 0.40022,
+        "id": "sp-00003",
+        "infection_peak_after": 0,
+        "infection_peak_before": 0,
+        "movement": 0.236,
+        "name": "glass mote",
+        "population_after": 357.76,
+        "population_before": 347.33,
+        "population_delta": 10.43,
+        "population_percent": 3.0,
+        "range_after": 15,
+        "range_before": 14,
+        "range_delta": 1,
+        "role": "producer",
+        "status": "living"
+      },
       {
         "centroid_from": [
           26.818,
@@ -29,17 +56,17 @@
           26.818,
           23.455
         ],
-        "genetic_diversity_after": 0.47908,
-        "genetic_diversity_before": 0.47781,
+        "genetic_diversity_after": 0.48018,
+        "genetic_diversity_before": 0.47908,
         "id": "sp-00002",
-        "infection_peak_after": 0,
+        "infection_peak_after": 0.04585,
         "infection_peak_before": 0,
         "movement": 0.0,
         "name": "silt frond",
-        "population_after": 301.8,
-        "population_before": 313.6,
-        "population_delta": -11.8,
-        "population_percent": -3.76,
+        "population_after": 291.75,
+        "population_before": 301.8,
+        "population_delta": -10.05,
+        "population_percent": -3.33,
         "range_after": 11,
         "range_before": 11,
         "range_delta": 0,
@@ -48,32 +75,6 @@
       },
       {
         "centroid_from": [
-          39.429,
-          12.143
-        ],
-        "centroid_to": [
-          39.429,
-          12.143
-        ],
-        "genetic_diversity_after": 0.40022,
-        "genetic_diversity_before": 0.40114,
-        "id": "sp-00003",
-        "infection_peak_after": 0,
-        "infection_peak_before": 0,
-        "movement": 0.0,
-        "name": "glass mote",
-        "population_after": 347.33,
-        "population_before": 340.53,
-        "population_delta": 6.8,
-        "population_percent": 2.0,
-        "range_after": 14,
-        "range_before": 14,
-        "range_delta": 0,
-        "role": "producer",
-        "status": "living"
-      },
-      {
-        "centroid_from": [
           18.769,
           8.538
         ],
@@ -81,17 +82,17 @@
           18.769,
           8.538
         ],
-        "genetic_diversity_after": 0.40346,
-        "genetic_diversity_before": 0.4015,
+        "genetic_diversity_after": 0.40585,
+        "genetic_diversity_before": 0.40346,
         "id": "sp-00001",
         "infection_peak_after": 0,
         "infection_peak_before": 0,
         "movement": 0.0,
         "name": "pale filament",
-        "population_after": 361.75,
-        "population_before": 358.86,
-        "population_delta": 2.89,
-        "population_percent": 0.81,
+        "population_after": 367.56,
+        "population_before": 361.75,
+        "population_delta": 5.81,
+        "population_percent": 1.61,
         "range_after": 13,
         "range_before": 13,
         "range_delta": 0,
@@ -101,16 +102,21 @@
     ],
     "markers": [
       {
-        "glyph": "\u2022",
-        "id": "ev-000013-00",
-        "kind": "observation",
-        "position": null,
-        "subject": "world",
-        "text": "The biosphere advances through generation 13."
+        "glyph": "\u2723",
+        "id": "ev-000014-00",
+        "kind": "disease",
+        "position": [
+          26.818,
+          23.455
+        ],
+        "subject": "pa-00001",
+        "text": "red spore emerges in silt frond."
       }
     ],
     "new_interactions": [],
-    "new_pathogens": [],
+    "new_pathogens": [
+      "pa-00001"
+    ],
     "resolved_pathogens": [],
     "schema_version": 1,
     "summary": {
@@ -119,22 +125,22 @@
       "living_after": 3,
       "living_before": 3,
       "living_delta": 0,
-      "moisture_delta": 0.0003,
+      "moisture_delta": 0.0002,
       "new_competition_links": 0,
-      "new_pathogens": 0,
+      "new_pathogens": 1,
       "new_predation_links": 0,
-      "occupied_after": 38,
+      "occupied_after": 39,
       "occupied_before": 38,
-      "occupied_delta": 0,
-      "population_after": 1010.88,
-      "population_before": 1012.99,
-      "population_delta": -2.11,
-      "population_percent": -0.21,
+      "occupied_delta": 1,
+      "population_after": 1017.07,
+      "population_before": 1010.88,
+      "population_delta": 6.19,
+      "population_percent": 0.61,
       "resolved_pathogens": 0,
-      "resources_delta": -0.0025,
-      "temperature_delta": 0.001
+      "resources_delta": -0.0006,
+      "temperature_delta": 0.004
     },
-    "to_generation": 13
+    "to_generation": 14
   },
   "environment": {
     "ancestral_refugia": [
@@ -159,11 +165,11 @@
     ],
     "biotic_modifiers": [],
     "height": 100,
-    "moisture": 0.5502,
-    "resources": 0.6923,
+    "moisture": 0.5504,
+    "resources": 0.6917,
     "scars": [],
-    "season_phase": 1.98,
-    "temperature": 0.5434,
+    "season_phase": 2.31,
+    "temperature": 0.5474,
     "width": 160
   },
   "events": [
@@ -208,6 +214,13 @@
       "kind": "observation",
       "subject": "world",
       "text": "The biosphere advances through generation 13."
+    },
+    {
+      "generation": 14,
+      "host": "sp-00002",
+      "kind": "disease",
+      "subject": "pa-00001",
+      "text": "red spore emerges in silt frond."
     }
   ],
   "history": [
@@ -306,10 +319,45 @@
       "predation_links": 0,
       "resources": 0.6923,
       "temperature": 0.5434
+    },
+    {
+      "era": "Origin Era",
+      "events": [
+        "disease"
+      ],
+      "extinct": 0,
+      "generation": 14,
+      "living": 3,
+      "moisture": 0.5504,
+      "occupied_cells": 39,
+      "pathogens": 1,
+      "population": 1017.07,
+      "predation_links": 0,
+      "resources": 0.6917,
+      "temperature": 0.5474
     }
   ],
   "interactions": [],
-  "pathogens": [],
+  "pathogens": [
+    {
+      "born_generation": 14,
+      "environmental_persistence": 0.0913,
+      "extinct_generation": null,
+      "host_breadth": 0.1067,
+      "hosts": {
+        "sp-00002": 0.04585
+      },
+      "id": "pa-00001",
+      "mutation_rate": 0.1183,
+      "name": "red spore",
+      "peak_prevalence": 0.04585,
+      "reservoirs": [
+        "sp-00002"
+      ],
+      "transmissibility": 0.3181,
+      "virulence": 0.2042
+    }
+  ],
   "species": [
     {
       "behavior": [
@@ -318,7 +366,7 @@
       "born_generation": 0,
       "extinct_generation": null,
       "extinction_cause": null,
-      "genetic_diversity": 0.4035,
+      "genetic_diversity": 0.4058,
       "id": "sp-00001",
       "morphology": {
         "appendages": 3,
@@ -332,9 +380,9 @@
       "native_lineage": "PHYLUM/origin",
       "offspring_lineages": [],
       "parent_id": null,
-      "peak_population": 361.75,
+      "peak_population": 367.56,
       "peak_range": 13,
-      "population": 361.75,
+      "population": 367.56,
       "regions_seen": [
         "central reach",
         "northern reach",
@@ -349,7 +397,7 @@
       "born_generation": 0,
       "extinct_generation": null,
       "extinction_cause": null,
-      "genetic_diversity": 0.4791,
+      "genetic_diversity": 0.4802,
       "id": "sp-00002",
       "morphology": {
         "appendages": 3,
@@ -365,7 +413,7 @@
       "parent_id": null,
       "peak_population": 382.3,
       "peak_range": 12,
-      "population": 301.8,
+      "population": 291.75,
       "regions_seen": [
         "central reach",
         "southern reach"
@@ -379,7 +427,7 @@
       "born_generation": 0,
       "extinct_generation": null,
       "extinction_cause": null,
-      "genetic_diversity": 0.4002,
+      "genetic_diversity": 0.4011,
       "id": "sp-00003",
       "morphology": {
         "appendages": 3,
@@ -393,9 +441,9 @@
       "native_lineage": "PHYLUM/origin",
       "offspring_lineages": [],
       "parent_id": null,
-      "peak_population": 347.33,
-      "peak_range": 14,
-      "population": 347.33,
+      "peak_population": 357.76,
+      "peak_range": 15,
+      "population": 357.76,
       "regions_seen": [
         "eastern reach"
       ],
@@ -405,40 +453,40 @@
   "world": {
     "active_lineage": "zerrfeit/PHYLUM",
     "clocks": {
-      "climate": 0.21,
-      "ecology": 13,
-      "evolution": 1.08,
-      "geology": 0.036
+      "climate": 0.245,
+      "ecology": 14,
+      "evolution": 1.26,
+      "geology": 0.042
     },
     "created_utc": "2026-08-08T22:26:00+00:00",
-    "detritus": 19.93,
+    "detritus": 21.05,
     "era": {
       "index": 1,
       "name": "Origin Era",
       "started_generation": 0
     },
     "extinct_species": 0,
-    "generation": 13,
-    "last_evolved_utc": "2026-08-10T15:33:41+00:00",
+    "generation": 14,
+    "last_evolved_utc": "2026-08-10T20:24:45+00:00",
     "living_species": 3,
     "name": "PHYLUM",
-    "next_pathogen_id": 1,
+    "next_pathogen_id": 2,
     "next_species_id": 4,
-    "occupied_cells": 38,
+    "occupied_cells": 39,
     "root_lineage": "PHYLUM/origin",
     "schema_version": 11,
     "seed": 314159265,
     "statistics": {
-      "active_pathogens": 0,
+      "active_pathogens": 1,
       "competition_links": 0,
       "largest_population_ever": 382.3,
-      "largest_range_ever": 14,
+      "largest_range_ever": 15,
       "most_descendants": "pale filament",
       "oldest_living_lineage": "pale filament",
-      "pathogens_ever": 0,
+      "pathogens_ever": 1,
       "predator_prey_links": 0,
       "species_ever": 3
     },
-    "total_population": 1010.88
+    "total_population": 1017.07
   }
 }

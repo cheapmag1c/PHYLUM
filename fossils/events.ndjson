@@ -5,3 +5,4 @@
 {"generation": 11, "kind": "observation", "subject": "world", "text": "The biosphere advances through generation 11."}
 {"generation": 12, "kind": "observation", "subject": "world", "text": "The biosphere advances through generation 12."}
 {"generation": 13, "kind": "observation", "subject": "world", "text": "The biosphere advances through generation 13."}
+{"generation": 14, "host": "sp-00002", "kind": "disease", "subject": "pa-00001", "text": "red spore emerges in silt frond."}
