@@ -2,37 +2,37 @@
   "ended_interactions": [],
   "events": [
     {
-      "generation": 11,
+      "generation": 12,
       "kind": "observation",
       "subject": "world",
-      "text": "The biosphere advances through generation 11."
+      "text": "The biosphere advances through generation 12."
     }
   ],
-  "from_generation": 10,
+  "from_generation": 11,
   "lineages": [
     {
       "centroid_from": [
-        26.583,
-        23.5
+        26.818,
+        23.455
       ],
       "centroid_to": [
         26.818,
         23.455
       ],
-      "genetic_diversity_after": 0.47804,
-      "genetic_diversity_before": 0.4783,
+      "genetic_diversity_after": 0.47781,
+      "genetic_diversity_before": 0.47804,
       "id": "sp-00002",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
-      "movement": 0.239,
+      "movement": 0.0,
       "name": "silt frond",
-      "population_after": 326.05,
-      "population_before": 339.22,
-      "population_delta": -13.17,
-      "population_percent": -3.88,
+      "population_after": 313.6,
+      "population_before": 326.05,
+      "population_delta": -12.45,
+      "population_percent": -3.82,
       "range_after": 11,
-      "range_before": 12,
-      "range_delta": -1,
+      "range_before": 11,
+      "range_delta": 0,
       "role": "producer",
       "status": "living"
     },
@@ -45,17 +45,17 @@
         39.429,
         12.143
       ],
-      "genetic_diversity_after": 0.40126,
-      "genetic_diversity_before": 0.3976,
+      "genetic_diversity_after": 0.40114,
+      "genetic_diversity_before": 0.40126,
       "id": "sp-00003",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
       "movement": 0.0,
       "name": "glass mote",
-      "population_after": 334.48,
-      "population_before": 329.38,
-      "population_delta": 5.1,
-      "population_percent": 1.55,
+      "population_after": 340.53,
+      "population_before": 334.48,
+      "population_delta": 6.05,
+      "population_percent": 1.81,
       "range_after": 14,
       "range_before": 14,
       "range_delta": 0,
@@ -71,17 +71,17 @@
         18.769,
         8.538
       ],
-      "genetic_diversity_after": 0.39809,
-      "genetic_diversity_before": 0.396,
+      "genetic_diversity_after": 0.4015,
+      "genetic_diversity_before": 0.39809,
       "id": "sp-00001",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
       "movement": 0.0,
       "name": "pale filament",
-      "population_after": 355.75,
-      "population_before": 352.24,
-      "population_delta": 3.51,
-      "population_percent": 1.0,
+      "population_after": 358.86,
+      "population_before": 355.75,
+      "population_delta": 3.11,
+      "population_percent": 0.87,
       "range_after": 13,
       "range_before": 13,
       "range_delta": 0,
@@ -92,11 +92,11 @@
   "markers": [
     {
       "glyph": "\u2022",
-      "id": "ev-000011-00",
+      "id": "ev-000012-00",
       "kind": "observation",
       "position": null,
       "subject": "world",
-      "text": "The biosphere advances through generation 11."
+      "text": "The biosphere advances through generation 12."
     }
   ],
   "new_interactions": [],
@@ -109,20 +109,20 @@
     "living_after": 3,
     "living_before": 3,
     "living_delta": 0,
-    "moisture_delta": 0.0044,
+    "moisture_delta": -0.0007,
     "new_competition_links": 0,
     "new_pathogens": 0,
     "new_predation_links": 0,
     "occupied_after": 38,
-    "occupied_before": 39,
-    "occupied_delta": -1,
-    "population_after": 1016.28,
-    "population_before": 1020.84,
-    "population_delta": -4.56,
-    "population_percent": -0.45,
+    "occupied_before": 38,
+    "occupied_delta": 0,
+    "population_after": 1012.99,
+    "population_before": 1016.28,
+    "population_delta": -3.29,
+    "population_percent": -0.32,
     "resolved_pathogens": 0,
-    "resources_delta": -0.0023,
-    "temperature_delta": 0.0026
+    "resources_delta": 0.0013,
+    "temperature_delta": -0.0001
   },
-  "to_generation": 11
+  "to_generation": 12
 }

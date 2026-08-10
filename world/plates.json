@@ -1,13 +1,13 @@
 {
   "drift_scale": 0.22,
-  "geology_clock": 0.88,
+  "geology_clock": 1.1,
   "history": [],
   "plates": [
     {
       "buoyancy": 0.1545,
       "continental": true,
-      "cx": 48.1564,
-      "cy": 65.65498,
+      "cx": 48.1496,
+      "cy": 65.65055,
       "id": "plate-01",
       "phase": 4.356882,
       "vx": -0.030909,
@@ -16,8 +16,8 @@
     {
       "buoyancy": 0.0917,
       "continental": true,
-      "cx": 56.20136,
-      "cy": 31.52882,
+      "cx": 56.2108,
+      "cy": 31.5349,
       "id": "plate-02",
       "phase": 5.930066,
       "vx": 0.042927,
@@ -26,8 +26,8 @@
     {
       "buoyancy": 0.1192,
       "continental": true,
-      "cx": 28.4241,
-      "cy": 51.34458,
+      "cx": 28.42835,
+      "cy": 51.34745,
       "id": "plate-03",
       "phase": 1.504351,
       "vx": 0.019332,
@@ -36,8 +36,8 @@
     {
       "buoyancy": 0.0662,
       "continental": false,
-      "cx": 135.05544,
-      "cy": 87.67832,
+      "cx": 135.0456,
+      "cy": 87.6727,
       "id": "plate-04",
       "phase": 4.588469,
       "vx": -0.04473,
@@ -46,8 +46,8 @@
     {
       "buoyancy": -0.0198,
       "continental": true,
-      "cx": 96.95424,
-      "cy": 30.55906,
+      "cx": 96.9638,
+      "cy": 30.5663,
       "id": "plate-05",
       "phase": 4.972844,
       "vx": 0.043445,
@@ -56,8 +56,8 @@
     {
       "buoyancy": -0.0544,
       "continental": true,
-      "cx": 29.69446,
-      "cy": 71.7142,
+      "cx": 29.69385,
+      "cy": 71.7195,
       "id": "plate-06",
       "phase": 0.498398,
       "vx": -0.002781,
@@ -66,8 +66,8 @@
     {
       "buoyancy": 0.1386,
       "continental": false,
-      "cx": 71.52482,
-      "cy": 10.988,
+      "cx": 71.52395,
+      "cy": 10.9767,
       "id": "plate-07",
       "phase": 3.58329,
       "vx": -0.003968,
