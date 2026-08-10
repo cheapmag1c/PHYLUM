@@ -6,6 +6,7 @@ from pathlib import Path
 
 from .core import commit_message, compare, contact, evolve_one, load_state, migrate_current_state
 from .observation import format_change_report
+from .soma import soma_catalog
 from .storage import CHANGES_PATH, load_extended, load_json
 
 
@@ -16,6 +17,7 @@ def main() -> None:
     sub.add_parser("status",help="Print current state")
     sub.add_parser("commit-message",help="Print the canonical generation commit message")
     sub.add_parser("changes",help="Print what changed in the most recent generation")
+    sub.add_parser("soma",help="Print organism-level SOMA profiles for living lineages")
     m=sub.add_parser("migrate",help="Upgrade the current world schema without advancing a generation"); m.add_argument("--lineage",default=None)
     c=sub.add_parser("compare",help="Compare this PHYLUM timeline with another checkout"); c.add_argument("other_repo")
     ct=sub.add_parser("contact",help="Resolve a branch encounter as a biological contact event"); ct.add_argument("other_repo")
@@ -30,6 +32,8 @@ def main() -> None:
         print(json.dumps({"generation":w.get("generation"),"era":w.get("era",{}).get("name"),"lineage":b.get("lineage",w.get("active_lineage")),"living_species":len(live),"extinct_species":sum(x.get("extinct_generation") is not None for x in s),"population":int(sum(float(x.get("population",0)) for x in live)),"dominant":live[0].get("name") if live else None,"active_pathogens":sum(x.get("extinct_generation") is None for x in p),"plates":len(plates.get("plates",[])),"predator_prey_links":sum(x.get("type")=="predation" for x in i)},indent=2))
     elif args.command=="commit-message": print(commit_message())
     elif args.command=="changes": print(format_change_report(load_json(CHANGES_PATH,{}) or {}))
+    elif args.command=="soma":
+        w,s,e,p,plates,b,i=load_extended(); live=[x for x in soma_catalog(s) if x.get("extinct_generation") is None]; print(json.dumps({"generation":w.get("generation"),"lineages":live},indent=2))
     elif args.command=="migrate":
         result=migrate_current_state(args.lineage,True); print(f"Migrated PHYLUM generation {result['world']['generation']} to schema {result['world']['schema_version']} without advancing time.")
     elif args.command=="compare": print(json.dumps(compare(args.other_repo),indent=2))

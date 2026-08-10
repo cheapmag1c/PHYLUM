@@ -31,6 +31,10 @@ Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 
 ![PHYLUM food web](renders/foodweb.svg?gen=000013)
 
+## Living organisms — SOMA
+
+![PHYLUM SOMA field guide](renders/soma.svg?gen=000013)
+
 ## The idea
 
 A scheduled GitHub Action wakes up every six hours and runs one generation of the simulation. Organisms move toward suitable habitats, populations rise and collapse, the climate drifts, lineages split, and extinction events accumulate.
@@ -105,11 +109,14 @@ PHYLUM/
 │   ├── branching.py                # fork identity, comparison and contact
 │   ├── disease.py                  # pathogens and immunity
 │   ├── observation.py              # WITNESS generation deltas
+│   ├── soma.py                     # organismal biology, development and field guide
 │   ├── planet.py                   # climate, geography and tectonics
 │   ├── render.py                   # atlas, phylogeny, food web and Observatory
 │   └── ...
 ├── renders/
 │   ├── current.svg                 # World Atlas
+│   ├── soma.svg                    # SOMA organism field guide
+│   ├── organisms/                  # per-lineage schematic plates
 │   ├── phylogeny.svg
 │   └── foodweb.svg
 ├── tests/                          # invariant + observation tests
@@ -125,13 +132,13 @@ PHYLUM/
 ```
 
 
-## Current model — WITNESS
+## Current model — SOMA
 
-PHYLUM currently runs **DEEP TIME** as its biological and planetary simulation, with **WITNESS** as the observation layer that records what changed between generations. **DEEP TIME governs the world. WITNESS records the evidence.**
+PHYLUM runs **DEEP TIME** as its planetary and evolutionary engine, **WITNESS** as its observation layer, and **SOMA** as its organismal biology layer. **DEEP TIME governs the world. WITNESS records the evidence. SOMA gives the lineages bodies and lives.**
 
-DEEP TIME includes population genetics and sexual reproduction; genetic diversity, recombination, bottlenecks and inbreeding; inherited morphology and behavior; ecological niches, competition and predator/prey food webs; evolving pathogens and immunity; migration and isolation-driven speciation; generated geography, biomes, rivers, climate and tectonic drift; disasters and rare unscripted mass extinctions; explicit extinction causes, fossils and phylogeny; deep-time atlas snapshots; fork identity, branch comparison and biological branch-contact rules.
+SOMA adds demographic life stages, aging and lifespan, reproductive and mating systems, sexual selection, parental care, development and metamorphosis, inherited body plans, locomotion, feeding structures, sensory systems, defenses, physiology, metabolism, thermoregulation, dormancy, microbiome traits, social organization, communication, phenotypic variation, predator/prey selection pressure and emergent symbiosis. Descendants inherit organismal architecture from their ancestors, so morphology remains continuous across the phylogeny.
 
-WITNESS adds persistent `world/changes.json` generation deltas, per-lineage population/range/movement/infection changes, current-generation event markers, migration history, predator/prey contact zones, disease overlays, the World Atlas Generation Delta panel, the Observatory **CHANGES** tab, and the `python -m phylum changes` report.
+The generated `renders/soma.svg` field guide and `docs/soma.html` catalog reconstruct every lineage from deterministic inherited state. SOMA remains population-aggregate rather than simulating every individual, preserving PHYLUM's ability to run for deep time in GitHub Actions.
 
 Nothing is scheduled to happen at a specific generation. PHYLUM creates conditions and lets history emerge from them.
 
@@ -141,6 +148,8 @@ Nothing is scheduled to happen at a specific generation. PHYLUM creates conditio
 Every generation regenerates a static Observatory in `docs/`. The layered World Atlas exposes biomes, tectonics, relief, rivers, territories, migration, ecology, predator/prey contact zones, disease, current-generation events, fossils, scars, population density, biodiversity, genetics and climate.
 
 WITNESS also adds a **CHANGES** view for generation-to-generation population, range, lineage, pathogen, predation, movement and infection deltas. The Observatory retains lineage and fossil browsers, branch ancestry/contact history, event timelines and deep-time atlas snapshots. Enable GitHub Pages from the repository's `docs/` folder to turn it into a live observation station.
+
+Open the generated **SOMA Field Guide** at `docs/soma.html` for organism plates, life cycles, physiology, reproduction and behavior.
 
 Branch tools: `python -m phylum compare ../OTHER-PHYLUM` and `python -m phylum contact ../OTHER-PHYLUM`. See `PHYLUM_MERGE.md` for the biological contact rule.
 

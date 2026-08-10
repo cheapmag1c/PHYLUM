@@ -1,3 +1,15 @@
+## 1.2.0 — SOMA
+
+- Adds population-aggregate life stages, aging, maturity and lifespan.
+- Adds mating systems, sexual selection, reproductive strategies and parental care.
+- Adds inherited body plans, development, metamorphosis, locomotion, feeding structures, defenses and sensory systems.
+- Adds metabolism, thermoregulation, respiration, dormancy, energy allocation and microbiome traits.
+- Adds social organization, communication, territoriality and phenotypic variation.
+- Couples SOMA life history back into DEEP TIME births, mortality, carrying capacity, predation and disease.
+- Adds persistent selection-pressure tracking and emergent symbiosis.
+- Adds deterministic organism illustrations, `renders/soma.svg`, per-lineage organism plates and `docs/soma.html`.
+- Migration preserves the current generation and all prior fossil / Git history.
+
 ## Licensing — MOURNINGSTAR Source License v1.0
 
 - Replaced the MIT License.

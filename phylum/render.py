@@ -12,6 +12,7 @@ from .biology import behavior_profile, morphology, normalize_range, trophic_role
 from .constants import BIOME_LABELS, GRID_COLS, GRID_ROWS, MAP_SAMPLE_COLS, MAP_SAMPLE_ROWS
 from .planet import biome_at, cell_world_xy, climate_at, geography_at, plate_at
 from .storage import ATLAS_HISTORY_PATH, CHANGES_PATH, DOCS_DIR, EVENTS_PATH, HISTORY_PATH, README_PATH, RENDER_DIR, load_json, read_ndjson
+from .soma import render_soma_assets
 from .utils import clamp, mean, stable_int
 
 WORLD_SVG = RENDER_DIR / "current.svg"
@@ -429,7 +430,7 @@ def render_observatory(world: dict[str,Any], species: list[dict[str,Any]], env: 
 <style>
 :root{{--bg:#071014;--panel:#0b1619;--line:#263b38;--text:#dce8e2;--muted:#748a82;--accent:#9bb8aa}}
 *{{box-sizing:border-box}} body{{margin:0;background:var(--bg);color:var(--text);font:14px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}} header{{padding:22px 28px;border-bottom:1px solid var(--line);display:flex;gap:28px;align-items:end;flex-wrap:wrap}} h1{{font-size:20px;letter-spacing:.28em;margin:0}} .sub{{color:var(--muted)}} nav{{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}} button,input{{font:inherit}} button{{background:#0f2022;color:var(--text);border:1px solid #2e4743;padding:8px 11px;border-radius:6px;cursor:pointer}} button.active{{background:#244238;border-color:#668d7d}} main{{padding:20px 24px;max-width:1800px;margin:auto}} .tab{{display:none}} .tab.active{{display:block}} .atlas svg{{width:100%;height:auto;border:1px solid var(--line);border-radius:8px}} .layers{{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 12px}} .grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}} .card{{background:var(--panel);border:1px solid var(--line);padding:15px;border-radius:8px}} .metric{{font-size:28px;margin-top:5px}} .muted{{color:var(--muted)}} table{{width:100%;border-collapse:collapse}} th,td{{text-align:left;padding:9px;border-bottom:1px solid #1d312e}} .dead{{opacity:.62}} .event{{border-left:2px solid #4c6d62;padding:7px 12px;margin:7px 0;background:#0a1517}} input{{background:#071013;border:1px solid var(--line);color:var(--text);padding:9px;width:min(420px,100%);border-radius:6px}} .bar{{height:7px;background:#172724;border-radius:9px;overflow:hidden}} .bar i{{display:block;height:100%;background:#7eaa98}} code{{color:#b7cfc4}} @media(max-width:700px){{main{{padding:12px}}header{{padding:16px}}}}
-</style></head><body><header><div><h1>PHYLUM / OBSERVATORY</h1><div class="sub">lineage {_esc(branch.get('lineage',world.get('active_lineage','unknown')))} · generation {int(world.get('generation',0)):06d} · {_esc(world.get('era',{}).get('name','Origin Era'))}</div></div><nav><button data-tab="atlas" class="active">ATLAS</button><button data-tab="changes">CHANGES</button><button data-tab="lineages">LINEAGES</button><button data-tab="fossils">FOSSILS</button><button data-tab="timeline">TIMELINE</button><button data-tab="branches">BRANCHES</button></nav></header><main>
+</style></head><body><header><div><h1>PHYLUM / OBSERVATORY</h1><div class="sub">lineage {_esc(branch.get('lineage',world.get('active_lineage','unknown')))} · generation {int(world.get('generation',0)):06d} · {_esc(world.get('era',{}).get('name','Origin Era'))}</div></div><nav><button data-tab="atlas" class="active">ATLAS</button><button data-tab="changes">CHANGES</button><button data-tab="lineages">LINEAGES</button><button data-tab="fossils">FOSSILS</button><button data-tab="timeline">TIMELINE</button><button data-tab="branches">BRANCHES</button><a href="soma.html" style="background:#0f2022;color:var(--text);border:1px solid #2e4743;padding:8px 11px;border-radius:6px;text-decoration:none">SOMA</a></nav></header><main>
 <section id="atlas" class="tab active"><div class="layers"><button data-layer="layer-biomes" class="active">BIOMES</button><button data-layer="layer-plates" class="active">TECTONICS</button><button data-layer="layer-contours" class="active">RELIEF</button><button data-layer="layer-hydrology" class="active">RIVERS</button><button data-layer="layer-territory" class="active">TERRITORIES</button><button data-layer="layer-migration" class="active">MIGRATION</button><button data-layer="layer-ecology" class="active">ECOLOGY</button><button data-layer="layer-contact-zones" class="active">CONTACT ZONES</button><button data-layer="layer-disease" class="active">DISEASE</button><button data-layer="layer-events" class="active">EVENTS</button><button data-layer="layer-fossils" class="active">FOSSILS</button><button data-layer="layer-scars" class="active">SCARS</button><button data-layer="layer-labels" class="active">LABELS</button><button data-layer="layer-population">POPULATION</button><button data-layer="layer-biodiversity">BIODIVERSITY</button><button data-layer="layer-genetics">GENETICS</button><button data-layer="layer-climate">CLIMATE</button></div><div class="atlas"><object id="atlasObject" type="image/svg+xml" data="current.svg?gen={int(world.get('generation',0)):06d}" style="width:100%;aspect-ratio:1600/1040;display:block"></object></div></section>
 <section id="changes" class="tab"><div class="grid" id="changeMetrics"></div><h3>LINEAGE DELTAS</h3><div id="changeTable"></div></section>
 <section id="lineages" class="tab"><div class="grid" id="lineageCards"></div></section>
@@ -476,6 +477,12 @@ def update_readme(world: dict[str,Any], species: list[dict[str,Any]], pathogens:
         text=text.replace(marker,insertion+marker) if marker in text else text+"\n"+insertion
     else:
         text=re.sub(r"renders/foodweb\.svg\?gen=[^\)\s]+",f"renders/foodweb.svg?gen={gen:06d}",text)
+    if "renders/soma.svg" not in text:
+        marker="## The idea"
+        insertion=f"## Living organisms — SOMA\n\n![PHYLUM SOMA field guide](renders/soma.svg?gen={gen:06d})\n\n"
+        text=text.replace(marker,insertion+marker) if marker in text else text+"\n"+insertion
+    else:
+        text=re.sub(r"renders/soma\.svg\?gen=[^\)\s]+",f"renders/soma.svg?gen={gen:06d}",text)
     # Keep the human-facing README synchronized with the currently installed model.
     anatomy=("## Anatomy\n\n"
         "```text\n"
@@ -493,11 +500,14 @@ def update_readme(world: dict[str,Any], species: list[dict[str,Any]], pathogens:
         "│   ├── branching.py                # fork identity, comparison and contact\n"
         "│   ├── disease.py                  # pathogens and immunity\n"
         "│   ├── observation.py              # WITNESS generation deltas\n"
+        "│   ├── soma.py                     # organismal biology, development and field guide\n"
         "│   ├── planet.py                   # climate, geography and tectonics\n"
         "│   ├── render.py                   # atlas, phylogeny, food web and Observatory\n"
         "│   └── ...\n"
         "├── renders/\n"
         "│   ├── current.svg                 # World Atlas\n"
+        "│   ├── soma.svg                    # SOMA organism field guide\n"
+        "│   ├── organisms/                  # per-lineage schematic plates\n"
         "│   ├── phylogeny.svg\n"
         "│   └── foodweb.svg\n"
         "├── tests/                          # invariant + observation tests\n"
@@ -517,10 +527,10 @@ def update_readme(world: dict[str,Any], species: list[dict[str,Any]], pathogens:
         anchor="\n## License"
         text=text.replace(anchor,"\n"+anatomy+anchor) if anchor in text else text+"\n\n"+anatomy
 
-    model_text=("## Current model — WITNESS\n\n"
-        "PHYLUM currently runs **DEEP TIME** as its biological and planetary simulation, with **WITNESS** as the observation layer that records what changed between generations. **DEEP TIME governs the world. WITNESS records the evidence.**\n\n"
-        "DEEP TIME includes population genetics and sexual reproduction; genetic diversity, recombination, bottlenecks and inbreeding; inherited morphology and behavior; ecological niches, competition and predator/prey food webs; evolving pathogens and immunity; migration and isolation-driven speciation; generated geography, biomes, rivers, climate and tectonic drift; disasters and rare unscripted mass extinctions; explicit extinction causes, fossils and phylogeny; deep-time atlas snapshots; fork identity, branch comparison and biological branch-contact rules.\n\n"
-        "WITNESS adds persistent `world/changes.json` generation deltas, per-lineage population/range/movement/infection changes, current-generation event markers, migration history, predator/prey contact zones, disease overlays, the World Atlas Generation Delta panel, the Observatory **CHANGES** tab, and the `python -m phylum changes` report.\n\n"
+    model_text=("## Current model — SOMA\n\n"
+        "PHYLUM runs **DEEP TIME** as its planetary and evolutionary engine, **WITNESS** as its observation layer, and **SOMA** as its organismal biology layer. **DEEP TIME governs the world. WITNESS records the evidence. SOMA gives the lineages bodies and lives.**\n\n"
+        "SOMA adds demographic life stages, aging and lifespan, reproductive and mating systems, sexual selection, parental care, development and metamorphosis, inherited body plans, locomotion, feeding structures, sensory systems, defenses, physiology, metabolism, thermoregulation, dormancy, microbiome traits, social organization, communication, phenotypic variation, predator/prey selection pressure and emergent symbiosis. Descendants inherit organismal architecture from their ancestors, so morphology remains continuous across the phylogeny.\n\n"
+        "The generated `renders/soma.svg` field guide and `docs/soma.html` catalog reconstruct every lineage from deterministic inherited state. SOMA remains population-aggregate rather than simulating every individual, preserving PHYLUM\'s ability to run for deep time in GitHub Actions.\n\n"
         "Nothing is scheduled to happen at a specific generation. PHYLUM creates conditions and lets history emerge from them.\n")
     if re.search(r"## Current model(?: — [^\n]+)?\n", text):
         text=re.sub(r"## Current model(?: — [^\n]+)?\n.*?(?=\n## Observatory|\n## License)",model_text+"\n",text,flags=re.S)
@@ -533,6 +543,7 @@ def update_readme(world: dict[str,Any], species: list[dict[str,Any]], pathogens:
     observatory=("## Observatory\n\n"
         "Every generation regenerates a static Observatory in `docs/`. The layered World Atlas exposes biomes, tectonics, relief, rivers, territories, migration, ecology, predator/prey contact zones, disease, current-generation events, fossils, scars, population density, biodiversity, genetics and climate.\n\n"
         "WITNESS also adds a **CHANGES** view for generation-to-generation population, range, lineage, pathogen, predation, movement and infection deltas. The Observatory retains lineage and fossil browsers, branch ancestry/contact history, event timelines and deep-time atlas snapshots. Enable GitHub Pages from the repository's `docs/` folder to turn it into a live observation station.\n\n"
+        "Open the generated **SOMA Field Guide** at `docs/soma.html` for organism plates, life cycles, physiology, reproduction and behavior.\n\n"
         "Branch tools: `python -m phylum compare ../OTHER-PHYLUM` and `python -m phylum contact ../OTHER-PHYLUM`. See `PHYLUM_MERGE.md` for the biological contact rule.\n")
     if "## Observatory\n" in text:
         text=re.sub(r"## Observatory\n.*?(?=\n## License)",observatory+"\n",text,flags=re.S)
@@ -545,5 +556,6 @@ def render_all(world: dict[str,Any], species: list[dict[str,Any]], env: dict[str
     svg=render_world_svg(world,species,env,pathogens,plates,branch,interactions)
     render_phylogeny_svg(world,species)
     render_foodweb_svg(world,species,interactions)
+    render_soma_assets(world,species,env,interactions,Path(__file__).resolve().parents[1])
     update_readme(world,species,pathogens,interactions)
     render_observatory(world,species,env,pathogens,plates,branch,interactions,svg)

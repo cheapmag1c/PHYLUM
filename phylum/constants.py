@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-SCHEMA_VERSION = 10
+SCHEMA_VERSION = 11
 GRID_COLS = 48
 GRID_ROWS = 30
 MAP_SAMPLE_COLS = 96
@@ -17,6 +17,10 @@ EVENT_PRIORITY = {
     "extinction": 105,
     "pandemic": 100,
     "speciation": 90,
+    "innovation": 88,
+    "metamorphosis": 76,
+    "symbiosis": 66,
+    "life_history": 60,
     "tectonic": 82,
     "era": 80,
     "disease": 75,
