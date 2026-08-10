@@ -3,10 +3,10 @@
     "born_generation": 0,
     "extinct_generation": null,
     "id": "sp-00001",
-    "last_fitness": 0.7574,
+    "last_fitness": 0.7495,
     "name": "pale filament",
     "parent_id": null,
-    "population": 297.12,
+    "population": 338.82,
     "range": [
       [
         19,
@@ -76,17 +76,13 @@
     "born_generation": 0,
     "extinct_generation": null,
     "id": "sp-00002",
-    "last_fitness": 0.8584,
+    "last_fitness": 0.8654,
     "name": "silt frond",
     "parent_id": null,
-    "population": 337.6,
+    "population": 382.3,
     "range": [
       [
-        29,
-        22
-      ],
-      [
-        30,
+        28,
         22
       ],
       [
@@ -126,6 +122,10 @@
         24
       ],
       [
+        28,
+        24
+      ],
+      [
         26,
         25
       ]
@@ -142,17 +142,17 @@
       "temp_pref": 0.58,
       "tolerance": 0.31
     },
-    "x": 91.111,
-    "y": 79.444
+    "x": 90.278,
+    "y": 80.0
   },
   {
     "born_generation": 0,
     "extinct_generation": null,
     "id": "sp-00003",
-    "last_fitness": 0.8033,
+    "last_fitness": 0.7958,
     "name": "glass mote",
     "parent_id": null,
-    "population": 274.0,
+    "population": 319.69,
     "range": [
       [
         39,
@@ -168,10 +168,6 @@
       ],
       [
         42,
-        11
-      ],
-      [
-        43,
         11
       ],
       [
@@ -195,6 +191,14 @@
         12
       ],
       [
+        37,
+        13
+      ],
+      [
+        38,
+        13
+      ],
+      [
         39,
         13
       ],
@@ -214,7 +218,7 @@
       "temp_pref": 0.61,
       "tolerance": 0.25
     },
-    "x": 136.111,
-    "y": 40.833
+    "x": 133.974,
+    "y": 41.667
   }
 ]
