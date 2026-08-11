@@ -26,8 +26,8 @@ def render_vivarium_assets(world: dict[str, Any], species: list[dict[str, Any]],
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">',
              '<rect width="100%" height="100%" fill="#071014"/>',
              '<style>text{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#dce8e2}.muted{fill:#748a82}.tiny{font-size:13px}.small{font-size:16px}.label{font-size:12px;letter-spacing:2px}.metric{font-size:30px}.title{font-size:24px;letter-spacing:6px}.panel{fill:#0b1619;stroke:#263b38;stroke-width:1}.line{stroke:#263b38;stroke-width:1}</style>',
-             f'<text x="48" y="54" class="title">PHYLUM / VIVARIUM</text>',
-             f'<text x="48" y="86" class="muted small">CONTINUOUS LIVING-WORLD ENGINE · OBSERVATION {int(world.get("generation",0)):06d} · YEAR {float(summary.get("sim_year",0)):.2f}</text>',
+             f'<text x="48" y="54" class="title">PHYLUM / ORRERY · LIFE</text>',
+             f'<text x="48" y="86" class="muted small">VIVARIUM CONTINUOUS ENGINE · OBSERVATION {int(world.get("generation",0)):06d} · YEAR {float(summary.get("sim_year",0)):.2f}</text>',
              f'<text x="48" y="125" class="small">{int(summary.get("explicit_organisms",0))} explicit organisms · {int(summary.get("cohorts",0))} bounded cohorts · {int(summary.get("conceptual_population",0)):,} conceptual organisms</text>',
              f'<rect x="{map_x}" y="{map_y}" width="{map_w}" height="{map_h}" rx="8" class="panel"/>']
     # cartographic grid
@@ -62,7 +62,7 @@ def render_vivarium_assets(world: dict[str, Any], species: list[dict[str, Any]],
     for cause,n in list((last.get("death_causes") or {}).items())[:6]:
         parts.append(f'<text x="{px+28}" y="{y}" class="small">{_esc(cause):18s}</text><text x="{px+410}" y="{y}" class="small" text-anchor="end">{float(n):,.1f}</text>'); y+=29
     # specimen strip
-    parts.append('<text x="48" y="905" class="muted label">LIVING SPECIMENS / INDIVIDUAL STATE</text>')
+    parts.append('<text x="48" y="905" class="muted label">RESOLVED ORGANISMS / INDIVIDUAL STATE</text>')
     for i,a in enumerate(living[:6]):
         x=48+i*284; y=930; sid=str(a.get("species_id")); sp=by_sid.get(sid,{})
         parts.append(f'<rect x="{x}" y="{y}" width="264" height="112" rx="6" class="panel"/>')
@@ -72,12 +72,32 @@ def render_vivarium_assets(world: dict[str, Any], species: list[dict[str, Any]],
         parents=a.get("parent_ids",[]); parts.append(f'<text x="{x+14}" y="{y+96}" class="tiny muted">parents {_esc(" / ".join(parents) if parents else "migration founder")}</text>')
     parts.append('</svg>')
     svg=''.join(parts)
-    (root/'renders').mkdir(parents=True,exist_ok=True); (root/'docs').mkdir(parents=True,exist_ok=True)
-    (root/'renders'/'vivarium.svg').write_text(svg,encoding='utf-8'); (root/'docs'/'vivarium.svg').write_text(svg,encoding='utf-8')
+    renders = root / 'renders'
+    docs = root / 'docs'
+    renders.mkdir(parents=True,exist_ok=True); docs.mkdir(parents=True,exist_ok=True)
+
+    # CONVERGENCE: LIFE is the canonical ORRERY surface for the VIVARIUM engine.
+    # The old vivarium.* files remain compatibility aliases so older tests and
+    # external links keep working without presenting a second full dashboard.
+    (renders/'life.svg').write_text(svg,encoding='utf-8')
+    (docs/'life.svg').write_text(svg,encoding='utf-8')
+    (renders/'vivarium.svg').write_text(svg,encoding='utf-8')
+    (docs/'vivarium.svg').write_text(svg,encoding='utf-8')
+
     data={"summary":summary,"organisms":living[:220],"cohorts":cohorts[:220],"last_checkpoint":last}
-    (root/'docs'/'vivarium-data.json').write_text(json.dumps(data,indent=2,sort_keys=True)+'\n',encoding='utf-8')
-    html_doc=f'''<!doctype html><html><head><meta charset="utf-8"><title>PHYLUM / VIVARIUM</title><style>body{{margin:0;background:#071014;color:#dce8e2;font:14px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}}main{{max-width:1800px;margin:auto;padding:22px}}a{{color:#9bb8aa}}object{{width:100%;border:1px solid #263b38;border-radius:8px}}pre{{background:#0b1619;border:1px solid #263b38;padding:16px;overflow:auto}}</style></head><body><main><p><a href="index.html">← ORRERY</a></p><h1>VIVARIUM / LIVING WORLD</h1><p>Species statistics are measured from explicit organisms and bounded cohorts. Observation checkpoints advance continuous simulated days.</p><object type="image/svg+xml" data="vivarium.svg?world={int(world.get('generation',0)):06d}"></object><h2>Engine state</h2><pre>{_esc(json.dumps(summary,indent=2))}</pre></main></body></html>'''
-    (root/'docs'/'vivarium.html').write_text(html_doc,encoding='utf-8')
+    payload=json.dumps(data,indent=2,sort_keys=True)+'\n'
+    (docs/'life-data.json').write_text(payload,encoding='utf-8')
+    (docs/'vivarium-data.json').write_text(payload,encoding='utf-8')
+
+    obs=int(world.get('generation',0)); sim_day=float(summary.get('sim_day',0)); sim_year=float(summary.get('sim_year',0))
+    html_doc=f'''<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PHYLUM / ORRERY · LIFE</title><style>
+:root{{--bg:#05090b;--panel:#091114;--line:#223437;--text:#dbe5e1;--muted:#718680;--accent:#9ab6aa}}*{{box-sizing:border-box}}body{{margin:0;background:radial-gradient(circle at 30% -10%,#102126 0,#05090b 36%,#05090b 100%);color:var(--text);font:13px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}}a{{color:inherit}}header{{padding:28px 34px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:24px;align-items:flex-end}}h1{{font-size:22px;letter-spacing:5px;margin:0}}header p{{color:var(--muted);margin:7px 0 0}}.status{{text-align:right;color:var(--muted)}}nav{{display:flex;gap:8px;flex-wrap:wrap;padding:14px 34px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#05090bea;backdrop-filter:blur(8px);z-index:5}}nav a{{text-decoration:none;border:1px solid #284043;background:#0a1518;color:#cbd8d3;padding:8px 11px;border-radius:7px}}nav a:hover,nav a.active{{border-color:#6d8a80;background:#102024}}main{{padding:24px 34px 60px;max-width:1880px;margin:auto}}.hero{{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#061012}}object{{display:block;width:100%;min-height:520px}}.grid{{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}}.panel{{border:1px solid var(--line);border-radius:12px;background:linear-gradient(135deg,#081114,#0a1517);padding:18px}}.panel h2{{font-size:12px;letter-spacing:2px;margin:0 0 16px;color:#a8bbb4}}.panel p{{color:#9fb1aa;line-height:1.65}}pre{{margin:0;white-space:pre-wrap;color:#a9bbb4}}@media(max-width:900px){{header{{align-items:flex-start;flex-direction:column}}.status{{text-align:left}}.grid{{grid-template-columns:1fr}}}}
+</style></head><body><header><div><h1>PHYLUM / ORRERY</h1><p>LIFE view · powered by the VIVARIUM continuous living-world engine</p></div><div class="status">OBS {obs:06d}<br>DAY {sim_day:.0f}<br>YEAR {sim_year:.2f}</div></header><nav><a href="index.html">WORLD</a><a class="active" href="life.html">LIFE</a><a href="phylogeny.svg">PHYLOGENY</a><a href="soma.html">BODY</a><a href="nerve.html">BEHAVIOR</a><a href="techne.html">CULTURE</a><a href="socius.html">SOCIETY</a><a href="paleon.html">PLANET</a></nav><main><section class="hero"><object type="image/svg+xml" data="life.svg?obs={obs:06d}"></object></section><section class="grid"><div class="panel"><h2>WHAT THIS VIEW IS</h2><p>ORRERY is PHYLUM's observatory. LIFE is its organism-level lens. VIVARIUM is the engine underneath it: explicit organisms and bounded cohorts feed, age, reproduce, inherit, become infected and die through continuous simulated time.</p></div><div class="panel"><h2>ENGINE STATE</h2><pre>{_esc(json.dumps(summary,indent=2))}</pre></div></section></main></body></html>'''
+    (docs/'life.html').write_text(html_doc,encoding='utf-8')
+
+    # Keep the historical URL as a redirect, not a second full-page dashboard.
+    redirect='''<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=life.html"><link rel="canonical" href="life.html"><title>PHYLUM / ORRERY · LIFE</title></head><body><p>VIVARIUM is the engine; its observatory view moved to <a href="life.html">ORRERY / LIFE</a>.</p></body></html>'''
+    (docs/'vivarium.html').write_text(redirect,encoding='utf-8')
 
 
 def hsl_hex(h: float, s: float, l: float) -> str:

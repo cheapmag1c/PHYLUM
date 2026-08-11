@@ -1,3 +1,14 @@
+## 2.0.1 — CONVERGENCE
+
+- Unified PHYLUM's presentation around a single ORRERY Observatory shell.
+- Reframed VIVARIUM as the living-world engine beneath ORRERY instead of a second dashboard.
+- Added canonical ORRERY / LIFE outputs for explicit organisms, cohorts, births/deaths, and continuous time.
+- Rebuilt Observatory navigation around WORLD, LIFE, PHYLOGENY, BODY, BEHAVIOR, CULTURE, SOCIETY, and PLANET.
+- Added VIVARIUM simulated-time status to ORRERY.
+- Removed the duplicate VIVARIUM hero from the generated README.
+- Preserved historical `vivarium.*` URLs/files as compatibility aliases or redirects.
+- No simulation state, fossil history, or licensing terms are changed by this patch.
+
 ## 2.0.0 — VIVARIUM
 
 **Life is no longer advanced. It happens.**

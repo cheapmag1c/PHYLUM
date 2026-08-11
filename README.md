@@ -119,8 +119,6 @@ PHYLUM/
 │   ├── events.ndjson               # append-only event chronology
 │   ├── history.ndjson              # observation summaries
 │   ├── atlas-history.ndjson        # deep-time atlas snapshots
-│   ├── births.ndjson               # explicit birth ancestry records
-│   ├── deaths.ndjson               # explicit death/cause records
 │   ├── species/                    # extinct-lineage records
 │   └── checkpoints/                # periodic recovery state
 ├── phylum/
@@ -134,8 +132,6 @@ PHYLUM/
 │   ├── techne.py                   # cultural inheritance, material practices and archaeology
 │   ├── socius.py                   # persistent groups, norms and social lineages
 │   ├── orrery.py                   # ORRERY atlas and Observatory renderer
-│   ├── vivarium.py                 # continuous-time organisms, cohorts and ecosystems
-│   ├── vivarium_render.py          # living-world observation surface
 │   ├── planet.py                   # compatibility surface delegated to PALEON
 │   ├── render.py                   # atlas, phylogeny, food web and Observatory
 │   └── ...
@@ -146,7 +142,6 @@ PHYLUM/
 │   ├── nerve.svg                   # NERVE ethogram / living minds plate
 │   ├── techne.svg                  # TECHNE cultural / archaeological record
 │   ├── socius.svg                  # SOCIUS social-lineage record
-│   ├── vivarium.svg                # VIVARIUM individual/cohort world view
 │   ├── organisms/                  # per-lineage schematic plates
 │   ├── phylogeny.svg
 │   └── foodweb.svg
@@ -159,30 +154,42 @@ PHYLUM/
     ├── interactions.json
     ├── plates.json
     ├── branch.json
-    ├── vivarium.json               # continuous simulated clock / engine state
-    ├── organisms.json              # bounded explicit living organisms
-    ├── cohorts.json                # compressed local population cohorts
-    ├── ecosystem.json              # local biomass, nutrients and weather
     └── changes.json                # most recent checkpoint delta
 ```
 
 
-## Living world — VIVARIUM
+## Current architecture — VIVARIUM + ORRERY
 
-![PHYLUM VIVARIUM living-world engine](renders/vivarium.svg?world=000022)
+**VIVARIUM is the engine. ORRERY is the interface.**
 
-## Current model — VIVARIUM
+VIVARIUM resolves PHYLUM's continuous living state: explicit organisms and bounded cohorts feed, age, move, reproduce, inherit genes, learn, transmit infection and die. Species statistics are measurements of that living substrate rather than a second independently evolving population number.
 
-PHYLUM 2.0 runs **VIVARIUM** as its living-world substrate. Species are no longer advanced by a species-level evolution function: explicit organisms and bounded cohorts feed, age, move, reproduce, inherit genes, become infected and die through continuous simulated time. Species population, range and genome statistics are measured back from those living populations.
+ORRERY is the single observatory shell for the world. Its **WORLD** view presents the planetary composite; **LIFE** exposes VIVARIUM's organism/cohort state; **BODY**, **BEHAVIOR**, **CULTURE**, **SOCIETY**, and **PLANET** expose SOMA, NERVE, TECHNE, SOCIUS, and PALEON without pretending they are separate products. WITNESS remains the evidence/history layer.
 
-**PALEON** supplies the physical world, **SOMA** supplies bodies and life history, **NERVE** supplies perception and learning, **TECHNE** supplies persistent cultural information, **SOCIUS** supplies social organization, and **WITNESS + ORRERY** observe the resulting history. Git commits are observation checkpoints rather than biological generations.
 
-Open `docs/vivarium.html` or `renders/vivarium.svg` for the current individual/cohort engine state.
+## Living engine — VIVARIUM
 
+Continuous time: **day 14 / year 0.04** at observation **22**. Open [`docs/life.html`](docs/life.html) for the ORRERY **LIFE** view.
+
+The historical `docs/vivarium.html` URL now redirects to LIFE so there is only one observatory hierarchy.
 
 ## Observatory
 
-Every observation checkpoint regenerates a static Observatory in `docs/`. The layered World Atlas exposes biomes, tectonics, relief, rivers, territories, migration, ecology, predator/prey contact zones, disease, current-generation events, fossils, scars, population density, biodiversity, genetics and climate.
+### System hierarchy
+
+```text
+VIVARIUM = living-world engine
+ORRERY   = observatory / interface
+PALEON   = planet
+SOMA     = body
+NERVE    = behavior and learning
+TECHNE   = culture and material knowledge
+SOCIUS   = persistent social organization
+WITNESS  = history and evidence
+```
+
+
+Every observation checkpoint regenerates a static Observatory in `docs/`. The layered World Atlas exposes biomes, tectonics, relief, rivers, territories, migration, ecology, predator/prey contact zones, disease, current-checkpoint events, fossils, scars, population density, biodiversity, genetics and climate.
 
 WITNESS also adds a **CHANGES** view for checkpoint-to-checkpoint population, range, lineage, pathogen, predation, movement and infection deltas. The Observatory retains lineage and fossil browsers, branch ancestry/contact history, event timelines and deep-time atlas snapshots. Enable GitHub Pages from the repository's `docs/` folder to turn it into a live observation station.
 
