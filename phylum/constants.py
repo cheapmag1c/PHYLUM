@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-SCHEMA_VERSION = 14
+SCHEMA_VERSION = 15
 GRID_COLS = 48
 GRID_ROWS = 30
 MAP_SAMPLE_COLS = 96

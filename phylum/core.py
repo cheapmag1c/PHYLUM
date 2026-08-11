@@ -8,18 +8,19 @@ from pathlib import Path
 from typing import Any
 
 from .biology import (
-    apply_ecosystem_engineering, apply_mass_extinction, cell_suitability, evolve_ecology, migrate_species_schema,
+    cell_suitability, migrate_species_schema,
     normalize_range, store_range, territory_target, trophic_role,
 )
 from .branching import compare_repositories, contact_worlds, ensure_branch
 from .constants import CHECKPOINT_INTERVAL, EVENT_PRIORITY, GRID_COLS, GRID_ROWS, SCHEMA_VERSION
-from .disease import evolve_diseases, migrate_pathogen_schema
+from .disease import migrate_pathogen_schema
 from .observation import build_changes, capture_observation
 from .soma import ensure_soma_schema, finalize_soma_generation, prepare_soma_generation, validate_soma_state
 from .paleon import ensure_paleon_state, finalize_paleon_generation, validate_paleon_state
 from .nerve import ensure_nerve_schema, finalize_nerve_generation, prepare_nerve_generation, validate_nerve_state
 from .techne import ensure_techne_schema, ensure_world_techne, finalize_techne_generation, prepare_techne_generation, validate_techne_state, validate_techne_world
-from .socius import apply_socius_feedback, ensure_socius_schema, ensure_world_socius, finalize_socius_generation, prepare_socius_generation, validate_socius_state, validate_socius_world
+from .socius import ensure_socius_schema, ensure_world_socius, finalize_socius_generation, prepare_socius_generation, validate_socius_state, validate_socius_world
+from .vivarium import advance_vivarium, ensure_vivarium_state, load_vivarium_state, reconcile_vivarium_lineages, validate_vivarium_state
 from .planet import climate_at, initialize_plates, region_name
 from .storage import (
     ATLAS_HISTORY_PATH, BRANCH_PATH, CHANGES_PATH, CHECKPOINT_DIR, ENV_PATH, EVENTS_PATH, HISTORY_PATH, INTERACTIONS_PATH,
@@ -119,6 +120,9 @@ def ensure_schema(lineage: str | None = None, save: bool = False) -> tuple[dict[
     migrate_pathogen_schema(pathogens)
     if not plates or not plates.get("plates"): plates=initialize_plates(seed,env)
     ensure_paleon_state(world,env,plates,species)
+    # VIVARIUM is the living substrate. Existing worlds are migrated into explicit
+    # organisms + bounded cohorts without consuming simulation time.
+    ensure_vivarium_state(world,species,env,plates,save=save)
     lineage=lineage or os.getenv("GITHUB_REPOSITORY") or world.get("active_lineage") or "local/PHYLUM"
     ensure_branch(world,branch,lineage)
     world["next_species_id"]=max(int(world.get("next_species_id",1)),max([int(str(s.get("id","sp-0")).split("-")[-1]) for s in species if str(s.get("id","")).startswith("sp-")] or [0])+1)
@@ -183,6 +187,7 @@ def validate_state(world: dict[str,Any], species: list[dict[str,Any]], env: dict
     errors.extend(validate_paleon_state(world,env,plates))
     errors.extend(validate_techne_world(world))
     errors.extend(validate_socius_world(world))
+    if world.get("engine") == "VIVARIUM": errors.extend(validate_vivarium_state(world,species))
     for sp in species:
         pop=float(sp.get("population",0))
         if pop<0 or pop>1e10: errors.append(f"invalid population {sp.get('id')}")
@@ -231,6 +236,7 @@ def _append_atlas_snapshot_if_needed(world: dict[str,Any], species: list[dict[st
 def migrate_current_state(lineage: str | None = None, render: bool = True) -> dict[str,Any]:
     state=ensure_schema(lineage,save=False)
     world,species,env,pathogens,plates,branch,interactions=state
+    ensure_vivarium_state(world,species,env,plates,save=True)
     errors=validate_state(*state)
     if errors: raise ValueError("PHYLUM migration validation failed: "+"; ".join(errors))
     save_extended(*state)
@@ -243,47 +249,53 @@ def migrate_current_state(lineage: str | None = None, render: bool = True) -> di
 
 def evolve_one(lineage: str | None = None) -> dict[str,Any]:
     world,species,env,pathogens,plates,branch,interactions=ensure_schema(lineage,save=False)
-    # Capture the untouched parent generation before any biology or planet systems run.
-    # WITNESS uses this compact frame to explain exactly what changed after evolution.
     before_observation=capture_observation(world,species,env,pathogens,interactions)
-    backup_state(f"gen-{int(world.get('generation',0)):06d}")
+    backup_state(f"world-{int(world.get('generation',0)):06d}")
+    # `generation` remains as a compatibility observation index for the fossil
+    # record and render stack. VIVARIUM advances continuous simulated days.
     world["generation"]=int(world.get("generation",0))+1; generation=int(world["generation"])
     lineage=lineage or os.getenv("GITHUB_REPOSITORY") or branch.get("lineage") or world.get("active_lineage") or "local/PHYLUM"
     ensure_branch(world,branch,lineage)
-    rng=deterministic_rng(int(world["seed"]),generation,lineage,"generation")
+    rng=deterministic_rng(int(world["seed"]),generation,lineage,"vivarium-checkpoint")
     events=[]
     from .planet import evolve_planet
-    events.extend(evolve_planet(world,env,plates,random.Random(rng.getrandbits(64))))
+    vstate,_,_,_=load_vivarium_state(); start_day=float(vstate.get("sim_day",0)); span=float(vstate.get("checkpoint_days",14)); end_day=start_day+span
+    # PALEON now follows the actual VIVARIUM clock. Daily weather belongs to the
+    # living engine; the deep planetary model ticks when a simulated year boundary
+    # is crossed instead of once per Git commit.
+    planet_tick=int(start_day//360)!=int(end_day//360)
+    culture_tick=int(start_day//90)!=int(end_day//90)
+    if planet_tick:
+        events.extend(evolve_planet(world,env,plates,random.Random(rng.getrandbits(64))))
     events.extend(prepare_soma_generation(world,species,env,interactions,random.Random(rng.getrandbits(64))))
     events.extend(prepare_nerve_generation(world,species,env,interactions,random.Random(rng.getrandbits(64))))
     events.extend(prepare_techne_generation(world,species,env,interactions,random.Random(rng.getrandbits(64))))
     events.extend(prepare_socius_generation(world,species,env,interactions,random.Random(rng.getrandbits(64))))
-    disease_mortality,disease_events=evolve_diseases(world,species,pathogens,random.Random(rng.getrandbits(64))); events.extend(disease_events)
-    interactions,eco_events=evolve_ecology(world,species,env,plates,disease_mortality,random.Random(rng.getrandbits(64))); events.extend(eco_events)
-    apply_ecosystem_engineering(species,env)
-    events.extend(apply_mass_extinction(world,species,env,plates,random.Random(rng.getrandbits(64))))
+    interactions,viv_events=advance_vivarium(world,species,env,pathogens,plates,interactions,random.Random(rng.getrandbits(64))); events.extend(viv_events)
     events.extend(finalize_soma_generation(world,species,env,interactions,random.Random(rng.getrandbits(64))))
-    events.extend(finalize_paleon_generation(world,species,env,plates,interactions,random.Random(rng.getrandbits(64))))
-    events.extend(finalize_nerve_generation(world,species,env,interactions,random.Random(rng.getrandbits(64))))
-    events.extend(finalize_techne_generation(world,species,env,interactions,random.Random(rng.getrandbits(64))))
-    events.extend(finalize_socius_generation(world,species,env,interactions,random.Random(rng.getrandbits(64))))
-    apply_socius_feedback(world,species)
+    if planet_tick:
+        events.extend(finalize_paleon_generation(world,species,env,plates,interactions,random.Random(rng.getrandbits(64))))
+    # Cultural/social macrostate is sampled seasonally. Individual NERVE memory and
+    # peer-to-peer cultural copying still happen every simulated day in VIVARIUM.
+    if culture_tick:
+        events.extend(finalize_nerve_generation(world,species,env,interactions,random.Random(rng.getrandbits(64))))
+        events.extend(finalize_techne_generation(world,species,env,interactions,random.Random(rng.getrandbits(64))))
+        events.extend(finalize_socius_generation(world,species,env,interactions,random.Random(rng.getrandbits(64))))
     _maybe_era(world,events,random.Random(rng.getrandbits(64)))
     world["last_evolved_utc"]=now_utc()
     _update_statistics(world,species,pathogens,interactions)
-    # Add an observation event only if nothing historically meaningful occurred.
     if not events:
-        events=[_event(generation,"observation","world",f"The biosphere advances through generation {generation}.")]
-    # Stable ordering for reproducible commit-message choice.
+        vd=world.get("vivarium",{}); days=int(vd.get("checkpoint_days",0)); sy=float(vd.get("sim_year",0))
+        events=[_event(generation,"observation","world",f"VIVARIUM advances {days} simulated days to year {sy:.2f}.")]
     events.sort(key=lambda e:(-EVENT_PRIORITY.get(str(e.get("kind")),0),str(e.get("subject","")),str(e.get("text",""))))
     _write_fossils(species,generation); _snapshot_if_major(world,species,env,pathogens,events)
     errors=validate_state(world,species,env,pathogens,plates,branch,interactions)
-    if errors: raise ValueError("PHYLUM generation validation failed: "+"; ".join(errors))
+    if errors: raise ValueError("PHYLUM VIVARIUM checkpoint validation failed: "+"; ".join(errors))
     save_extended(world,species,env,pathogens,plates,branch,interactions)
     changes=build_changes(before_observation,world,species,env,pathogens,interactions,events)
     atomic_json(CHANGES_PATH,changes)
     append_ndjson(EVENTS_PATH,events)
-    summary=_history_summary(world,species,env,pathogens,interactions,events); append_ndjson(HISTORY_PATH,[summary])
+    summary=_history_summary(world,species,env,pathogens,interactions,events); summary["sim_day"]=world.get("vivarium",{}).get("sim_day"); summary["sim_year"]=world.get("vivarium",{}).get("sim_year"); append_ndjson(HISTORY_PATH,[summary])
     _append_atlas_snapshot_if_needed(world,species,env,plates,events)
     if generation%CHECKPOINT_INTERVAL==0:
         write_checkpoint(generation,{"world":world,"environment":env,"branch":branch,"species":species,"pathogens":pathogens})
@@ -292,14 +304,14 @@ def evolve_one(lineage: str | None = None) -> dict[str,Any]:
         render_all(world,species,env,pathogens,plates,branch,interactions)
     return {"world":world,"species":species,"environment":env,"pathogens":pathogens,"plates":plates,"branch":branch,"interactions":interactions,"events":events,"changes":changes}
 
-
 def commit_message() -> str:
     world=load_json(ROOT/"world"/"current.json",{}) or {}; gen=int(world.get("generation",0)); rows=read_ndjson(EVENTS_PATH,80)
     current=[e for e in rows if int(e.get("generation",-1))==gen]
-    if not current: return f"gen {gen:06d} — biosphere advances"
+    prefix="world" if world.get("engine")=="VIVARIUM" else "gen"
+    if not current: return f"{prefix} {gen:06d} — biosphere advances"
     best=max(current,key=lambda e:EVENT_PRIORITY.get(str(e.get("kind")),0)); text=str(best.get("text","biosphere advances")).strip().rstrip(".")
     if len(text)>72: text=text[:69].rstrip()+"…"
-    return f"gen {gen:06d} — {text}"
+    return f"{prefix} {gen:06d} — {text}"
 
 
 def compare(other_repo: str | Path) -> dict[str,Any]:
@@ -321,6 +333,9 @@ def contact(other_repo: str | Path) -> list[dict[str,Any]]:
     # SOCIUS contact backfill: foreign founders receive social capacity but no invented group history.
     ensure_world_socius(world)
     for sp in species: ensure_socius_schema(sp,int(world.get("seed",0)),int(world.get("generation",0)),species_by_id)
+    # Contact introduces aggregate founder records. VIVARIUM materializes those
+    # newcomers as actual organisms/cohorts before population invariants run.
+    reconcile_vivarium_lineages(world,species,env,plates,save=True)
     _update_statistics(world,species,pathogens,interactions)
     errors=validate_state(world,species,env,pathogens,plates,branch,interactions)
     if errors: raise ValueError("Contact validation failed: "+"; ".join(errors))

@@ -1,0 +1,15 @@
+{
+  "checkpoint_days": 14,
+  "engine": "VIVARIUM",
+  "epoch_origin_observation": 21,
+  "isolation": {},
+  "last_checkpoint": {},
+  "legacy_observations": 21,
+  "next_cohort_id": 37,
+  "next_organism_id": 176,
+  "observation_index": 21,
+  "schema": 1,
+  "sim_day": 0.0,
+  "statistics": {},
+  "year_days": 360
+}

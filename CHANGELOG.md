@@ -1,3 +1,19 @@
+## 2.0.0 — VIVARIUM
+
+**Life is no longer advanced. It happens.**
+
+- Replaces species-level population advancement with a continuous-time living-world substrate.
+- Adds explicit organisms with age, life stage, energy, health, position, parents, inherited genes, phenotype, memory, social familiarity, culture and infections.
+- Adds bounded local cohorts for scalable level-of-detail simulation and automatic cohort-to-agent re-resolution without changing population.
+- Adds local ecosystem biomass, detritus, nutrients, productivity, organism-driven habitat engineering and deterministic seasons/weather resolved through daily microsteps.
+- Adds individual/cohort births, mortality, feeding, movement, predation, pathogen transmission, recombination, mutation and local selection.
+- Makes species population, range, genome and diversity measured outputs of the living population rather than independently advanced values.
+- Reclassifies Git commits as observation checkpoints and starts VIVARIUM continuous time at day zero without inventing durations for pre-2.0 generations.
+- Ticks PALEON on simulated-year boundaries and NERVE/TECHNE/SOCIUS macrostate seasonally instead of once per Git commit.
+- Adds condition-based isolation/speciation classification and VIVARIUM-aware branch-contact founders.
+- Adds `python -m phylum vivarium`, `renders/vivarium.svg`, `docs/vivarium.html` and persistent living-world state files.
+- Preserves PALEON, SOMA, NERVE, TECHNE, SOCIUS, WITNESS, ORRERY and the MOURNINGSTAR Source License.
+
 ## 1.6.0 — SOCIUS + ORRERY
 
 **Knowledge endured. Now relationships can outlive the individual.**

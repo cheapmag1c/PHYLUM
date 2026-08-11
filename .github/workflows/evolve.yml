@@ -27,7 +27,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Advance one generation
+      - name: Advance living world checkpoint
         run: python -m phylum evolve --steps 1 --lineage "$GITHUB_REPOSITORY"
 
       - name: Verify simulation invariants
@@ -36,7 +36,7 @@ jobs:
       - name: Print state
         run: python -m phylum status
 
-      - name: Print generation delta
+      - name: Print observation delta
         run: python -m phylum changes
 
       - name: Print PALEON planetary state
@@ -50,6 +50,9 @@ jobs:
 
       - name: Print SOCIUS social state
         run: python -m phylum socius
+
+      - name: Print VIVARIUM engine state
+        run: python -m phylum vivarium
 
       - name: Commit fossil record
         shell: bash

@@ -763,3 +763,84 @@ def render_all(world, species, env, pathogens, plates, branch, interactions):
     _update_readme_orrery(world, species)
 # === SOCIUS + ORRERY RENDER LAYER v1 END ===
 
+
+# === VIVARIUM RENDER LAYER v2 START ===
+from .vivarium_render import render_vivarium_assets as _render_vivarium_assets
+
+_vivarium_legacy_render_all = render_all
+def render_all(world, species, env, pathogens, plates, branch, interactions):
+    _vivarium_legacy_render_all(world, species, env, pathogens, plates, branch, interactions)
+    root = Path(__file__).resolve().parents[1]
+    _render_vivarium_assets(world, species, root)
+    index = root / "docs" / "index.html"
+    if index.exists():
+        txt = index.read_text(encoding="utf-8")
+        if 'href="vivarium.html"' not in txt:
+            anchor = '</nav>'
+            link = '<a href="vivarium.html" style="background:#152328;color:#dce8e2;border:1px solid #46625d;padding:8px 11px;border-radius:6px;text-decoration:none">VIVARIUM</a>'
+            txt = txt.replace(anchor, link + anchor, 1) if anchor in txt else txt
+            index.write_text(txt, encoding="utf-8")
+    # Keep the repo landing page explicit about the engine replacement.
+    readme = root / "README.md"
+    if readme.exists():
+        text = readme.read_text(encoding="utf-8")
+        import re as _viv_re
+        model = (
+            "## Current model — VIVARIUM\n\n"
+            "PHYLUM 2.0 runs **VIVARIUM** as its living-world substrate. Species are no longer advanced by a species-level evolution function: explicit organisms and bounded cohorts feed, age, move, reproduce, inherit genes, become infected and die through continuous simulated time. Species population, range and genome statistics are measured back from those living populations.\n\n"
+            "**PALEON** supplies the physical world, **SOMA** supplies bodies and life history, **NERVE** supplies perception and learning, **TECHNE** supplies persistent cultural information, **SOCIUS** supplies social organization, and **WITNESS + ORRERY** observe the resulting history. Git commits are observation checkpoints rather than biological generations.\n\n"
+            "Open `docs/vivarium.html` or `renders/vivarium.svg` for the current individual/cohort engine state.\n"
+        )
+        if _viv_re.search(r"## Current model(?: — [^\n]+)?\n", text):
+            text = _viv_re.sub(r"## Current model(?: — [^\n]+)?\n.*?(?=\n## Observatory|\n## License)", model + "\n", text, flags=_viv_re.S)
+        if "## Living world — VIVARIUM" not in text:
+            marker = "## Current model — VIVARIUM"
+            insert = f"## Living world — VIVARIUM\n\n![PHYLUM VIVARIUM living-world engine](renders/vivarium.svg?world={int(world.get('generation',0)):06d})\n\n"
+            text = text.replace(marker, insert + marker, 1)
+        else:
+            text = _viv_re.sub(r"renders/vivarium\.svg\?world=[^\)\s]+", f"renders/vivarium.svg?world={int(world.get('generation',0)):06d}", text)
+        # VIVARIUM changes what a Git commit *means*. The legacy README generator
+        # still produces generation-era prose for compatibility, so normalize the
+        # landing page after every render rather than leaving a misleading 1.x
+        # description around the new engine.
+        text = text.replace("**An evolutionary simulation written into Git history.**", "**An autonomous artificial biosphere written into Git history.**")
+        text = text.replace(
+            "PHYLUM is a small artificial biosphere that advances itself inside a Git repository. Every generation mutates the persistent world state, redraws the habitat, records important events, and becomes a commit.",
+            "PHYLUM is an autonomous artificial biosphere that lives inside a Git repository. Every observation checkpoint resolves continuous simulated time, redraws the habitat, records important evidence, and becomes a commit.",
+        )
+        text = text.replace("**Generation:**", "**Observation:**")
+        text = text.replace("**Last generation Δ:**", "**Last checkpoint Δ:**")
+        sim_day=float(world.get("vivarium",{}).get("sim_day",0)); sim_year=float(world.get("vivarium",{}).get("sim_year",0))
+        if "**Simulated time:**" not in text:
+            text = _viv_re.sub(r"(\*\*Observation:\*\* `[^`]+`  \n)", rf"\1**Simulated time:** `day {sim_day:.0f}` / `year {sim_year:.2f}`  \n", text, count=1)
+        text = text.replace(
+            "A scheduled GitHub Action wakes up every six hours and runs one generation of the simulation. Organisms move toward suitable habitats, populations rise and collapse, the climate drifts, lineages split, and extinction events accumulate.",
+            "A scheduled GitHub Action wakes up every six hours and advances one observation checkpoint. Inside that checkpoint VIVARIUM resolves daily life: organisms feed, move, age, reproduce, learn, transmit infection and die while slower planetary and cultural clocks advance on their own simulated timescales.",
+        )
+        text = text.replace("The Action then commits those changes. A repository's commit history therefore becomes the chronological history of its biosphere.", "The Action then commits those changes. A repository's commit history therefore becomes a sequence of observations from the biosphere's continuous history.")
+        text = text.replace("gen 000041 —", "world 000041 —").replace("gen 000104 —", "world 000104 —").replace("gen 000139 —", "world 000139 —").replace("gen 000207 —", "world 000207 —")
+        text = text.replace("When another person forks the project, that fork inherits the same ancestry but begins producing different evolutionary outcomes on its next generation.", "When another person forks the project, that fork inherits the same ancestry but begins producing different biological outcomes on its next observation checkpoint.")
+        text = text.replace("Two forks from the same generation can therefore become two different biospheres.", "Two forks from the same observation can therefore become two different biospheres.")
+        text = text.replace("verify that the bot can create a generation commit.", "verify that the bot can create an observation commit.")
+        text = text.replace("Leave it alone. The included schedule attempts one generation every six hours.", "Leave it alone. The included schedule attempts one observation checkpoint every six hours.")
+        text = text.replace("Scheduled Actions are not guaranteed to execute at the exact scheduled minute, so PHYLUM treats a run as a generation rather than using wall-clock time as biological time.", "Scheduled Actions are not guaranteed to execute at the exact scheduled minute. VIVARIUM therefore advances its own deterministic simulated clock inside each checkpoint instead of treating wall-clock delay as biological time.")
+        text = text.replace("Every generation regenerates a static Observatory in `docs/`.", "Every observation checkpoint regenerates a static Observatory in `docs/`.")
+        text = text.replace("generation-to-generation population", "checkpoint-to-checkpoint population")
+        text = text.replace("history.ndjson              # generation summaries", "history.ndjson              # observation summaries")
+        text = text.replace("observation.py              # WITNESS generation deltas", "observation.py              # WITNESS checkpoint deltas")
+        text = text.replace("changes.json                # most recent generation delta", "changes.json                # most recent checkpoint delta")
+        # Anatomy additions are idempotent and keep older render layers intact.
+        if "│   ├── vivarium.py" not in text:
+            marker = "│   ├── orrery.py                   # ORRERY atlas and Observatory renderer\n"
+            text = text.replace(marker, marker + "│   ├── vivarium.py                 # continuous-time organisms, cohorts and ecosystems\n│   ├── vivarium_render.py          # living-world observation surface\n", 1)
+        if "│   ├── vivarium.svg" not in text:
+            marker = "│   ├── socius.svg                  # SOCIUS social-lineage record\n"
+            text = text.replace(marker, marker + "│   ├── vivarium.svg                # VIVARIUM individual/cohort world view\n", 1)
+        if "    ├── vivarium.json" not in text:
+            marker = "    ├── branch.json\n"
+            text = text.replace(marker, marker + "    ├── vivarium.json               # continuous simulated clock / engine state\n    ├── organisms.json              # bounded explicit living organisms\n    ├── cohorts.json                # compressed local population cohorts\n    ├── ecosystem.json              # local biomass, nutrients and weather\n", 1)
+        if "│   ├── births.ndjson" not in text:
+            marker = "│   ├── atlas-history.ndjson        # deep-time atlas snapshots\n"
+            text = text.replace(marker, marker + "│   ├── births.ndjson               # explicit birth ancestry records\n│   ├── deaths.ndjson               # explicit death/cause records\n", 1)
+        readme.write_text(text, encoding="utf-8")
+# === VIVARIUM RENDER LAYER v2 END ===

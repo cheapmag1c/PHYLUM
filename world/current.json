@@ -8,6 +8,7 @@
   },
   "created_utc": "2026-08-08T22:26:00+00:00",
   "detritus": 26.3,
+  "engine": "VIVARIUM",
   "era": {
     "index": 1,
     "name": "Origin Era",
@@ -22,7 +23,7 @@
   "next_species_id": 4,
   "occupied_cells": 36,
   "root_lineage": "PHYLUM/origin",
-  "schema_version": 14,
+  "schema_version": 15,
   "seed": 314159265,
   "socius": {
     "archive": [],
@@ -65,5 +66,15 @@
       "ruins": 0
     }
   },
-  "total_population": 889.56
+  "total_population": 889.56,
+  "vivarium": {
+    "checkpoint_days": 14,
+    "cohorts": 36,
+    "explicit_organisms": 175,
+    "last_checkpoint": {},
+    "observation_index": 21,
+    "schema": 1,
+    "sim_day": 0.0,
+    "sim_year": 0.0
+  }
 }

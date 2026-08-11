@@ -11,6 +11,7 @@ from .paleon import paleon_summary
 from .nerve import nerve_catalog
 from .techne import techne_catalog
 from .socius import socius_catalog
+from .vivarium import vivarium_summary
 from .storage import CHANGES_PATH, load_extended, load_json
 
 
@@ -26,6 +27,7 @@ def main() -> None:
     sub.add_parser("nerve",help="Print NERVE cognition, memory, behavior and culture profiles")
     sub.add_parser("techne",help="Print TECHNE cultural inheritance, practices and archaeology")
     sub.add_parser("socius",help="Print SOCIUS persistent groups, norms and social relationships")
+    sub.add_parser("vivarium",help="Print VIVARIUM continuous-time engine state")
     m=sub.add_parser("migrate",help="Upgrade the current world schema without advancing a generation"); m.add_argument("--lineage",default=None)
     c=sub.add_parser("compare",help="Compare this PHYLUM timeline with another checkout"); c.add_argument("other_repo")
     ct=sub.add_parser("contact",help="Resolve a branch encounter as a biological contact event"); ct.add_argument("other_repo")
@@ -33,7 +35,7 @@ def main() -> None:
     if args.command=="evolve":
         result=None
         for _ in range(max(1,args.steps)): result=evolve_one(args.lineage)
-        w=result["world"]; print(f"PHYLUM generation {w['generation']} · {w['living_species']} living lineages · {int(w['total_population'])} organisms")
+        w=result["world"]; vd=w.get('vivarium',{}); print(f"PHYLUM world {w['generation']} · year {float(vd.get('sim_year',0)):.2f} · {w['living_species']} living lineages · {int(w['total_population'])} organisms")
         for ev in result["events"]: print(f"- {ev['text']}")
     elif args.command=="status":
         w,s,e,p,plates,b,i=load_extended(); live=sorted((x for x in s if x.get("extinct_generation") is None),key=lambda x:x.get("population",0),reverse=True)
@@ -50,6 +52,8 @@ def main() -> None:
         w,s,e,p,plates,b,i=load_extended(); print(json.dumps(techne_catalog(w,s),indent=2))
     elif args.command=="socius":
         w,s,e,p,plates,b,i=load_extended(); print(json.dumps(socius_catalog(w,s),indent=2))
+    elif args.command=="vivarium":
+        w,s,e,p,plates,b,i=load_extended(); print(json.dumps(vivarium_summary(w,s),indent=2))
     elif args.command=="migrate":
         result=migrate_current_state(args.lineage,True); print(f"Migrated PHYLUM generation {result['world']['generation']} to schema {result['world']['schema_version']} without advancing time.")
     elif args.command=="compare": print(json.dumps(compare(args.other_repo),indent=2))

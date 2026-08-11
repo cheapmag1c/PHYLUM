@@ -1,15 +1,16 @@
 # PHYLUM
 
-**An evolutionary simulation written into Git history.**
+**An autonomous artificial biosphere written into Git history.**
 
-PHYLUM is a small artificial biosphere that advances itself inside a Git repository. Every generation mutates the persistent world state, redraws the habitat, records important events, and becomes a commit.
+PHYLUM is an autonomous artificial biosphere that lives inside a Git repository. Every observation checkpoint resolves continuous simulated time, redraws the habitat, records important evidence, and becomes a commit.
 
 Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 
 ![Current PHYLUM world](renders/current.svg?gen=000021)
 
 <!-- PHYLUM:STATE:START -->
-**Generation:** `21`  
+**Observation:** `21`  
+**Simulated time:** `day 0` / `year 0.00`  
 **Era:** `Origin Era`  
 **Living lineages:** `3`  
 **Extinct lineages:** `0`  
@@ -18,7 +19,7 @@ Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 **Active pathogens:** `1`  
 **Predator/prey links:** `0`  
 **Dominant lineage:** `pale filament`  
-**Last generation Δ:** `-22` organisms · `-1` occupied cells  
+**Last checkpoint Δ:** `-22` organisms · `-1` occupied cells  
 **Latest fossil:** The biosphere advances through generation 21.
 <!-- PHYLUM:STATE:END -->
 
@@ -53,7 +54,7 @@ Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 
 ## The idea
 
-A scheduled GitHub Action wakes up every six hours and runs one generation of the simulation. Organisms move toward suitable habitats, populations rise and collapse, the climate drifts, lineages split, and extinction events accumulate.
+A scheduled GitHub Action wakes up every six hours and advances one observation checkpoint. Inside that checkpoint VIVARIUM resolves daily life: organisms feed, move, age, reproduce, learn, transmit infection and die while slower planetary and cultural clocks advance on their own simulated timescales.
 
 Each run changes files such as:
 
@@ -65,22 +66,22 @@ renders/current.svg
 fossils/events.ndjson
 ```
 
-The Action then commits those changes. A repository's commit history therefore becomes the chronological history of its biosphere.
+The Action then commits those changes. A repository's commit history therefore becomes a sequence of observations from the biosphere's continuous history.
 
 ```text
-gen 000041 — pale filament diverges from glass mote
-gen 000104 — A prolonged dry phase begins
-gen 000139 — rust bell becomes extinct
-gen 000207 — silt frond is the most abundant lineage
+world 000041 — pale filament diverges from glass mote
+world 000104 — A prolonged dry phase begins
+world 000139 — rust bell becomes extinct
+world 000207 — silt frond is the most abundant lineage
 ```
 
 Check out an old commit and you have literally checked out an extinct version of the world.
 
 ## Forks are alternate evolutionary timelines
 
-PHYLUM salts its random stream with the GitHub repository identity. When another person forks the project, that fork inherits the same ancestry but begins producing different evolutionary outcomes on its next generation.
+PHYLUM salts its random stream with the GitHub repository identity. When another person forks the project, that fork inherits the same ancestry but begins producing different biological outcomes on its next observation checkpoint.
 
-Two forks from the same generation can therefore become two different biospheres.
+Two forks from the same observation can therefore become two different biospheres.
 
 ## Run it locally
 
@@ -103,10 +104,10 @@ python -m unittest discover -s tests -v
 1. Create a new repository and push this project to its default branch.
 2. In **Settings → Actions → General → Workflow permissions**, allow GitHub Actions to have read and write permissions if your repository policy does not already allow it.
 3. Open the **Actions** tab and enable workflows if GitHub asks you to.
-4. Run **Evolve PHYLUM** manually once with `workflow_dispatch` to verify that the bot can create a generation commit.
-5. Leave it alone. The included schedule attempts one generation every six hours.
+4. Run **Evolve PHYLUM** manually once with `workflow_dispatch` to verify that the bot can create an observation commit.
+5. Leave it alone. The included schedule attempts one observation checkpoint every six hours.
 
-Scheduled Actions are not guaranteed to execute at the exact scheduled minute, so PHYLUM treats a run as a generation rather than using wall-clock time as biological time.
+Scheduled Actions are not guaranteed to execute at the exact scheduled minute. VIVARIUM therefore advances its own deterministic simulated clock inside each checkpoint instead of treating wall-clock delay as biological time.
 
 ## Anatomy
 
@@ -116,21 +117,25 @@ PHYLUM/
 ├── docs/                           # generated Observatory / GitHub Pages
 ├── fossils/
 │   ├── events.ndjson               # append-only event chronology
-│   ├── history.ndjson              # generation summaries
+│   ├── history.ndjson              # observation summaries
 │   ├── atlas-history.ndjson        # deep-time atlas snapshots
+│   ├── births.ndjson               # explicit birth ancestry records
+│   ├── deaths.ndjson               # explicit death/cause records
 │   ├── species/                    # extinct-lineage records
 │   └── checkpoints/                # periodic recovery state
 ├── phylum/
 │   ├── biology.py                  # genetics, reproduction, ecology, speciation
 │   ├── branching.py                # fork identity, comparison and contact
 │   ├── disease.py                  # pathogens and immunity
-│   ├── observation.py              # WITNESS generation deltas
+│   ├── observation.py              # WITNESS checkpoint deltas
 │   ├── soma.py                     # organismal biology, development and field guide
 │   ├── paleon.py                   # DEEP TIME 2.0 coupled planetary engine
 │   ├── nerve.py                    # cognition, memory, learning and culture
 │   ├── techne.py                   # cultural inheritance, material practices and archaeology
 │   ├── socius.py                   # persistent groups, norms and social lineages
 │   ├── orrery.py                   # ORRERY atlas and Observatory renderer
+│   ├── vivarium.py                 # continuous-time organisms, cohorts and ecosystems
+│   ├── vivarium_render.py          # living-world observation surface
 │   ├── planet.py                   # compatibility surface delegated to PALEON
 │   ├── render.py                   # atlas, phylogeny, food web and Observatory
 │   └── ...
@@ -141,6 +146,7 @@ PHYLUM/
 │   ├── nerve.svg                   # NERVE ethogram / living minds plate
 │   ├── techne.svg                  # TECHNE cultural / archaeological record
 │   ├── socius.svg                  # SOCIUS social-lineage record
+│   ├── vivarium.svg                # VIVARIUM individual/cohort world view
 │   ├── organisms/                  # per-lineage schematic plates
 │   ├── phylogeny.svg
 │   └── foodweb.svg
@@ -153,24 +159,32 @@ PHYLUM/
     ├── interactions.json
     ├── plates.json
     ├── branch.json
-    └── changes.json                # most recent generation delta
+    ├── vivarium.json               # continuous simulated clock / engine state
+    ├── organisms.json              # bounded explicit living organisms
+    ├── cohorts.json                # compressed local population cohorts
+    ├── ecosystem.json              # local biomass, nutrients and weather
+    └── changes.json                # most recent checkpoint delta
 ```
 
 
-## Current model — SOCIUS + ORRERY
+## Living world — VIVARIUM
 
-PHYLUM runs **PALEON / DEEP TIME 2.0** as its planetary engine, **SOMA** as organismal biology, **NERVE** as cognition and learning, **TECHNE** as cultural inheritance and material culture, **SOCIUS** as persistent social organization, and **WITNESS** as the historical evidence layer. **ORRERY** is the graphical observatory that renders the coupled world.
+![PHYLUM VIVARIUM living-world engine](renders/vivarium.svg?world=000021)
 
-SOCIUS introduces persistent groups, social territories, group ancestry, norms, coordination styles, relationships, fission and social collapse. Groups are not governments and do not imply civilization: formation remains gated by population, NERVE cognition, cooperation, recognition and TECHNE cultural persistence. A biological species can survive while one of its social lineages disappears.
+## Current model — VIVARIUM
 
-ORRERY is a major graphical revision: layered relief/biome cartography, cleaner species-range cores, SOCIUS territories and relationship arcs, TECHNE sites and ruins, disease/event overlays, a redesigned phylogeny and a rebuilt static Observatory with live layer controls.
+PHYLUM 2.0 runs **VIVARIUM** as its living-world substrate. Species are no longer advanced by a species-level evolution function: explicit organisms and bounded cohorts feed, age, move, reproduce, inherit genes, become infected and die through continuous simulated time. Species population, range and genome statistics are measured back from those living populations.
+
+**PALEON** supplies the physical world, **SOMA** supplies bodies and life history, **NERVE** supplies perception and learning, **TECHNE** supplies persistent cultural information, **SOCIUS** supplies social organization, and **WITNESS + ORRERY** observe the resulting history. Git commits are observation checkpoints rather than biological generations.
+
+Open `docs/vivarium.html` or `renders/vivarium.svg` for the current individual/cohort engine state.
 
 
 ## Observatory
 
-Every generation regenerates a static Observatory in `docs/`. The layered World Atlas exposes biomes, tectonics, relief, rivers, territories, migration, ecology, predator/prey contact zones, disease, current-generation events, fossils, scars, population density, biodiversity, genetics and climate.
+Every observation checkpoint regenerates a static Observatory in `docs/`. The layered World Atlas exposes biomes, tectonics, relief, rivers, territories, migration, ecology, predator/prey contact zones, disease, current-generation events, fossils, scars, population density, biodiversity, genetics and climate.
 
-WITNESS also adds a **CHANGES** view for generation-to-generation population, range, lineage, pathogen, predation, movement and infection deltas. The Observatory retains lineage and fossil browsers, branch ancestry/contact history, event timelines and deep-time atlas snapshots. Enable GitHub Pages from the repository's `docs/` folder to turn it into a live observation station.
+WITNESS also adds a **CHANGES** view for checkpoint-to-checkpoint population, range, lineage, pathogen, predation, movement and infection deltas. The Observatory retains lineage and fossil browsers, branch ancestry/contact history, event timelines and deep-time atlas snapshots. Enable GitHub Pages from the repository's `docs/` folder to turn it into a live observation station.
 
 Open the generated **SOMA Field Guide** at `docs/soma.html` for organism plates, life cycles, physiology, reproduction and behavior. Open the **PALEON planetary dossier** at `docs/paleon.html` for atmosphere, ocean, cryosphere, nutrient-cycle and hydrology state.
 
