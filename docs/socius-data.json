@@ -1,8 +1,13 @@
 {
   "active_groups": 0,
   "archived_groups": 0,
-  "generation": 20,
+  "generation": 21,
   "groups": [],
   "relationships": [],
-  "statistics": {}
+  "statistics": {
+    "active_groups": 0,
+    "archived_groups": 0,
+    "norms": 0,
+    "relationships": 0
+  }
 }

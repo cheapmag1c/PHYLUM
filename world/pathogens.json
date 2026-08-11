@@ -5,12 +5,12 @@
     "extinct_generation": null,
     "host_breadth": 0.1067,
     "hosts": {
-      "sp-00002": 0.06933
+      "sp-00002": 0.07431
     },
     "id": "pa-00001",
     "mutation_rate": 0.1183,
     "name": "red spore",
-    "peak_prevalence": 0.07103,
+    "peak_prevalence": 0.07431,
     "reservoirs": [
       "sp-00002"
     ],
