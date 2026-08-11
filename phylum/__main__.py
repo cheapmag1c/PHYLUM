@@ -10,6 +10,7 @@ from .soma import soma_catalog
 from .paleon import paleon_summary
 from .nerve import nerve_catalog
 from .techne import techne_catalog
+from .socius import socius_catalog
 from .storage import CHANGES_PATH, load_extended, load_json
 
 
@@ -24,6 +25,7 @@ def main() -> None:
     sub.add_parser("paleon",help="Print DEEP TIME 2.0 planetary-system state")
     sub.add_parser("nerve",help="Print NERVE cognition, memory, behavior and culture profiles")
     sub.add_parser("techne",help="Print TECHNE cultural inheritance, practices and archaeology")
+    sub.add_parser("socius",help="Print SOCIUS persistent groups, norms and social relationships")
     m=sub.add_parser("migrate",help="Upgrade the current world schema without advancing a generation"); m.add_argument("--lineage",default=None)
     c=sub.add_parser("compare",help="Compare this PHYLUM timeline with another checkout"); c.add_argument("other_repo")
     ct=sub.add_parser("contact",help="Resolve a branch encounter as a biological contact event"); ct.add_argument("other_repo")
@@ -46,6 +48,8 @@ def main() -> None:
         w,s,e,p,plates,b,i=load_extended(); live=[x for x in nerve_catalog(s) if x.get("extinct_generation") is None]; print(json.dumps({"generation":w.get("generation"),"lineages":live},indent=2))
     elif args.command=="techne":
         w,s,e,p,plates,b,i=load_extended(); print(json.dumps(techne_catalog(w,s),indent=2))
+    elif args.command=="socius":
+        w,s,e,p,plates,b,i=load_extended(); print(json.dumps(socius_catalog(w,s),indent=2))
     elif args.command=="migrate":
         result=migrate_current_state(args.lineage,True); print(f"Migrated PHYLUM generation {result['world']['generation']} to schema {result['world']['schema_version']} without advancing time.")
     elif args.command=="compare": print(json.dumps(compare(args.other_repo),indent=2))

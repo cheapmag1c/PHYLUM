@@ -236,6 +236,37 @@
       "western reach"
     ],
     "sex_mode": "sexual",
+    "socius": {
+      "capacities": {
+        "coordination": 0.15655,
+        "differentiation": 0.20429,
+        "group_persistence": 0.19153,
+        "identity": 0.21222,
+        "leadership": 0.17001,
+        "norm_retention": 0.18202,
+        "tolerance": 0.54292
+      },
+      "experience_generations": 0,
+      "group_ids": [],
+      "modifiers": {
+        "cultural_retention": 1.0,
+        "demography": 1.0,
+        "migration": 1.0
+      },
+      "schema": 1,
+      "selection_pressures": {
+        "cooperation": 0.0,
+        "identity": 0.0,
+        "tolerance": 0.0
+      },
+      "statistics": {
+        "fissions": 0,
+        "groups_formed": 0,
+        "groups_lost": 0,
+        "mergers": 0,
+        "norms_formed": 0
+      }
+    },
     "soma": {
       "behavior": {
         "activity_cycle": "diurnal",
@@ -634,6 +665,37 @@
       "southern reach"
     ],
     "sex_mode": "sexual",
+    "socius": {
+      "capacities": {
+        "coordination": 0.2378,
+        "differentiation": 0.26787,
+        "group_persistence": 0.27264,
+        "identity": 0.28749,
+        "leadership": 0.25029,
+        "norm_retention": 0.25421,
+        "tolerance": 0.55649
+      },
+      "experience_generations": 0,
+      "group_ids": [],
+      "modifiers": {
+        "cultural_retention": 1.0,
+        "demography": 1.0,
+        "migration": 1.0
+      },
+      "schema": 1,
+      "selection_pressures": {
+        "cooperation": 0.0,
+        "identity": 0.0,
+        "tolerance": 0.0
+      },
+      "statistics": {
+        "fissions": 0,
+        "groups_formed": 0,
+        "groups_lost": 0,
+        "mergers": 0,
+        "norms_formed": 0
+      }
+    },
     "soma": {
       "behavior": {
         "activity_cycle": "diurnal",
@@ -1050,6 +1112,37 @@
       "eastern reach"
     ],
     "sex_mode": "sexual",
+    "socius": {
+      "capacities": {
+        "coordination": 0.2397,
+        "differentiation": 0.25559,
+        "group_persistence": 0.30988,
+        "identity": 0.30577,
+        "leadership": 0.23465,
+        "norm_retention": 0.26445,
+        "tolerance": 0.60194
+      },
+      "experience_generations": 0,
+      "group_ids": [],
+      "modifiers": {
+        "cultural_retention": 1.0,
+        "demography": 1.0,
+        "migration": 1.0
+      },
+      "schema": 1,
+      "selection_pressures": {
+        "cooperation": 0.0,
+        "identity": 0.0,
+        "tolerance": 0.0
+      },
+      "statistics": {
+        "fissions": 0,
+        "groups_formed": 0,
+        "groups_lost": 0,
+        "mergers": 0,
+        "norms_formed": 0
+      }
+    },
     "soma": {
       "behavior": {
         "activity_cycle": "diurnal",

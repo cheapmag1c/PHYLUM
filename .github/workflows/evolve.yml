@@ -48,6 +48,9 @@ jobs:
       - name: Print TECHNE cultural state
         run: python -m phylum techne
 
+      - name: Print SOCIUS social state
+        run: python -m phylum socius
+
       - name: Commit fossil record
         shell: bash
         run: |

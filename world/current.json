@@ -22,8 +22,17 @@
   "next_species_id": 4,
   "occupied_cells": 37,
   "root_lineage": "PHYLUM/origin",
-  "schema_version": 13,
+  "schema_version": 14,
   "seed": 314159265,
+  "socius": {
+    "archive": [],
+    "group_lineages": [],
+    "groups": [],
+    "next_group_id": 1,
+    "relationships": [],
+    "schema": 1,
+    "statistics": {}
+  },
   "statistics": {
     "active_pathogens": 1,
     "competition_links": 0,

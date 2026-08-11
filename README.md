@@ -31,6 +31,10 @@ Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 
 ![PHYLUM food web](renders/foodweb.svg?gen=000020)
 
+## Persistent groups — SOCIUS
+
+![PHYLUM SOCIUS social lineage record](renders/socius.svg?gen=000020)
+
 ## Living cultures — TECHNE
 
 ![PHYLUM TECHNE cultural record](renders/techne.svg?gen=000020)
@@ -125,6 +129,8 @@ PHYLUM/
 │   ├── paleon.py                   # DEEP TIME 2.0 coupled planetary engine
 │   ├── nerve.py                    # cognition, memory, learning and culture
 │   ├── techne.py                   # cultural inheritance, material practices and archaeology
+│   ├── socius.py                   # persistent groups, norms and social lineages
+│   ├── orrery.py                   # ORRERY atlas and Observatory renderer
 │   ├── planet.py                   # compatibility surface delegated to PALEON
 │   ├── render.py                   # atlas, phylogeny, food web and Observatory
 │   └── ...
@@ -134,6 +140,7 @@ PHYLUM/
 │   ├── paleon.svg                  # PALEON planetary systems plate
 │   ├── nerve.svg                   # NERVE ethogram / living minds plate
 │   ├── techne.svg                  # TECHNE cultural / archaeological record
+│   ├── socius.svg                  # SOCIUS social-lineage record
 │   ├── organisms/                  # per-lineage schematic plates
 │   ├── phylogeny.svg
 │   └── foodweb.svg
@@ -150,12 +157,13 @@ PHYLUM/
 ```
 
 
-## Current model — TECHNE
-PHYLUM now runs a coupled stack: **PALEON / DEEP TIME 2.0** governs the planet; **SOMA** gives lineages organism-level bodies and life histories; **NERVE** gives them perception, memory, learning and social behavior; **TECHNE** allows learned information to persist as cultural lineages, material practices and archaeological sites; **WITNESS** records the evidence.
+## Current model — SOCIUS + ORRERY
 
-TECHNE is not a civilization tech tree. Persistent nesting, caching, route marking, construction, object use, dialects and rarer material innovations require compatible NERVE cognition, SOMA anatomy, ecology and opportunity. Knowledge can diffuse between contacting populations, mutate culturally, or disappear after bottlenecks and collapse.
+PHYLUM runs **PALEON / DEEP TIME 2.0** as its planetary engine, **SOMA** as organismal biology, **NERVE** as cognition and learning, **TECHNE** as cultural inheritance and material culture, **SOCIUS** as persistent social organization, and **WITNESS** as the historical evidence layer. **ORRERY** is the graphical observatory that renders the coupled world.
 
-The generated `renders/techne.svg` record and `docs/techne.html` browser expose cultural practices, dialects, living cultural lineages, active sites and ruins. No technology milestone is scheduled for a particular generation.
+SOCIUS introduces persistent groups, social territories, group ancestry, norms, coordination styles, relationships, fission and social collapse. Groups are not governments and do not imply civilization: formation remains gated by population, NERVE cognition, cooperation, recognition and TECHNE cultural persistence. A biological species can survive while one of its social lineages disappears.
+
+ORRERY is a major graphical revision: layered relief/biome cartography, cleaner species-range cores, SOCIUS territories and relationship arcs, TECHNE sites and ruins, disease/event overlays, a redesigned phylogeny and a rebuilt static Observatory with live layer controls.
 
 
 ## Observatory

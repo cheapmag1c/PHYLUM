@@ -1,3 +1,18 @@
+## 1.6.0 — SOCIUS + ORRERY
+
+**Knowledge endured. Now relationships can outlive the individual.**
+
+- Adds persistent social groups distinct from species and cultural practices.
+- Adds social territories, group ancestry, fission, collapse, norms, coordination styles and group-to-group relationships.
+- Allows biological survival alongside social-lineage extinction.
+- Adds deliberately weak social demographic feedback so ecology, disease and climate remain dominant forces.
+- Adds ORRERY, a major graphical overhaul of the world atlas, phylogeny and static Observatory.
+- Adds relief/biome cartography, fossil ghost ranges, social territories, relationship arcs, TECHNE site markers, disease and event layers.
+- Rebuilds GitHub Pages with layer controls and dedicated SOCIUS navigation.
+- Adds `python -m phylum socius`, SOCIUS tests and WITNESS social-event glyphs.
+- Fixes duplicate PALEON finalization in patched stacks where it remained from the 1.3.1 migration chain.
+- Preserves the MOURNINGSTAR Source License and does not add governments, wars, settlements or scripted civilization milestones.
+
 ## 1.5.0 — TECHNE
 
 **Life learned. Now knowledge can outlive the organism.**

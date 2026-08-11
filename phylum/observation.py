@@ -195,6 +195,7 @@ def build_changes(
         "disaster":"!","mass_extinction":"☄","tectonic":"△","climate":"≈","contact":"⇄","era":"◆",
         "tool_use":"⌘","culture":"◎","communication":"∿","learning":"+","behavior":"•",
         "construction":"⌂","artifact":"▣","cultural_exchange":"⇆","knowledge_loss":"×","language":"≋",
+        "group_formation":"◉","group_fission":"⑂","social_collapse":"◌","social_relation":"↔","social_norm":"§",
     }
     for idx,e in enumerate(events):
         pos=_event_position(e,byid,pathogen_byid,env)

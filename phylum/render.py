@@ -743,3 +743,23 @@ def render_all(world, species, env, pathogens, plates, branch, interactions):
             index.write_text(html_text, encoding="utf-8")
 # === TECHNE RENDER LAYER v1 END ===
 
+# === SOCIUS + ORRERY RENDER LAYER v1 START ===
+# SOCIUS adds persistent social-history graphics. ORRERY deliberately runs last
+# so the new atlas/Observatory becomes the canonical generated presentation.
+from .socius import render_socius_assets as _render_socius_assets
+from .orrery import render_orrery_assets as _render_orrery_assets, update_readme_orrery as _update_readme_orrery
+
+_socius_legacy_update_readme = update_readme
+def update_readme(world, species, pathogens, interactions):
+    _socius_legacy_update_readme(world, species, pathogens, interactions)
+    _update_readme_orrery(world, species)
+
+_socius_legacy_render_all = render_all
+def render_all(world, species, env, pathogens, plates, branch, interactions):
+    _socius_legacy_render_all(world, species, env, pathogens, plates, branch, interactions)
+    root = Path(__file__).resolve().parents[1]
+    _render_socius_assets(world, species, root)
+    _render_orrery_assets(world, species, env, pathogens, plates, branch, interactions, root)
+    _update_readme_orrery(world, species)
+# === SOCIUS + ORRERY RENDER LAYER v1 END ===
+

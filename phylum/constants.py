@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-SCHEMA_VERSION = 13
+SCHEMA_VERSION = 14
 GRID_COLS = 48
 GRID_ROWS = 30
 MAP_SAMPLE_COLS = 96
@@ -22,6 +22,11 @@ EVENT_PRIORITY = {
     "artifact": 84,
     "cultural_exchange": 83,
     "knowledge_loss": 81,
+    "group_formation": 87,
+    "group_fission": 85,
+    "social_collapse": 84,
+    "social_relation": 73,
+    "social_norm": 72,
     "language": 78,
     "tool_use": 96,
     "culture": 86,

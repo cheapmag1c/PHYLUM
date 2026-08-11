@@ -17,6 +17,7 @@ from phylum.observation import build_changes, capture_observation, format_change
 from phylum.soma import ensure_soma_schema
 from phylum.nerve import ensure_nerve_schema
 from phylum.techne import ensure_techne_schema, ensure_world_techne
+from phylum.socius import ensure_socius_schema, ensure_world_socius
 
 
 class PhylumTests(unittest.TestCase):
@@ -114,6 +115,8 @@ class PhylumTests(unittest.TestCase):
         ensure_nerve_schema(sp,1,0,{sp["id"]:sp})
         ensure_world_techne(world)
         ensure_techne_schema(sp,1,0,{sp["id"]:sp})
+        ensure_world_socius(world)
+        ensure_socius_schema(sp,1,0,{sp["id"]:sp})
         branch={"root_fingerprint":"root"}
         self.assertEqual(validate_state(world,[sp],env,[],plates,branch,[]),[])
 
