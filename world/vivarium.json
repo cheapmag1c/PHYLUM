@@ -3,13 +3,32 @@
   "engine": "VIVARIUM",
   "epoch_origin_observation": 21,
   "isolation": {},
-  "last_checkpoint": {},
+  "last_checkpoint": {
+    "births": 14.106,
+    "death_causes": {
+      "age": 10.058,
+      "disease": 0.046
+    },
+    "deaths": 10.104,
+    "extreme_weather_days": 0,
+    "observation_index": 22,
+    "observed_predation": 0,
+    "population_after": 893.562,
+    "population_before": 889.56,
+    "sim_day_end": 14.0,
+    "sim_day_start": 0.0,
+    "simulated_days": 14
+  },
   "legacy_observations": 21,
-  "next_cohort_id": 37,
-  "next_organism_id": 176,
-  "observation_index": 21,
+  "next_cohort_id": 48,
+  "next_organism_id": 184,
+  "observation_index": 22,
   "schema": 1,
-  "sim_day": 0.0,
-  "statistics": {},
+  "sim_day": 14.0,
+  "statistics": {
+    "cohorts": 46,
+    "explicit_organisms": 183,
+    "sim_year": 0.03889
+  },
   "year_days": 360
 }

@@ -6,51 +6,51 @@ PHYLUM is an autonomous artificial biosphere that lives inside a Git repository.
 
 Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 
-![Current PHYLUM world](renders/current.svg?gen=000021)
+![Current PHYLUM world](renders/current.svg?gen=000022)
 
 <!-- PHYLUM:STATE:START -->
-**Observation:** `21`  
-**Simulated time:** `day 0` / `year 0.00`  
+**Observation:** `22`  
+**Simulated time:** `day 14` / `year 0.04`  
 **Era:** `Origin Era`  
 **Living lineages:** `3`  
 **Extinct lineages:** `0`  
-**Population:** `889`  
-**Occupied cells:** `36` / `1440`  
+**Population:** `893`  
+**Occupied cells:** `51` / `1440`  
 **Active pathogens:** `1`  
 **Predator/prey links:** `0`  
 **Dominant lineage:** `pale filament`  
-**Last checkpoint Δ:** `-22` organisms · `-1` occupied cells  
-**Latest fossil:** The biosphere advances through generation 21.
+**Last checkpoint Δ:** `+4` organisms · `+15` occupied cells  
+**Latest fossil:** VIVARIUM advances 14 simulated days to year 0.04.
 <!-- PHYLUM:STATE:END -->
 
 
 ## Living phylogeny
 
-![PHYLUM phylogeny](renders/phylogeny.svg?gen=000021)
+![PHYLUM phylogeny](renders/phylogeny.svg?gen=000022)
 
 ## Living food web
 
-![PHYLUM food web](renders/foodweb.svg?gen=000021)
+![PHYLUM food web](renders/foodweb.svg?gen=000022)
 
 ## Persistent groups — SOCIUS
 
-![PHYLUM SOCIUS social lineage record](renders/socius.svg?gen=000021)
+![PHYLUM SOCIUS social lineage record](renders/socius.svg?gen=000022)
 
 ## Living cultures — TECHNE
 
-![PHYLUM TECHNE cultural record](renders/techne.svg?gen=000021)
+![PHYLUM TECHNE cultural record](renders/techne.svg?gen=000022)
 
 ## Living minds — NERVE
 
-![PHYLUM NERVE ethogram](renders/nerve.svg?gen=000021)
+![PHYLUM NERVE ethogram](renders/nerve.svg?gen=000022)
 
 ## Planetary system — PALEON
 
-![PHYLUM PALEON planetary system](renders/paleon.svg?gen=000021)
+![PHYLUM PALEON planetary system](renders/paleon.svg?gen=000022)
 
 ## Living organisms — SOMA
 
-![PHYLUM SOMA field guide](renders/soma.svg?gen=000021)
+![PHYLUM SOMA field guide](renders/soma.svg?gen=000022)
 
 ## The idea
 
@@ -169,7 +169,7 @@ PHYLUM/
 
 ## Living world — VIVARIUM
 
-![PHYLUM VIVARIUM living-world engine](renders/vivarium.svg?world=000021)
+![PHYLUM VIVARIUM living-world engine](renders/vivarium.svg?world=000022)
 
 ## Current model — VIVARIUM
 
