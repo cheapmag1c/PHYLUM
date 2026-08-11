@@ -6,42 +6,42 @@ PHYLUM is a small artificial biosphere that advances itself inside a Git reposit
 
 Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 
-![Current PHYLUM world](renders/current.svg?gen=000017)
+![Current PHYLUM world](renders/current.svg?gen=000018)
 
 <!-- PHYLUM:STATE:START -->
-**Generation:** `17`  
+**Generation:** `18`  
 **Era:** `Origin Era`  
 **Living lineages:** `3`  
 **Extinct lineages:** `0`  
-**Population:** `964`  
-**Occupied cells:** `38` / `1440`  
+**Population:** `939`  
+**Occupied cells:** `37` / `1440`  
 **Active pathogens:** `1`  
 **Predator/prey links:** `0`  
 **Dominant lineage:** `pale filament`  
-**Last generation Δ:** `-12` organisms · `+0` occupied cells  
-**Latest fossil:** The biosphere advances through generation 17.
+**Last generation Δ:** `-24` organisms · `-1` occupied cells  
+**Latest fossil:** The biosphere advances through generation 18.
 <!-- PHYLUM:STATE:END -->
 
 
 ## Living phylogeny
 
-![PHYLUM phylogeny](renders/phylogeny.svg?gen=000017)
+![PHYLUM phylogeny](renders/phylogeny.svg?gen=000018)
 
 ## Living food web
 
-![PHYLUM food web](renders/foodweb.svg?gen=000017)
+![PHYLUM food web](renders/foodweb.svg?gen=000018)
 
 ## Living minds — NERVE
 
-![PHYLUM NERVE ethogram](renders/nerve.svg?gen=000017)
+![PHYLUM NERVE ethogram](renders/nerve.svg?gen=000018)
 
 ## Planetary system — PALEON
 
-![PHYLUM PALEON planetary system](renders/paleon.svg?gen=000017)
+![PHYLUM PALEON planetary system](renders/paleon.svg?gen=000018)
 
 ## Living organisms — SOMA
 
-![PHYLUM SOMA field guide](renders/soma.svg?gen=000017)
+![PHYLUM SOMA field guide](renders/soma.svg?gen=000018)
 
 ## The idea
 
