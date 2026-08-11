@@ -45,6 +45,9 @@ jobs:
       - name: Print NERVE state
         run: python -m phylum nerve
 
+      - name: Print TECHNE cultural state
+        run: python -m phylum techne
+
       - name: Commit fossil record
         shell: bash
         run: |

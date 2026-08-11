@@ -194,6 +194,7 @@ def build_changes(
         "migration":"→","speciation":"◇","extinction":"†","disease":"✣","pandemic":"✣",
         "disaster":"!","mass_extinction":"☄","tectonic":"△","climate":"≈","contact":"⇄","era":"◆",
         "tool_use":"⌘","culture":"◎","communication":"∿","learning":"+","behavior":"•",
+        "construction":"⌂","artifact":"▣","cultural_exchange":"⇆","knowledge_loss":"×","language":"≋",
     }
     for idx,e in enumerate(events):
         pos=_event_position(e,byid,pathogen_byid,env)

@@ -1,3 +1,17 @@
+## 1.5.0 — TECHNE
+
+**Life learned. Now knowledge can outlive the organism.**
+
+- Adds cultural inheritance as population-level state distinct from genes.
+- Adds persistent practices, cultural lineage ancestry, dialect drift and cross-species cultural exchange.
+- Adds aggregate archaeological sites that can remain as ruins after their creators disappear.
+- Adds opportunity-gated nesting, caching, route marking, object use, construction, resource tending and rarer advanced material practices.
+- Adds explicit knowledge loss after weak transmission, population bottlenecks and disease pressure.
+- Adds very weak gene-culture coevolution without turning culture into a forced biological progression.
+- Adds TECHNE cultural record render, static browser and CLI command.
+- WITNESS recognizes construction, artifact, cultural-exchange, knowledge-loss and language events.
+- Preserves the MOURNINGSTAR license and never schedules civilization or technology milestones.
+
 ## 1.4.0 — NERVE
 
 **Organisms lived. Now they learn.**

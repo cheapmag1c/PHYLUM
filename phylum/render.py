@@ -683,3 +683,63 @@ def render_all(world, species, env, pathogens, plates, branch, interactions):
             index.write_text(html_text, encoding="utf-8")
 # === NERVE RENDER LAYER v1 END ===
 
+# === TECHNE RENDER LAYER v1 START ===
+# TECHNE layers after NERVE. It exposes cultural ancestry and material traces
+# without replacing the existing WITNESS/SOMA/PALEON render chain.
+import re as _techne_re
+from .techne import render_techne_assets as _render_techne_assets
+
+_techne_legacy_update_readme = update_readme
+def update_readme(world, species, pathogens, interactions):
+    _techne_legacy_update_readme(world, species, pathogens, interactions)
+    root = Path(__file__).resolve().parents[1]
+    text = README_PATH.read_text(encoding="utf-8")
+    gen = int(world.get("generation", 0))
+    if "renders/techne.svg" not in text:
+        anchor = "## Living minds — NERVE"
+        insertion = f"## Living cultures — TECHNE\n\n![PHYLUM TECHNE cultural record](renders/techne.svg?gen={gen:06d})\n\n"
+        if anchor in text:
+            text = text.replace(anchor, insertion + anchor, 1)
+        else:
+            text += "\n\n" + insertion
+    else:
+        text = _techne_re.sub(r"renders/techne\.svg\?gen=[^\)\s]+", f"renders/techne.svg?gen={gen:06d}", text)
+    model = (
+        "## Current model — TECHNE\n"
+        "PHYLUM now runs a coupled stack: **PALEON / DEEP TIME 2.0** governs the planet; **SOMA** gives lineages organism-level bodies and life histories; **NERVE** gives them perception, memory, learning and social behavior; **TECHNE** allows learned information to persist as cultural lineages, material practices and archaeological sites; **WITNESS** records the evidence.\n\n"
+        "TECHNE is not a civilization tech tree. Persistent nesting, caching, route marking, construction, object use, dialects and rarer material innovations require compatible NERVE cognition, SOMA anatomy, ecology and opportunity. Knowledge can diffuse between contacting populations, mutate culturally, or disappear after bottlenecks and collapse.\n\n"
+        "The generated `renders/techne.svg` record and `docs/techne.html` browser expose cultural practices, dialects, living cultural lineages, active sites and ruins. No technology milestone is scheduled for a particular generation.\n"
+    )
+    if _techne_re.search(r"## Current model(?: — [^\n]+)?\n", text):
+        text = _techne_re.sub(r"## Current model(?: — [^\n]+)?\n.*?(?=\n## Observatory|\n## License)", model + "\n", text, flags=_techne_re.S)
+    if "│   ├── techne.py" not in text:
+        marker = "│   ├── nerve.py                    # cognition, memory, learning and culture\n"
+        if marker in text:
+            text = text.replace(marker, marker + "│   ├── techne.py                   # cultural inheritance, material practices and archaeology\n", 1)
+    if "│   ├── techne.svg" not in text:
+        marker = "│   ├── nerve.svg                   # NERVE ethogram / living minds plate\n"
+        if marker in text:
+            text = text.replace(marker, marker + "│   ├── techne.svg                  # TECHNE cultural / archaeological record\n", 1)
+    if "TECHNE cultural record" not in text and "## Observatory\n" in text:
+        text = text.replace(
+            "Open the **NERVE ethogram** at `docs/nerve.html` for cognition, memory, learned behavior and cultural traditions.",
+            "Open the **NERVE ethogram** at `docs/nerve.html` for cognition, memory, learned behavior and cultural traditions. Open the **TECHNE cultural record** at `docs/techne.html` for practices, dialects, cultural phylogeny and archaeological sites.",
+            1,
+        )
+    README_PATH.write_text(text, encoding="utf-8")
+
+_techne_legacy_render_all = render_all
+def render_all(world, species, env, pathogens, plates, branch, interactions):
+    _techne_legacy_render_all(world, species, env, pathogens, plates, branch, interactions)
+    root = Path(__file__).resolve().parents[1]
+    _render_techne_assets(world, species, root)
+    index = root / "docs" / "index.html"
+    if index.exists():
+        html_text = index.read_text(encoding="utf-8")
+        if 'href="techne.html"' not in html_text:
+            nerve_link = '<a href="nerve.html" style="background:#0f2022;color:var(--text);border:1px solid #2e4743;padding:8px 11px;border-radius:6px;text-decoration:none">NERVE</a>'
+            techne_link = '<a href="techne.html" style="background:#0f2022;color:var(--text);border:1px solid #2e4743;padding:8px 11px;border-radius:6px;text-decoration:none">TECHNE</a>'
+            html_text = html_text.replace(nerve_link, nerve_link + techne_link, 1) if nerve_link in html_text else html_text
+            index.write_text(html_text, encoding="utf-8")
+# === TECHNE RENDER LAYER v1 END ===
+

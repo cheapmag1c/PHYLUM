@@ -10,6 +10,7 @@ from .planet import biome_at, cell_world_xy, climate_at, geography_at, neighbors
 from .utils import clamp, mean, stable_int, weighted_choice
 from .soma import bias_descendant_genome
 from .nerve import nerve_bias_descendant_genome
+from .techne import techne_bias_descendant_genome
 
 
 def normalize_range(sp: dict[str, Any]) -> set[tuple[int, int]]:
@@ -351,7 +352,7 @@ def _mutate_genome(parent: dict[str, Any], rng: random.Random, magnitude: float 
         if mode in {"herbivory","carnivory"}: child["autotrophy"]=round(clamp(float(child.get("autotrophy",0))-rng.uniform(0.08,0.28),0,1),5)
     if rng.random() < 0.025:
         child["aquatic"]=round(clamp(float(child.get("aquatic",0))+rng.uniform(-0.25,0.45),0,1),5)
-    return nerve_bias_descendant_genome(parent, bias_descendant_genome(parent, child, rng, magnitude), rng, magnitude)
+    return techne_bias_descendant_genome(parent, nerve_bias_descendant_genome(parent, bias_descendant_genome(parent, child, rng, magnitude), rng, magnitude), rng, magnitude)
 
 
 def _descendant_name(parent: dict[str, Any], rng: random.Random, used: set[str]) -> str:
@@ -453,13 +454,14 @@ def evolve_ecology(
         body=max(0.12,float(sp["genome"].get("body_size",1)))
         soma_mods=sp.get("soma",{}).get("modifiers",{})
         nerve_mods=sp.get("nerve",{}).get("modifiers",{})
-        carrying = max(16.0, len(cells) * (38.0 + 74.0*local_res) / body**0.23) * float(soma_mods.get("capacity",1.0)) * float(nerve_mods.get("capacity",1.0))
+        techne_mods=sp.get("techne",{}).get("modifiers",{})
+        carrying = max(16.0, len(cells) * (38.0 + 74.0*local_res) / body**0.23) * float(soma_mods.get("capacity",1.0)) * float(nerve_mods.get("capacity",1.0)) * float(techne_mods.get("capacity",1.0))
         mate = _mating_factor(sp) * float(soma_mods.get("mating",1.0))
-        energy = clamp(_energy_score(sp, local_res, food_gain.get(sp["id"],0), float(world.get("detritus",0))) * float(soma_mods.get("energy_efficiency",1.0)) * float(nerve_mods.get("energy_efficiency",1.0)),0.08,1.35)
+        energy = clamp(_energy_score(sp, local_res, food_gain.get(sp["id"],0), float(world.get("detritus",0))) * float(soma_mods.get("energy_efficiency",1.0)) * float(nerve_mods.get("energy_efficiency",1.0)) * float(techne_mods.get("energy_efficiency",1.0)),0.08,1.35)
         fec=float(sp["genome"].get("fecundity",0.35))
         density=float(sp["population"])/carrying
         births=max(0.0,float(sp["population"])*fec*0.32*mate*fit*energy*(1-max(0,density-0.82)*0.58)*float(soma_mods.get("birth",1.0))*float(nerve_mods.get("birth",1.0)))
-        baseline_death=float(sp["population"])*(0.012 + (1-fit)*0.042 + max(0,density-1)*0.09)*float(soma_mods.get("mortality",1.0))*float(nerve_mods.get("mortality",1.0))
+        baseline_death=float(sp["population"])*(0.012 + (1-fit)*0.042 + max(0,density-1)*0.09)*float(soma_mods.get("mortality",1.0))*float(nerve_mods.get("mortality",1.0))*float(techne_mods.get("mortality",1.0))
         predator_death=pred_loss.get(sp["id"],0.0)*float(soma_mods.get("predation_mortality",1.0))*float(nerve_mods.get("predation_mortality",1.0))
         comp_death=min(float(sp["population"])*0.08,competition.get(sp["id"],0.0)*3.4)
         disease_death=min(float(sp["population"])*0.35,disease_mortality.get(sp["id"],0.0)*float(soma_mods.get("disease_mortality",1.0))*float(nerve_mods.get("disease_mortality",1.0)))

@@ -22,7 +22,7 @@
   "next_species_id": 4,
   "occupied_cells": 37,
   "root_lineage": "PHYLUM/origin",
-  "schema_version": 12,
+  "schema_version": 13,
   "seed": 314159265,
   "statistics": {
     "active_pathogens": 1,
@@ -34,6 +34,15 @@
     "pathogens_ever": 1,
     "predator_prey_links": 0,
     "species_ever": 3
+  },
+  "techne": {
+    "archive": [],
+    "cultural_lineages": [],
+    "next_culture_id": 1,
+    "next_site_id": 1,
+    "schema": 1,
+    "sites": [],
+    "statistics": {}
   },
   "total_population": 939.74
 }

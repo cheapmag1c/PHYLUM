@@ -16,6 +16,7 @@ from phylum.planet import biome_at, geography_at, initialize_plates, region_name
 from phylum.observation import build_changes, capture_observation, format_change_report
 from phylum.soma import ensure_soma_schema
 from phylum.nerve import ensure_nerve_schema
+from phylum.techne import ensure_techne_schema, ensure_world_techne
 
 
 class PhylumTests(unittest.TestCase):
@@ -111,6 +112,8 @@ class PhylumTests(unittest.TestCase):
         sp={"id":"sp-1","population":1,"extinct_generation":None,"genome":{"temp_pref":.5},"range":[[0,0]]}
         ensure_soma_schema(sp,1,0,{sp["id"]:sp})
         ensure_nerve_schema(sp,1,0,{sp["id"]:sp})
+        ensure_world_techne(world)
+        ensure_techne_schema(sp,1,0,{sp["id"]:sp})
         branch={"root_fingerprint":"root"}
         self.assertEqual(validate_state(world,[sp],env,[],plates,branch,[]),[])
 

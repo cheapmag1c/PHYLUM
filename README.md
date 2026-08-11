@@ -31,6 +31,10 @@ Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 
 ![PHYLUM food web](renders/foodweb.svg?gen=000018)
 
+## Living cultures — TECHNE
+
+![PHYLUM TECHNE cultural record](renders/techne.svg?gen=000018)
+
 ## Living minds — NERVE
 
 ![PHYLUM NERVE ethogram](renders/nerve.svg?gen=000018)
@@ -120,6 +124,7 @@ PHYLUM/
 │   ├── soma.py                     # organismal biology, development and field guide
 │   ├── paleon.py                   # DEEP TIME 2.0 coupled planetary engine
 │   ├── nerve.py                    # cognition, memory, learning and culture
+│   ├── techne.py                   # cultural inheritance, material practices and archaeology
 │   ├── planet.py                   # compatibility surface delegated to PALEON
 │   ├── render.py                   # atlas, phylogeny, food web and Observatory
 │   └── ...
@@ -128,6 +133,7 @@ PHYLUM/
 │   ├── soma.svg                    # SOMA organism field guide
 │   ├── paleon.svg                  # PALEON planetary systems plate
 │   ├── nerve.svg                   # NERVE ethogram / living minds plate
+│   ├── techne.svg                  # TECHNE cultural / archaeological record
 │   ├── organisms/                  # per-lineage schematic plates
 │   ├── phylogeny.svg
 │   └── foodweb.svg
@@ -144,15 +150,12 @@ PHYLUM/
 ```
 
 
-## Current model — NERVE + SOMA + PALEON
+## Current model — TECHNE
+PHYLUM now runs a coupled stack: **PALEON / DEEP TIME 2.0** governs the planet; **SOMA** gives lineages organism-level bodies and life histories; **NERVE** gives them perception, memory, learning and social behavior; **TECHNE** allows learned information to persist as cultural lineages, material practices and archaeological sites; **WITNESS** records the evidence.
 
-PHYLUM runs **PALEON (DEEP TIME 2.0)** as its coupled planetary engine, **SOMA** as its organismal biology layer, **NERVE** as its cognition and behavior layer, and **WITNESS** as its observation system. **PALEON gives life a changing planet. SOMA gives life bodies. NERVE gives life experience. WITNESS records the evidence.**
+TECHNE is not a civilization tech tree. Persistent nesting, caching, route marking, construction, object use, dialects and rarer material innovations require compatible NERVE cognition, SOMA anatomy, ecology and opportunity. Knowledge can diffuse between contacting populations, mutate culturally, or disappear after bottlenecks and collapse.
 
-NERVE adds nervous-system complexity, perception, spatial and threat memory, learning, behavioral repertoires, temperament, social recognition, cooperation, communication complexity, cultural traditions, social transmission, costly cognition and the possibility of object-assisted behavior. Learned state persists inside a lineage but is not treated as genetic code; descendant lineages inherit cognitive architecture while cultural traditions only cross a split through founder transmission.
-
-Cognition has energetic and life-history costs, and no intelligence milestone is scheduled. Tool use, teaching, complex communication and persistent culture are possibilities produced by anatomy, ecology, selection and experience rather than guaranteed progression.
-
-The generated `renders/nerve.svg` ethogram and `docs/nerve.html` browser expose the current cognitive and behavioral state alongside the SOMA field guide and PALEON planetary dossier.
+The generated `renders/techne.svg` record and `docs/techne.html` browser expose cultural practices, dialects, living cultural lineages, active sites and ruins. No technology milestone is scheduled for a particular generation.
 
 
 ## Observatory
