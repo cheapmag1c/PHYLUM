@@ -2,13 +2,13 @@
   "ended_interactions": [],
   "events": [
     {
-      "generation": 19,
+      "generation": 20,
       "kind": "observation",
       "subject": "world",
-      "text": "The biosphere advances through generation 19."
+      "text": "The biosphere advances through generation 20."
     }
   ],
-  "from_generation": 18,
+  "from_generation": 19,
   "lineages": [
     {
       "centroid_from": [
@@ -19,17 +19,17 @@
         39.071,
         12.286
       ],
-      "genetic_diversity_after": 0.40155,
-      "genetic_diversity_before": 0.4024,
+      "genetic_diversity_after": 0.4014,
+      "genetic_diversity_before": 0.40155,
       "id": "sp-00003",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
       "movement": 0.0,
       "name": "glass mote",
-      "population_after": 312.74,
-      "population_before": 321.11,
-      "population_delta": -8.37,
-      "population_percent": -2.61,
+      "population_after": 305.52,
+      "population_before": 312.74,
+      "population_delta": -7.22,
+      "population_percent": -2.31,
       "range_after": 14,
       "range_before": 14,
       "range_delta": 0,
@@ -45,17 +45,17 @@
         26.7,
         23.4
       ],
-      "genetic_diversity_after": 0.48424,
-      "genetic_diversity_before": 0.48319,
+      "genetic_diversity_after": 0.48356,
+      "genetic_diversity_before": 0.48424,
       "id": "sp-00002",
-      "infection_peak_after": 0.07103,
-      "infection_peak_before": 0.06533,
+      "infection_peak_after": 0.06933,
+      "infection_peak_before": 0.07103,
       "movement": 0.0,
       "name": "silt frond",
-      "population_after": 258.71,
-      "population_before": 263.09,
-      "population_delta": -4.38,
-      "population_percent": -1.66,
+      "population_after": 255.69,
+      "population_before": 258.71,
+      "population_delta": -3.02,
+      "population_percent": -1.17,
       "range_after": 10,
       "range_before": 10,
       "range_delta": 0,
@@ -71,17 +71,17 @@
         18.769,
         8.538
       ],
-      "genetic_diversity_after": 0.41075,
-      "genetic_diversity_before": 0.41157,
+      "genetic_diversity_after": 0.41348,
+      "genetic_diversity_before": 0.41075,
       "id": "sp-00001",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
       "movement": 0.0,
       "name": "pale filament",
-      "population_after": 352.59,
-      "population_before": 355.54,
-      "population_delta": -2.95,
-      "population_percent": -0.83,
+      "population_after": 351.02,
+      "population_before": 352.59,
+      "population_delta": -1.57,
+      "population_percent": -0.45,
       "range_after": 13,
       "range_before": 13,
       "range_delta": 0,
@@ -92,11 +92,11 @@
   "markers": [
     {
       "glyph": "\u2022",
-      "id": "ev-000019-00",
+      "id": "ev-000020-00",
       "kind": "observation",
       "position": null,
       "subject": "world",
-      "text": "The biosphere advances through generation 19."
+      "text": "The biosphere advances through generation 20."
     }
   ],
   "new_interactions": [],
@@ -109,20 +109,20 @@
     "living_after": 3,
     "living_before": 3,
     "living_delta": 0,
-    "moisture_delta": -0.00082,
+    "moisture_delta": 0.00068,
     "new_competition_links": 0,
     "new_pathogens": 0,
     "new_predation_links": 0,
     "occupied_after": 37,
     "occupied_before": 37,
     "occupied_delta": 0,
-    "population_after": 924.04,
-    "population_before": 939.74,
-    "population_delta": -15.7,
-    "population_percent": -1.67,
+    "population_after": 912.23,
+    "population_before": 924.04,
+    "population_delta": -11.81,
+    "population_percent": -1.28,
     "resolved_pathogens": 0,
-    "resources_delta": -0.00122,
-    "temperature_delta": -0.00099
+    "resources_delta": -5e-05,
+    "temperature_delta": 0.0002
   },
-  "to_generation": 19
+  "to_generation": 20
 }
