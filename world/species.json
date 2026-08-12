@@ -1,7 +1,7 @@
 [
   {
     "born_generation": 0,
-    "current_generation": 25,
+    "current_generation": 26,
     "ecology": {
       "behavior": [
         "wandering"
@@ -22,41 +22,41 @@
     },
     "extinct_generation": null,
     "extinction_cause": null,
-    "genetic_diversity": 0.02245,
+    "genetic_diversity": 0.02253,
     "genome": {
-      "aggression": 0.088039,
-      "aquatic": 0.146582,
+      "aggression": 0.087991,
+      "aquatic": 0.14667,
       "armor": 0.05698,
-      "attack": 0.087868,
-      "autotrophy": 0.898491,
-      "body_size": 0.592136,
+      "attack": 0.087811,
+      "autotrophy": 0.898436,
+      "body_size": 0.593526,
       "burrowing": 0.08458,
-      "carnivory": 0.016197,
-      "complexity": 0.044305,
-      "defense": 0.290734,
-      "detritivory": 0.047247,
-      "engineering": 0.020714,
-      "fecundity": 0.421133,
-      "herbivory": 0.04837,
-      "immune": 0.329979,
-      "lifespan": 0.253612,
-      "mobility": 0.181456,
-      "moisture_pref": 0.618086,
+      "carnivory": 0.016333,
+      "complexity": 0.044181,
+      "defense": 0.290817,
+      "detritivory": 0.047254,
+      "engineering": 0.02074,
+      "fecundity": 0.421188,
+      "herbivory": 0.048373,
+      "immune": 0.330004,
+      "lifespan": 0.253586,
+      "mobility": 0.181432,
+      "moisture_pref": 0.617973,
       "nocturnal": 0.00558,
-      "recombination": 0.395823,
-      "sensory": 0.255745,
-      "sexuality": 0.769775,
-      "sociality": 0.244154,
-      "speed": 0.394825,
-      "temp_pref": 0.507863,
-      "tolerance": 0.289843
+      "recombination": 0.395739,
+      "sensory": 0.255755,
+      "sexuality": 0.76983,
+      "sociality": 0.24412,
+      "speed": 0.394896,
+      "temp_pref": 0.5074,
+      "tolerance": 0.28985
     },
-    "heterozygosity": 0.04066,
+    "heterozygosity": 0.04073,
     "id": "sp-00001",
-    "inbreeding": 0.09404,
+    "inbreeding": 0.09397,
     "infections": {},
-    "last_births": 6.496,
-    "last_deaths": 4.4,
+    "last_births": 8.559,
+    "last_deaths": 4.381,
     "last_fitness": 0.4271,
     "last_mating_success": 0.8089,
     "last_range": [],
@@ -97,14 +97,14 @@
             18.769,
             8.538
           ],
-          "strength": 0.0984
+          "strength": 0.0802
         }
       ],
       "modifiers": {
         "birth": 0.99777,
-        "capacity": 1.00205,
+        "capacity": 1.00167,
         "disease_mortality": 0.99282,
-        "energy_efficiency": 1.02401,
+        "energy_efficiency": 1.0231,
         "migration": 1.02735,
         "mortality": 0.99873,
         "predation_mortality": 0.96745
@@ -133,9 +133,9 @@
       ],
       "schema": 1,
       "selection_pressures": {
-        "cognition": 0.09402,
-        "learning": 0.027,
-        "manipulation": 0.00049,
+        "cognition": 0.0967,
+        "learning": 0.02777,
+        "manipulation": 0.00052,
         "social": 0
       },
       "signature": {
@@ -169,13 +169,13 @@
     "origin_generation": 0,
     "parent_id": null,
     "peak_population": 367.56,
-    "peak_range": 26,
+    "peak_range": 28,
     "plate_drift_residual": [
       0.03966454799999999,
       0.025524575999999993
     ],
     "plate_id": "plate-02",
-    "population": 356.041,
+    "population": 360.22,
     "range": [
       [
         20,
@@ -231,6 +231,14 @@
       ],
       [
         19,
+        9
+      ],
+      [
+        20,
+        9
+      ],
+      [
+        22,
         9
       ],
       [
@@ -292,11 +300,11 @@
       "capacities": {
         "coordination": 0.15655,
         "differentiation": 0.20422,
-        "group_persistence": 0.19125,
-        "identity": 0.21199,
+        "group_persistence": 0.19121,
+        "identity": 0.21196,
         "leadership": 0.17001,
         "norm_retention": 0.18202,
-        "tolerance": 0.54333
+        "tolerance": 0.54341
       },
       "experience_generations": 1,
       "group_ids": [],
@@ -352,21 +360,21 @@
       "innovations": [],
       "life_cycle": {
         "cohorts": {
-          "adult": 227.576,
-          "elder": 15.331,
-          "juvenile": 75.294,
-          "propagule": 37.84
+          "adult": 229.668,
+          "elder": 15.571,
+          "juvenile": 76.216,
+          "propagule": 38.765
         },
         "development": "direct",
         "lifespan_generations": 3.853,
         "maturity_generations": 1.096
       },
       "modifiers": {
-        "birth": 0.6741,
+        "birth": 0.6734,
         "capacity": 1.0227,
         "disease_mortality": 0.9607,
         "energy_efficiency": 0.9859,
-        "mating": 1.0174,
+        "mating": 1.0169,
         "mortality": 0.9626,
         "predation_mortality": 1.0
       },
@@ -403,7 +411,7 @@
       },
       "schema": 1,
       "selection_pressures": {
-        "climate": 0.4657,
+        "climate": 0.4807,
         "competition": 0,
         "disease": 0,
         "predation": 0,
@@ -424,34 +432,34 @@
       "symbioses": [],
       "variation": {
         "body_size": {
-          "mean": 0.59214,
-          "sd": 0.01613
+          "mean": 0.59353,
+          "sd": 0.01618
         },
         "defense": {
-          "mean": 0.29073,
+          "mean": 0.29082,
           "sd": 0.02725
         },
         "fecundity": {
-          "mean": 0.42113,
+          "mean": 0.42119,
           "sd": 0.02725
         },
         "sensory": {
-          "mean": 0.25575,
+          "mean": 0.25576,
           "sd": 0.02725
         },
         "speed": {
-          "mean": 0.39482,
+          "mean": 0.3949,
           "sd": 0.02725
         }
       }
     },
     "techne": {
       "capacities": {
-        "construction": 0.10517,
+        "construction": 0.10515,
         "cultural_storage": 0.23135,
-        "innovation": 0.16443,
+        "innovation": 0.16442,
         "language": 0.21112,
-        "material_skill": 0.12003,
+        "material_skill": 0.12001,
         "transmission": 0.09366
       },
       "dialect": {
@@ -481,19 +489,19 @@
       }
     },
     "traits": {
-      "body_size": 0.59214,
-      "fecundity": 0.42113,
-      "mobility": 0.18146,
-      "moisture_pref": 0.61809,
-      "temp_pref": 0.50786,
-      "tolerance": 0.28984
+      "body_size": 0.59353,
+      "fecundity": 0.42119,
+      "mobility": 0.18143,
+      "moisture_pref": 0.61797,
+      "temp_pref": 0.5074,
+      "tolerance": 0.28985
     },
-    "x": 63.974,
-    "y": 31.923
+    "x": 64.524,
+    "y": 31.905
   },
   {
     "born_generation": 0,
-    "current_generation": 25,
+    "current_generation": 26,
     "ecology": {
       "behavior": [
         "wandering"
@@ -504,7 +512,7 @@
       "morphology": {
         "appendages": 3,
         "armor": "soft",
-        "body_scale": 0.867,
+        "body_scale": 0.868,
         "profile": "producer",
         "sensory": "simple",
         "symmetry": "bilateral"
@@ -514,43 +522,43 @@
     },
     "extinct_generation": null,
     "extinction_cause": null,
-    "genetic_diversity": 0.02385,
+    "genetic_diversity": 0.02403,
     "genome": {
-      "aggression": 0.152851,
-      "aquatic": 0.010037,
+      "aggression": 0.152862,
+      "aquatic": 0.010032,
       "armor": 0.09704,
-      "attack": 0.103027,
-      "autotrophy": 0.712634,
-      "body_size": 0.868001,
+      "attack": 0.103101,
+      "autotrophy": 0.712621,
+      "body_size": 0.868442,
       "burrowing": 0.17843,
-      "carnivory": 0.007158,
-      "complexity": 0.061143,
-      "defense": 0.132678,
-      "detritivory": 0.032345,
-      "engineering": 0.02385,
-      "fecundity": 0.360606,
-      "herbivory": 0.115429,
-      "immune": 0.477613,
-      "lifespan": 0.506776,
-      "mobility": 0.128393,
-      "moisture_pref": 0.709571,
+      "carnivory": 0.007207,
+      "complexity": 0.061098,
+      "defense": 0.132712,
+      "detritivory": 0.032324,
+      "engineering": 0.023857,
+      "fecundity": 0.360575,
+      "herbivory": 0.115395,
+      "immune": 0.477654,
+      "lifespan": 0.506838,
+      "mobility": 0.128386,
+      "moisture_pref": 0.709548,
       "nocturnal": 0.12849,
-      "recombination": 0.329083,
-      "sensory": 0.419642,
-      "sexuality": 0.525672,
-      "sociality": 0.332183,
-      "speed": 0.245179,
-      "temp_pref": 0.579502,
-      "tolerance": 0.310756
+      "recombination": 0.329168,
+      "sensory": 0.419478,
+      "sexuality": 0.525625,
+      "sociality": 0.332175,
+      "speed": 0.245271,
+      "temp_pref": 0.579149,
+      "tolerance": 0.310796
     },
-    "heterozygosity": 0.04194,
+    "heterozygosity": 0.04211,
     "id": "sp-00002",
-    "inbreeding": 0.09292,
+    "inbreeding": 0.09277,
     "infections": {
-      "pa-00001": 0.015332
+      "pa-00001": 0.009867
     },
-    "last_births": 3.08,
-    "last_deaths": 1.944,
+    "last_births": 3.067,
+    "last_deaths": 1.915,
     "last_fitness": 0.3995,
     "last_mating_success": 0.7969,
     "last_range": [],
@@ -591,7 +599,7 @@
             26.818,
             23.455
           ],
-          "strength": 0.3282
+          "strength": 0.2748
         },
         {
           "detail": "outbreak exposure",
@@ -601,14 +609,14 @@
             27.0,
             23.286
           ],
-          "strength": 0.1955
+          "strength": 0.1637
         }
       ],
       "modifiers": {
         "birth": 0.9979,
-        "capacity": 1.00684,
-        "disease_mortality": 0.9845,
-        "energy_efficiency": 1.04149,
+        "capacity": 1.00572,
+        "disease_mortality": 0.98556,
+        "energy_efficiency": 1.03882,
         "migration": 1.03383,
         "mortality": 0.99806,
         "predation_mortality": 0.95624
@@ -638,9 +646,9 @@
       ],
       "schema": 1,
       "selection_pressures": {
-        "cognition": 0.1105,
-        "learning": 0.0397,
-        "manipulation": 0.00059,
+        "cognition": 0.1158,
+        "learning": 0.0416,
+        "manipulation": 0.00064,
         "social": 0
       },
       "signature": {
@@ -673,13 +681,13 @@
     "origin_generation": 0,
     "parent_id": null,
     "peak_population": 382.3,
-    "peak_range": 16,
+    "peak_range": 17,
     "plate_drift_residual": [
       -0.034945217999999986,
       -0.021113399999999994
     ],
     "plate_id": "plate-01",
-    "population": 249.648,
+    "population": 250.801,
     "range": [
       [
         29,
@@ -716,6 +724,10 @@
       [
         29,
         23
+      ],
+      [
+        24,
+        24
       ],
       [
         25,
@@ -755,11 +767,11 @@
       "capacities": {
         "coordination": 0.2378,
         "differentiation": 0.26783,
-        "group_persistence": 0.27246,
-        "identity": 0.28735,
+        "group_persistence": 0.27243,
+        "identity": 0.28733,
         "leadership": 0.25029,
         "norm_retention": 0.25421,
-        "tolerance": 0.55654
+        "tolerance": 0.55655
       },
       "experience_generations": 1,
       "group_ids": [],
@@ -815,21 +827,21 @@
       "innovations": [],
       "life_cycle": {
         "cohorts": {
-          "adult": 158.481,
-          "elder": 16.276,
-          "juvenile": 53.367,
-          "propagule": 21.524
+          "adult": 158.903,
+          "elder": 16.434,
+          "juvenile": 53.646,
+          "propagule": 21.818
         },
         "development": "spore-cycle",
         "lifespan_generations": 6.718,
         "maturity_generations": 1.983
       },
       "modifiers": {
-        "birth": 0.6983,
+        "birth": 0.6977,
         "capacity": 1.0264,
         "disease_mortality": 0.9501,
         "energy_efficiency": 0.9883,
-        "mating": 1.0152,
+        "mating": 1.0149,
         "mortality": 0.9465,
         "predation_mortality": 1.0
       },
@@ -866,9 +878,9 @@
       },
       "schema": 1,
       "selection_pressures": {
-        "climate": 0.5226,
+        "climate": 0.5335,
         "competition": 0,
-        "disease": 0.0368,
+        "disease": 0.033,
         "predation": 0,
         "sexual": 0.2746
       },
@@ -887,34 +899,34 @@
       "symbioses": [],
       "variation": {
         "body_size": {
-          "mean": 0.868,
-          "sd": 0.02377
+          "mean": 0.86844,
+          "sd": 0.0238
         },
         "defense": {
-          "mean": 0.13268,
-          "sd": 0.02738
+          "mean": 0.13271,
+          "sd": 0.0274
         },
         "fecundity": {
-          "mean": 0.36061,
-          "sd": 0.02738
+          "mean": 0.36057,
+          "sd": 0.0274
         },
         "sensory": {
-          "mean": 0.41964,
-          "sd": 0.02738
+          "mean": 0.41948,
+          "sd": 0.0274
         },
         "speed": {
-          "mean": 0.24518,
-          "sd": 0.02738
+          "mean": 0.24527,
+          "sd": 0.0274
         }
       }
     },
     "techne": {
       "capacities": {
-        "construction": 0.14794,
+        "construction": 0.14797,
         "cultural_storage": 0.31343,
-        "innovation": 0.21679,
+        "innovation": 0.21681,
         "language": 0.28707,
-        "material_skill": 0.14678,
+        "material_skill": 0.14681,
         "transmission": 0.13561
       },
       "dialect": {
@@ -944,19 +956,19 @@
       }
     },
     "traits": {
-      "body_size": 0.868,
-      "fecundity": 0.36061,
+      "body_size": 0.86844,
+      "fecundity": 0.36057,
       "mobility": 0.12839,
-      "moisture_pref": 0.70957,
-      "temp_pref": 0.5795,
-      "tolerance": 0.31076
+      "moisture_pref": 0.70955,
+      "temp_pref": 0.57915,
+      "tolerance": 0.3108
     },
-    "x": 91.458,
-    "y": 79.583
+    "x": 90.882,
+    "y": 79.706
   },
   {
     "born_generation": 0,
-    "current_generation": 25,
+    "current_generation": 26,
     "ecology": {
       "behavior": [
         "wandering"
@@ -967,7 +979,7 @@
       "morphology": {
         "appendages": 3,
         "armor": "soft",
-        "body_scale": 0.451,
+        "body_scale": 0.45,
         "profile": "producer",
         "sensory": "simple",
         "symmetry": "bilateral"
@@ -977,41 +989,41 @@
     },
     "extinct_generation": null,
     "extinction_cause": null,
-    "genetic_diversity": 0.02345,
+    "genetic_diversity": 0.02373,
     "genome": {
-      "aggression": 0.07614,
-      "aquatic": 0.147892,
+      "aggression": 0.076149,
+      "aquatic": 0.147918,
       "armor": 0.12014,
-      "attack": 0.179862,
-      "autotrophy": 0.909551,
-      "body_size": 0.450416,
+      "attack": 0.179898,
+      "autotrophy": 0.909539,
+      "body_size": 0.449221,
       "burrowing": 0.10386,
-      "carnivory": 0.06761,
-      "complexity": 0.052266,
-      "defense": 0.212708,
-      "detritivory": 0.163312,
-      "engineering": 0.013343,
-      "fecundity": 0.490019,
-      "herbivory": 0.097392,
-      "immune": 0.313405,
-      "lifespan": 0.520717,
-      "mobility": 0.23881,
-      "moisture_pref": 0.432433,
+      "carnivory": 0.067582,
+      "complexity": 0.052239,
+      "defense": 0.212664,
+      "detritivory": 0.163225,
+      "engineering": 0.013311,
+      "fecundity": 0.490027,
+      "herbivory": 0.097287,
+      "immune": 0.313584,
+      "lifespan": 0.520632,
+      "mobility": 0.238824,
+      "moisture_pref": 0.43296,
       "nocturnal": 0.16502,
-      "recombination": 0.276186,
-      "sensory": 0.232842,
-      "sexuality": 0.612287,
-      "sociality": 0.432611,
-      "speed": 0.446129,
-      "temp_pref": 0.608894,
-      "tolerance": 0.250632
+      "recombination": 0.276176,
+      "sensory": 0.232777,
+      "sexuality": 0.612216,
+      "sociality": 0.432632,
+      "speed": 0.446075,
+      "temp_pref": 0.608753,
+      "tolerance": 0.250628
     },
-    "heterozygosity": 0.04157,
+    "heterozygosity": 0.04183,
     "id": "sp-00003",
-    "inbreeding": 0.09324,
+    "inbreeding": 0.09302,
     "infections": {},
-    "last_births": 1.791,
-    "last_deaths": 3.35,
+    "last_births": 7.827,
+    "last_deaths": 3.246,
     "last_fitness": 0.1836,
     "last_mating_success": 0.7932,
     "last_range": [],
@@ -1052,14 +1064,14 @@
             39.071,
             12.286
           ],
-          "strength": 0.286
+          "strength": 0.2391
         }
       ],
       "modifiers": {
         "birth": 1.0001,
-        "capacity": 1.00596,
+        "capacity": 1.00498,
         "disease_mortality": 0.99246,
-        "energy_efficiency": 1.03854,
+        "energy_efficiency": 1.0362,
         "migration": 1.02925,
         "mortality": 0.99832,
         "predation_mortality": 0.95562
@@ -1093,9 +1105,9 @@
       ],
       "schema": 1,
       "selection_pressures": {
-        "cognition": 0.09402,
-        "learning": 0.02836,
-        "manipulation": 0.00032,
+        "cognition": 0.0967,
+        "learning": 0.02917,
+        "manipulation": 0.00034,
         "social": 0
       },
       "signature": {
@@ -1135,7 +1147,7 @@
       0.030398676000000003
     ],
     "plate_id": "plate-05",
-    "population": 294.419,
+    "population": 299.0,
     "range": [
       [
         38,
@@ -1230,7 +1242,7 @@
         "identity": 0.30577,
         "leadership": 0.23465,
         "norm_retention": 0.26445,
-        "tolerance": 0.60184
+        "tolerance": 0.60182
       },
       "experience_generations": 1,
       "group_ids": [],
@@ -1286,21 +1298,21 @@
       "innovations": [],
       "life_cycle": {
         "cohorts": {
-          "adult": 186.929,
-          "elder": 17.004,
-          "juvenile": 63.045,
-          "propagule": 27.441
+          "adult": 187.435,
+          "elder": 17.374,
+          "juvenile": 64.071,
+          "propagule": 30.12
         },
         "development": "direct",
         "lifespan_generations": 6.207,
         "maturity_generations": 1.687
       },
       "modifiers": {
-        "birth": 0.6707,
+        "birth": 0.6669,
         "capacity": 1.0268,
         "disease_mortality": 0.963,
         "energy_efficiency": 0.9923,
-        "mating": 1.0135,
+        "mating": 1.0108,
         "mortality": 0.9555,
         "predation_mortality": 1.0
       },
@@ -1337,7 +1349,7 @@
       },
       "schema": 1,
       "selection_pressures": {
-        "climate": 0.6674,
+        "climate": 0.6883,
         "competition": 0,
         "disease": 0,
         "predation": 0,
@@ -1358,34 +1370,34 @@
       "symbioses": [],
       "variation": {
         "body_size": {
-          "mean": 0.45042,
-          "sd": 0.01232
+          "mean": 0.44922,
+          "sd": 0.0123
         },
         "defense": {
-          "mean": 0.21271,
-          "sd": 0.02735
+          "mean": 0.21266,
+          "sd": 0.02737
         },
         "fecundity": {
-          "mean": 0.49002,
-          "sd": 0.02735
+          "mean": 0.49003,
+          "sd": 0.02737
         },
         "sensory": {
-          "mean": 0.23284,
-          "sd": 0.02735
+          "mean": 0.23278,
+          "sd": 0.02737
         },
         "speed": {
-          "mean": 0.44613,
-          "sd": 0.02735
+          "mean": 0.44607,
+          "sd": 0.02737
         }
       }
     },
     "techne": {
       "capacities": {
-        "construction": 0.14004,
+        "construction": 0.14002,
         "cultural_storage": 0.29834,
-        "innovation": 0.18481,
+        "innovation": 0.1848,
         "language": 0.275,
-        "material_skill": 0.12875,
+        "material_skill": 0.12872,
         "transmission": 0.13971
       },
       "dialect": {
@@ -1415,11 +1427,11 @@
       }
     },
     "traits": {
-      "body_size": 0.45042,
-      "fecundity": 0.49002,
-      "mobility": 0.23881,
-      "moisture_pref": 0.43243,
-      "temp_pref": 0.60889,
+      "body_size": 0.44922,
+      "fecundity": 0.49003,
+      "mobility": 0.23882,
+      "moisture_pref": 0.43296,
+      "temp_pref": 0.60875,
       "tolerance": 0.25063
     },
     "x": 132.5,
