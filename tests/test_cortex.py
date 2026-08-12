@@ -45,7 +45,7 @@ def genes_fixture(complexity: float = 0.5) -> dict:
 
 class CortexTests(unittest.TestCase):
     def test_release_version(self):
-        self.assertEqual(__version__, "2.1.0")
+        self.assertEqual(__version__, "2.1.1")
 
     def test_brain_initialization_is_deterministic(self):
         sp = species_fixture()
@@ -117,14 +117,34 @@ class CortexTests(unittest.TestCase):
     def test_current_world_migration_adds_cortex_without_advancing(self):
         world, species, env, pathogens, plates, branch, interactions = load_extended()
         before_obs = int(world.get("generation", 0))
-        before_pop = round(sum(float(s.get("population", 0)) for s in species if s.get("extinct_generation") is None), 6)
         old_state, _, _, _ = load_vivarium_state()
         before_day = float(old_state.get("sim_day", 0))
         state, agents, cohorts, _ = ensure_vivarium_state(world, species, env, plates, save=False)
-        after_pop = round(sum(float(a.get("weight", 1.0)) for a in agents if a.get("alive", True)) + sum(float(c.get("count", 0)) for c in cohorts if float(c.get("count", 0)) > 0), 6)
+        represented = {}
+        for agent in agents:
+            if agent.get("alive", True):
+                sid = str(agent.get("species_id"))
+                represented[sid] = represented.get(sid, 0.0) + float(agent.get("weight", 1.0))
+        for cohort in cohorts:
+            count = float(cohort.get("count", 0))
+            if count > 0:
+                sid = str(cohort.get("species_id"))
+                represented[sid] = represented.get(sid, 0.0) + count
         self.assertEqual(int(world.get("generation", 0)), before_obs)
         self.assertEqual(float(state.get("sim_day", 0)), before_day)
-        self.assertAlmostEqual(after_pop, before_pop, places=3)
+        # VIVARIUM publishes each species population rounded to 3 decimals.
+        # Summing those rounded public values can differ slightly from summing
+        # the higher-precision cohort counts.  Check the actual invariant per
+        # lineage instead of comparing two differently rounded grand totals.
+        for sp in species:
+            if sp.get("extinct_generation") is not None:
+                continue
+            sid = str(sp.get("id"))
+            self.assertEqual(
+                round(represented.get(sid, 0.0), 3),
+                round(float(sp.get("population", 0)), 3),
+                msg=f"VIVARIUM representation drift for {sid}",
+            )
         self.assertTrue(all(isinstance(a.get("brain"), dict) for a in agents if a.get("alive", True)))
         self.assertTrue(all(isinstance(c.get("cortex"), dict) for c in cohorts if float(c.get("count", 0)) > 0))
 

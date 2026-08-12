@@ -1,3 +1,9 @@
+## 2.1.1 — CORTEX migration invariant hotfix
+
+- Fixes a false-negative migration test caused by comparing the sum of per-species populations rounded to 3 decimals against higher-precision VIVARIUM cohort totals.
+- The migration invariant is now checked correctly per living lineage at PHYLUM's public 3-decimal population precision.
+- No simulation rules, neural controllers, organisms, cohorts, fossils, simulated time, or world state are changed by this patch.
+
 ## 2.1.0 — CORTEX
 
 CORTEX introduces bounded evolving neural controllers inside the VIVARIUM individual-life engine. Resolved organisms now make neural/reflex-blended decisions about rest, foraging, exploration, avoidance, social contact and mating. Innate neural weights and architecture are heritable and mutable; lifetime reward-modulated plasticity is deliberately non-heritable. Cohorts retain compressed neural phenotypes, neural computation carries an energy cost, and ORRERY / LIFE exposes current controller statistics and organism actions. An optional manual local-LLM probe is included, but canonical evolution never calls an LLM and remains deterministic/offline-capable.
