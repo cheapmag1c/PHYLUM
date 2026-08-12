@@ -4,31 +4,31 @@
   "epoch_origin_observation": 21,
   "isolation": {},
   "last_checkpoint": {
-    "births": 11.265,
+    "births": 13.37,
     "death_causes": {
-      "age": 9.935,
-      "disease": 0.035
+      "age": 9.77,
+      "disease": 0.025
     },
-    "deaths": 9.969,
+    "deaths": 9.794,
     "extreme_weather_days": 0,
-    "observation_index": 23,
+    "observation_index": 24,
     "observed_predation": 0,
-    "population_after": 894.859,
-    "population_before": 893.562,
-    "sim_day_end": 28.0,
-    "sim_day_start": 14.0,
+    "population_after": 898.434,
+    "population_before": 894.859,
+    "sim_day_end": 42.0,
+    "sim_day_start": 28.0,
     "simulated_days": 14
   },
   "legacy_observations": 21,
-  "next_cohort_id": 55,
-  "next_organism_id": 189,
-  "observation_index": 23,
+  "next_cohort_id": 61,
+  "next_organism_id": 196,
+  "observation_index": 24,
   "schema": 1,
-  "sim_day": 28.0,
+  "sim_day": 42.0,
   "statistics": {
-    "cohorts": 50,
-    "explicit_organisms": 188,
-    "sim_year": 0.07778
+    "cohorts": 53,
+    "explicit_organisms": 195,
+    "sim_year": 0.11667
   },
   "year_days": 360
 }
