@@ -158,11 +158,11 @@ PHYLUM/
 ```
 
 
-## Current architecture — VIVARIUM + ORRERY
+## Current architecture — VIVARIUM + CORTEX + ORRERY
 
 **VIVARIUM is the engine. ORRERY is the interface.**
 
-VIVARIUM resolves PHYLUM's continuous living state: explicit organisms and bounded cohorts feed, age, move, reproduce, inherit genes, learn, transmit infection and die. Species statistics are measurements of that living substrate rather than a second independently evolving population number.
+VIVARIUM resolves PHYLUM's continuous living state: explicit organisms and bounded cohorts feed, age, move, reproduce, inherit genes, learn, transmit infection and die. CORTEX gives resolved organisms bounded inherited neural controllers with lifetime plasticity; learned plastic changes die with the organism while neural architecture and innate weights can recombine and mutate in offspring. Species statistics are measurements of that living substrate rather than a second independently evolving population number.
 
 ORRERY is the single observatory shell for the world. Its **WORLD** view presents the planetary composite; **LIFE** exposes VIVARIUM's organism/cohort state; **BODY**, **BEHAVIOR**, **CULTURE**, **SOCIETY**, and **PLANET** expose SOMA, NERVE, TECHNE, SOCIUS, and PALEON without pretending they are separate products. WITNESS remains the evidence/history layer.
 
@@ -179,6 +179,7 @@ The historical `docs/vivarium.html` URL now redirects to LIFE so there is only o
 
 ```text
 VIVARIUM = living-world engine
+CORTEX   = evolving neural controllers / lifetime learning
 ORRERY   = observatory / interface
 PALEON   = planet
 SOMA     = body

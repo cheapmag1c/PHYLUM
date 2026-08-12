@@ -12,6 +12,10 @@ from .constants import GRID_COLS, GRID_ROWS, TRAIT_BOUNDS, ADJECTIVES, NOUNS
 from .planet import cell_world_xy, climate_at, geography_at, neighbors, region_name
 from .storage import ROOT, atomic_json, load_json
 from .utils import clamp, stable_int, mean
+from .cortex import (
+    ensure_agent_brain, ensure_cohort_cortex, inherit_brain, decide_action,
+    behavior_modifiers, brain_energy_cost, learn_from_reward, population_summary as cortex_population_summary,
+)
 
 VIVARIUM_SCHEMA_VERSION = 1
 MAX_AGENTS_PER_SPECIES = 96
@@ -197,7 +201,7 @@ def _founder_agent(world: dict[str, Any], state: dict[str, Any], sp: dict[str, A
     age = rng.uniform(life * 0.12, life * 0.78)
     existing_practices = [str(p.get("name")) for p in sp.get("techne", {}).get("practices", []) if p.get("name")]
     culture = [name for name in existing_practices if rng.random() < 0.35][:6]
-    return {
+    agent = {
         "id": _next_agent_id(state),
         "species_id": str(sp.get("id")),
         "origin": "VIVARIUM migration founder",
@@ -218,13 +222,15 @@ def _founder_agent(world: dict[str, Any], state: dict[str, Any], sp: dict[str, A
         "alive": True,
         "cause_of_death": None,
     }
+    ensure_agent_brain(agent, sp, int(world.get("seed", 0)))
+    return agent
 
 
 def _founder_cohort(world: dict[str, Any], state: dict[str, Any], sp: dict[str, Any], cell: tuple[int, int], count: float, serial: int) -> dict[str, Any]:
     rng = random.Random(stable_int(f"vivarium:cohort:{world.get('seed')}:{sp.get('id')}:{serial}:{cell}"))
     genes = _mutated_genes(sp, rng, scale=0.008)
     prevalence = {str(k): round(float(v), 5) for k, v in sp.get("infections", {}).items() if float(v) > 0}
-    return {
+    cohort = {
         "id": _next_cohort_id(state),
         "species_id": str(sp.get("id")),
         "cell": [cell[0], cell[1]],
@@ -236,6 +242,8 @@ def _founder_cohort(world: dict[str, Any], state: dict[str, Any], sp: dict[str, 
         "infections": prevalence,
         "isolation_days": 0.0,
     }
+    ensure_cohort_cortex(cohort, sp, int(world.get("seed", 0)))
+    return cohort
 
 
 def _initialize_population(world: dict[str, Any], species: list[dict[str, Any]], env: dict[str, Any], eco: dict[str, Any]) -> tuple[dict[str, Any], list[dict[str, Any]], list[dict[str, Any]]]:
@@ -379,6 +387,20 @@ def ensure_vivarium_state(world: dict[str, Any], species: list[dict[str, Any]], 
     state.setdefault("statistics", {})
     state.setdefault("last_checkpoint", {})
     state.setdefault("isolation", {})
+    species_by_id = {str(sp.get("id")): sp for sp in species}
+    for agent in agents:
+        if agent.get("alive", True):
+            sp = species_by_id.get(str(agent.get("species_id")))
+            if sp:
+                ensure_agent_brain(agent, sp, int(world.get("seed", 0)))
+    for cohort in cohorts:
+        if float(cohort.get("count", 0)) > 0:
+            sp = species_by_id.get(str(cohort.get("species_id")))
+            if sp:
+                ensure_cohort_cortex(cohort, sp, int(world.get("seed", 0)))
+    cortex_stats = cortex_population_summary(agents, cohorts)
+    state["cortex"] = cortex_stats
+    world["cortex"] = copy.deepcopy(cortex_stats)
     world["engine"] = "VIVARIUM"
     world["vivarium"] = {
         "schema": VIVARIUM_SCHEMA_VERSION,
@@ -475,7 +497,7 @@ def _metabolic_cost(agent: dict[str, Any], sp: dict[str, Any]) -> float:
     # meeting maintenance, while large/mobile/neural organisms still pay a
     # meaningful premium.  Earlier VIVARIUM prototypes made basal maintenance
     # larger than photosynthetic gain and slowly starved every founder.
-    return 0.0038 + math.log1p(body) * 0.0018 + mobility * 0.0018 + neural * 0.0028
+    return 0.0038 + math.log1p(body) * 0.0018 + mobility * 0.0018 + neural * 0.0028 + brain_energy_cost(agent, sp)
 
 
 def _agent_feed(agent: dict[str, Any], sp: dict[str, Any], cell_state: dict[str, Any], cohorts_in_cell: list[dict[str, Any]], agents_in_cell: list[dict[str, Any]], species_by_id: dict[str, dict[str, Any]], rng: random.Random, deaths: list[dict[str, Any]], kill_stats: dict[tuple[str, str], float], sim_day: float) -> float:
@@ -522,7 +544,9 @@ def _agent_feed(agent: dict[str, Any], sp: dict[str, Any], cell_state: dict[str,
         elif candidates:
             prey = rng.choice(candidates)
             pg = prey.get("genes", {})
-            defense = float(pg.get("defense", 0.2)) + float(prey.get("phenotype", {}).get("speed", pg.get("speed", 0.2))) * 0.20
+            prey_brain=prey.get("brain",{}); prey_state=prey_brain.get("state",{}) if isinstance(prey_brain,dict) else {}
+            avoid_bonus=behavior_modifiers({"action":prey_state.get("last_action","rest"),"confidence":prey_state.get("last_confidence",0),"gate":prey_brain.get("gate",0)}).get("avoid",0)
+            defense = float(pg.get("defense", 0.2)) + float(prey.get("phenotype", {}).get("speed", pg.get("speed", 0.2))) * 0.20 + float(avoid_bonus)
             attack = float(g.get("attack", 0.2)) + float(agent.get("phenotype", {}).get("speed", g.get("speed", 0.2))) * 0.18
             success = clamp(0.12 + attack * 0.48 - defense * 0.32, 0.02, 0.82)
             if rng.random() < success:
@@ -564,7 +588,7 @@ def _offspring_agent(world: dict[str, Any], state: dict[str, Any], parent_a: dic
     for item in candidates:
         if rng.random() < 0.25 + transmission * 0.50:
             culture.append(item)
-    return {
+    child = {
         "id": _next_agent_id(state), "species_id": str(sp.get("id")), "origin": "birth",
         "born_day": round(float(state.get("sim_day", 0)), 3), "age_days": 0.0, "stage": "propagule",
         "sex": "A" if rng.random() < 0.5 else "B", "cell": [cell[0], cell[1]],
@@ -573,6 +597,8 @@ def _offspring_agent(world: dict[str, Any], state: dict[str, Any], parent_a: dic
         "parent_ids": [str(parent_a.get("id")), str(parent_b.get("id"))],
         "memory": [], "social": {}, "culture": culture[:6], "infections": {}, "alive": True, "cause_of_death": None,
     }
+    child["brain"] = inherit_brain(parent_a, parent_b, str(child["id"]), int(world.get("seed", 0)), sp, genes, rng)
+    return child
 
 
 def _cohort_birth(cohorts: list[dict[str, Any]], state: dict[str, Any], sp: dict[str, Any], cell: tuple[int, int], count: float, parent_genes: dict[str, float], rng: random.Random) -> None:
@@ -623,7 +649,7 @@ def _resolve_agent_from_cohort(world: dict[str,Any], state: dict[str,Any], sp: d
     for pid,prev in cohort.get("infections",{}).items():
         if rng.random()<clamp(float(prev),0,1):
             infmap[str(pid)]=round(clamp(float(prev)+rng.gauss(0,.01),.001,.98),6)
-    return {
+    agent = {
         "id":_next_agent_id(state),"species_id":str(sp.get("id")),"origin":"cohort-resolution",
         "born_day":round(float(state.get("sim_day",0))-age,3),"age_days":round(age,3),"stage":_stage(age,genes,sp.get("soma")),
         "sex":"A" if rng.random()<.5 else "B","cell":[cell[0],cell[1]],
@@ -632,6 +658,8 @@ def _resolve_agent_from_cohort(world: dict[str,Any], state: dict[str,Any], sp: d
         "genes":genes,"phenotype":_phenotype(genes,eco["cells"][_cell_key(cell)]),"parent_ids":[],
         "memory":[],"social":{},"culture":[],"infections":infmap,"alive":True,"cause_of_death":None,
     }
+    ensure_agent_brain(agent, sp, int(world.get("seed", 0)))
+    return agent
 
 
 def _rebalance_explicit_resolution(world: dict[str,Any], state: dict[str,Any], species: list[dict[str,Any]], agents: list[dict[str,Any]], cohorts: list[dict[str,Any]], eco: dict[str,Any], rng: random.Random) -> None:
@@ -1004,6 +1032,20 @@ def _agent_daily_step(world: dict[str, Any], state: dict[str, Any], agents: list
         if float(c.get("count",0))>0: by_cell_cohorts[_parse_cell(c.get("cell",[0,0]))].append(c)
     newborns=[]
     explicit_counts=Counter(str(a.get("species_id")) for a in alive)
+    # CORTEX decisions are computed for every resolved organism before any one
+    # organism acts.  That prevents loop order from deciding which animals had a
+    # chance to perceive/choose before an encounter.
+    cortex_decisions: dict[str, dict[str, Any]] = {}
+    world_seed = int(world.get("seed", 0))
+    for candidate in alive:
+        sp0 = species_by_id.get(str(candidate.get("species_id")))
+        cell0 = _parse_cell(candidate.get("cell", [0, 0]))
+        st0 = eco.get("cells", {}).get(_cell_key(cell0))
+        if not sp0 or not st0:
+            continue
+        cortex_decisions[str(candidate.get("id"))] = decide_action(
+            candidate, sp0, st0, by_cell_agents.get(cell0, []), world_seed, float(state.get("sim_day", 0)), rng
+        )
     for agent in list(alive):
         if not agent.get("alive", True):
             continue
@@ -1011,13 +1053,17 @@ def _agent_daily_step(world: dict[str, Any], state: dict[str, Any], agents: list
         if not sp: continue
         sid=str(sp.get("id")); g=agent.get("genes",{}); cell=_parse_cell(agent.get("cell",[0,0])); st=eco.get("cells",{}).get(_cell_key(cell))
         if not st: continue
+        decision=cortex_decisions.get(str(agent.get("id")), {"action":"rest","confidence":0.0,"gate":0.0})
+        cortex_mod=behavior_modifiers(decision)
+        energy_before=float(agent.get("energy",0.6)); health_before=float(agent.get("health",1.0)); social_before=len(agent.get("social",{})); reproduced=False
         learning,memory_cap,transmission=_social_capacity(sp)
         _decay_memory(agent,memory_cap)
         agent["age_days"]=round(float(agent.get("age_days",0))+1,3)
         agent["stage"]=_stage(float(agent["age_days"]),g,sp.get("soma"))
         agent["phenotype"]=_phenotype(g,st)
-        cost=_metabolic_cost(agent,sp)
+        cost=_metabolic_cost(agent,sp)*float(cortex_mod.get("metabolic",1.0))
         gain=_agent_feed(agent,sp,st,by_cell_cohorts.get(cell,[]),by_cell_agents.get(cell,[]),species_by_id,rng,death_records,kill_stats,float(state.get("sim_day",0)))
+        gain*=float(cortex_mod.get("forage",1.0))
         agent["energy"]=round(clamp(float(agent.get("energy",0.6))-cost+gain,0,1),5)
         seasonal_t,seasonal_r=_seasonal_anomalies(cell,float(state.get("sim_day",0)))
         temp=float(st.get("temperature",.5))+weather["temperature_anomaly"]+seasonal_t
@@ -1035,7 +1081,7 @@ def _agent_daily_step(world: dict[str, Any], state: dict[str, Any], agents: list
         health -= max(0.0, stress-.48)*.0016 + weather["storm"]*.0007
         agent["health"]=round(clamp(health,0,1),5)
         # Movement emerges from an individual's condition and memory.
-        move_drive=clamp((.52-float(agent.get("energy",.5)))*.35+float(g.get("mobility",0))*.12+learning*.025,0,.18)
+        move_drive=clamp(((.52-float(agent.get("energy",.5)))*.35+float(g.get("mobility",0))*.12+learning*.025)*float(cortex_mod.get("move",1.0)),0,.30)
         if rng.random()<move_drive:
             dest=_best_move(agent,eco,sp,rng)
             if dest!=cell:
@@ -1043,7 +1089,7 @@ def _agent_daily_step(world: dict[str, Any], state: dict[str, Any], agents: list
         # Familiarity and cultural copying occur between particular individuals.
         peers=[p for p in by_cell_agents.get(cell,[]) if p.get("alive",True) and p.get("id")!=agent.get("id") and str(p.get("species_id"))==sid]
         if peers and float(g.get("sociality",0))>0.12:
-            peer=rng.choice(peers); social=agent.setdefault("social",{}); pid=str(peer.get("id")); social[pid]=round(clamp(float(social.get(pid,0))+0.02+float(g.get("sociality",0))*.015,0,1),4)
+            peer=rng.choice(peers); social=agent.setdefault("social",{}); pid=str(peer.get("id")); social[pid]=round(clamp(float(social.get(pid,0))+(0.02+float(g.get("sociality",0))*.015)*float(cortex_mod.get("social",1.0)),0,1),4)
             if len(social)>MAX_AGENT_SOCIAL:
                 keep=sorted(social.items(),key=lambda kv:kv[1],reverse=True)[:MAX_AGENT_SOCIAL]; agent["social"]={k:v for k,v in keep}
             missing=[x for x in peer.get("culture",[]) if x not in agent.get("culture",[])]
@@ -1056,7 +1102,7 @@ def _agent_daily_step(world: dict[str, Any], state: dict[str, Any], agents: list
         # Only one sex initiates the birth event, preventing a pair from being
         # counted twice.  Lifetime output is heritable through fecundity and the
         # life-history clock rather than a universal per-day magic number.
-        daily_repro=clamp((1.7+fec*4.2)/reproductive_days,0.00015,0.018)
+        daily_repro=clamp((1.7+fec*4.2)/reproductive_days*float(cortex_mod.get("mate",1.0)),0.00015,0.024)
         if agent.get("stage")=="adult" and agent.get("sex")=="A" and float(agent.get("energy",0))>.59 and rng.random()<daily_repro:
             mates=[p for p in peers if p.get("stage")=="adult" and p.get("sex")!=agent.get("sex") and float(p.get("energy",0))>.58]
             if mates:
@@ -1068,6 +1114,7 @@ def _agent_daily_step(world: dict[str, Any], state: dict[str, Any], agents: list
                 else:
                     _cohort_birth(cohorts,state,sp,cell,1.0,child["genes"],rng)
                 births[sid]+=1.0
+                reproduced=True
                 agent["energy"]=round(clamp(float(agent.get("energy",0))-.08,0,1),5); mate["energy"]=round(clamp(float(mate.get("energy",0))-.05,0,1),5)
         # Death is an organismal outcome rather than an aggregate multiplier.
         age=float(agent.get("age_days",0)); death_cause=None
@@ -1078,6 +1125,13 @@ def _agent_daily_step(world: dict[str, Any], state: dict[str, Any], agents: list
             agent["alive"]=False; agent["cause_of_death"]=death_cause; deaths_by_species[sid]+=1; causes[sid][death_cause]+=1
             death_records.append({"organism_id":agent.get("id"),"species_id":sid,"cause":death_cause,"sim_day":float(state.get("sim_day",0))})
             st["detritus"]=round(float(st.get("detritus",0))+max(.03,float(g.get("body_size",1)))*.05,5)
+        # Lifetime learning changes only the plastic policy layer.  The innate
+        # neural genome inherited by offspring remains untouched.
+        reward=(float(agent.get("energy",0))-energy_before)*1.8+(float(agent.get("health",0))-health_before)*2.4
+        reward+=0.42 if reproduced else 0.0
+        reward+=max(0,len(agent.get("social",{}))-social_before)*0.015
+        if death_cause: reward-=0.85
+        learn_from_reward(agent,reward)
     agents.extend(newborns)
 
 
@@ -1273,8 +1327,11 @@ def _maybe_speciate(world: dict[str,Any], state: dict[str,Any], species: list[di
 
 def _sync_world_metadata(world: dict[str,Any], state: dict[str,Any], agents: list[dict[str,Any]], cohorts: list[dict[str,Any]]) -> None:
     living_agents=sum(1 for a in agents if a.get("alive",True)); cohort_count=sum(1 for c in cohorts if float(c.get("count",0))>.03)
-    state["statistics"].update({"explicit_organisms":living_agents,"cohorts":cohort_count,"sim_year":round(float(state.get("sim_day",0))/float(state.get("year_days",YEAR_DAYS)),5)})
+    cortex_stats=cortex_population_summary(agents,cohorts)
+    state["statistics"].update({"explicit_organisms":living_agents,"cohorts":cohort_count,"sim_year":round(float(state.get("sim_day",0))/float(state.get("year_days",YEAR_DAYS)),5),"cortex":copy.deepcopy(cortex_stats)})
+    state["cortex"]=copy.deepcopy(cortex_stats)
     state["observation_index"]=int(world.get("generation",0))
+    world["cortex"]=copy.deepcopy(cortex_stats)
     world["engine"]="VIVARIUM"; world["vivarium"]={"schema":VIVARIUM_SCHEMA_VERSION,"sim_day":round(float(state.get("sim_day",0)),3),"sim_year":round(float(state.get("sim_day",0))/float(state.get("year_days",YEAR_DAYS)),4),"checkpoint_days":int(state.get("checkpoint_days",DEFAULT_CHECKPOINT_DAYS)),"observation_index":int(state.get("observation_index",0)),"explicit_organisms":living_agents,"cohorts":cohort_count,"last_checkpoint":copy.deepcopy(state.get("last_checkpoint",{}))}
     clocks=world.setdefault("clocks",{}); clocks["ecology_days"]=round(float(state.get("sim_day",0)),3); clocks["evolution_years"]=round(float(state.get("sim_day",0))/YEAR_DAYS,5)
 
@@ -1328,6 +1385,13 @@ def advance_vivarium(world: dict[str,Any], species: list[dict[str,Any]], env: di
     world.pop("_vivarium_pathogens",None)
     active_cells={_parse_cell(a.get("cell",[0,0])) for a in agents if a.get("alive",True)}|{_parse_cell(c.get("cell",[0,0])) for c in cohorts if float(c.get("count",0))>0}
     _publish_biotic_modifiers(env,eco,active_cells)
+    # New cohorts can be born during a checkpoint. Give every surviving compressed
+    # population its bounded CORTEX phenotype before publishing state so no cohort
+    # has to wait until the next checkpoint to participate in neural summaries.
+    for cohort in cohorts:
+        sp = species_by_id.get(str(cohort.get("species_id")))
+        if sp is not None and float(cohort.get("count", 0)) > 0:
+            ensure_cohort_cortex(cohort, sp, int(world.get("seed", 0)))
     _sync_world_metadata(world,state,agents,cohorts)
     save_vivarium_state(state,agents,cohorts,eco)
     if birth_records:
@@ -1372,4 +1436,5 @@ def _line_count(path: Path) -> int:
 def vivarium_summary(world: dict[str,Any], species: list[dict[str,Any]]) -> dict[str,Any]:
     state,agents,cohorts,eco=load_vivarium_state(); last=state.get("last_checkpoint",{})
     living_agents=[a for a in agents if a.get("alive",True)]
-    return {"engine":"VIVARIUM","schema":state.get("schema"),"observation_index":world.get("generation"),"sim_day":state.get("sim_day"),"sim_year":round(float(state.get("sim_day",0))/float(state.get("year_days",YEAR_DAYS)),4),"explicit_organisms":len(living_agents),"cohorts":len([c for c in cohorts if float(c.get("count",0))>0]),"conceptual_population":round(sum(float(s.get("population",0)) for s in _living(species)),2),"last_checkpoint":last,"tracked_birth_records":_line_count(BIRTHS_PATH),"tracked_death_records":_line_count(DEATHS_PATH)}
+    cortex_stats=cortex_population_summary(agents,cohorts)
+    return {"engine":"VIVARIUM","schema":state.get("schema"),"observation_index":world.get("generation"),"sim_day":state.get("sim_day"),"sim_year":round(float(state.get("sim_day",0))/float(state.get("year_days",YEAR_DAYS)),4),"explicit_organisms":len(living_agents),"cohorts":len([c for c in cohorts if float(c.get("count",0))>0]),"conceptual_population":round(sum(float(s.get("population",0)) for s in _living(species)),2),"cortex":cortex_stats,"last_checkpoint":last,"tracked_birth_records":_line_count(BIRTHS_PATH),"tracked_death_records":_line_count(DEATHS_PATH)}

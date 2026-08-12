@@ -9,7 +9,7 @@ from phylum.storage import ROOT
 
 class ConvergenceTests(unittest.TestCase):
     def test_version(self):
-        self.assertEqual(__version__, "2.0.1")
+        self.assertGreaterEqual(tuple(int(x) for x in __version__.split(".")), (2, 0, 1))
 
     def test_orrery_is_single_observatory_shell(self):
         index = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")

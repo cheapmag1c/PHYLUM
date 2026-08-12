@@ -1,3 +1,7 @@
+## 2.1.0 — CORTEX
+
+CORTEX introduces bounded evolving neural controllers inside the VIVARIUM individual-life engine. Resolved organisms now make neural/reflex-blended decisions about rest, foraging, exploration, avoidance, social contact and mating. Innate neural weights and architecture are heritable and mutable; lifetime reward-modulated plasticity is deliberately non-heritable. Cohorts retain compressed neural phenotypes, neural computation carries an energy cost, and ORRERY / LIFE exposes current controller statistics and organism actions. An optional manual local-LLM probe is included, but canonical evolution never calls an LLM and remains deterministic/offline-capable.
+
 ## 2.0.1 — CONVERGENCE
 
 - Unified PHYLUM's presentation around a single ORRERY Observatory shell.

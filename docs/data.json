@@ -2945,6 +2945,24 @@
       "evolution_years": 0.15556,
       "geology": 0.084
     },
+    "cortex": {
+      "canonical_llm_enabled": false,
+      "compressed_cohorts": 56,
+      "last_actions": {
+        "avoid": 0,
+        "explore": 0,
+        "forage": 0,
+        "mate": 0,
+        "rest": 200,
+        "socialize": 0
+      },
+      "lifetime_decisions": 0,
+      "mean_controller_gate": 0.13486,
+      "mean_hidden_neurons": 4.0,
+      "mean_plasticity": 0.22184,
+      "resolved_brains": 200,
+      "schema": 1
+    },
     "created_utc": "2026-08-08T22:26:00+00:00",
     "detritus": 26.3,
     "engine": "VIVARIUM",

@@ -11,7 +11,8 @@ from .paleon import paleon_summary
 from .nerve import nerve_catalog
 from .techne import techne_catalog
 from .socius import socius_catalog
-from .vivarium import vivarium_summary
+from .vivarium import vivarium_summary, load_vivarium_state
+from .cortex import population_summary as cortex_population_summary, local_llm_status, probe_local_llm
 from .storage import CHANGES_PATH, load_extended, load_json
 
 
@@ -28,6 +29,7 @@ def main() -> None:
     sub.add_parser("techne",help="Print TECHNE cultural inheritance, practices and archaeology")
     sub.add_parser("socius",help="Print SOCIUS persistent groups, norms and social relationships")
     sub.add_parser("vivarium",help="Print VIVARIUM continuous-time engine state")
+    cx=sub.add_parser("cortex",help="Print CORTEX evolving neural-controller state"); cx.add_argument("--probe-llm",action="store_true",help="Manually probe an optional local OpenAI-compatible LLM endpoint")
     m=sub.add_parser("migrate",help="Upgrade the current world schema without advancing a generation"); m.add_argument("--lineage",default=None)
     c=sub.add_parser("compare",help="Compare this PHYLUM timeline with another checkout"); c.add_argument("other_repo")
     ct=sub.add_parser("contact",help="Resolve a branch encounter as a biological contact event"); ct.add_argument("other_repo")
@@ -54,6 +56,10 @@ def main() -> None:
         w,s,e,p,plates,b,i=load_extended(); print(json.dumps(socius_catalog(w,s),indent=2))
     elif args.command=="vivarium":
         w,s,e,p,plates,b,i=load_extended(); print(json.dumps(vivarium_summary(w,s),indent=2))
+    elif args.command=="cortex":
+        w,s,e,p,plates,b,i=load_extended(); state,agents,cohorts,eco=load_vivarium_state(); report={"observation":w.get("generation"),"sim_day":state.get("sim_day"),"cortex":cortex_population_summary(agents,cohorts),"local_llm":local_llm_status()}
+        if args.probe_llm: report["llm_probe"]=probe_local_llm()
+        print(json.dumps(report,indent=2))
     elif args.command=="migrate":
         result=migrate_current_state(args.lineage,True); print(f"Migrated PHYLUM generation {result['world']['generation']} to schema {result['world']['schema_version']} without advancing time.")
     elif args.command=="compare": print(json.dumps(compare(args.other_repo),indent=2))

@@ -790,9 +790,9 @@ def _update_readme_convergence(world, root: Path) -> None:
     )
 
     architecture = (
-        "## Current architecture — VIVARIUM + ORRERY\n\n"
+        "## Current architecture — VIVARIUM + CORTEX + ORRERY\n\n"
         "**VIVARIUM is the engine. ORRERY is the interface.**\n\n"
-        "VIVARIUM resolves PHYLUM's continuous living state: explicit organisms and bounded cohorts feed, age, move, reproduce, inherit genes, learn, transmit infection and die. Species statistics are measurements of that living substrate rather than a second independently evolving population number.\n\n"
+        "VIVARIUM resolves PHYLUM's continuous living state: explicit organisms and bounded cohorts feed, age, move, reproduce, inherit genes, learn, transmit infection and die. CORTEX gives resolved organisms bounded inherited neural controllers with lifetime plasticity; learned plastic changes die with the organism while neural architecture and innate weights can recombine and mutate in offspring. Species statistics are measurements of that living substrate rather than a second independently evolving population number.\n\n"
         "ORRERY is the single observatory shell for the world. Its **WORLD** view presents the planetary composite; **LIFE** exposes VIVARIUM's organism/cohort state; **BODY**, **BEHAVIOR**, **CULTURE**, **SOCIETY**, and **PLANET** expose SOMA, NERVE, TECHNE, SOCIUS, and PALEON without pretending they are separate products. WITNESS remains the evidence/history layer.\n"
     )
     if _conv_re.search(r"## Current (?:model|architecture)(?: — [^\n]+)?\n", text):
@@ -858,6 +858,7 @@ def _update_readme_convergence(world, root: Path) -> None:
         "\n### System hierarchy\n\n"
         "```text\n"
         "VIVARIUM = living-world engine\n"
+        "CORTEX   = evolving neural controllers / lifetime learning\n"
         "ORRERY   = observatory / interface\n"
         "PALEON   = planet\n"
         "SOMA     = body\n"

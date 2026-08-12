@@ -4,6 +4,13 @@
       16,
       9
     ],
+    "cortex": {
+      "controller_seed": 468533912,
+      "hidden": 4,
+      "neural_complexity": 0.167246,
+      "plasticity": 0.203042,
+      "schema": 1
+    },
     "count": 23.2958,
     "energy": 0.66754,
     "genes": {
@@ -43,6 +50,13 @@
       17,
       10
     ],
+    "cortex": {
+      "controller_seed": 1744375189,
+      "hidden": 4,
+      "neural_complexity": 0.168927,
+      "plasticity": 0.203345,
+      "schema": 1
+    },
     "count": 22.92716,
     "energy": 0.6651,
     "genes": {
@@ -82,6 +96,13 @@
       19,
       8
     ],
+    "cortex": {
+      "controller_seed": 3659549375,
+      "hidden": 4,
+      "neural_complexity": 0.168762,
+      "plasticity": 0.203315,
+      "schema": 1
+    },
     "count": 22.90379,
     "energy": 0.63427,
     "genes": {
@@ -121,6 +142,13 @@
       19,
       7
     ],
+    "cortex": {
+      "controller_seed": 3443452287,
+      "hidden": 4,
+      "neural_complexity": 0.169151,
+      "plasticity": 0.203385,
+      "schema": 1
+    },
     "count": 22.53043,
     "energy": 0.63369,
     "genes": {
@@ -160,6 +188,13 @@
       22,
       7
     ],
+    "cortex": {
+      "controller_seed": 348361864,
+      "hidden": 4,
+      "neural_complexity": 0.168224,
+      "plasticity": 0.203218,
+      "schema": 1
+    },
     "count": 22.21422,
     "energy": 0.64324,
     "genes": {
@@ -199,6 +234,13 @@
       21,
       7
     ],
+    "cortex": {
+      "controller_seed": 3028995128,
+      "hidden": 4,
+      "neural_complexity": 0.168566,
+      "plasticity": 0.20328,
+      "schema": 1
+    },
     "count": 22.18007,
     "energy": 0.64393,
     "genes": {
@@ -238,6 +280,13 @@
       18,
       9
     ],
+    "cortex": {
+      "controller_seed": 2337870253,
+      "hidden": 4,
+      "neural_complexity": 0.166951,
+      "plasticity": 0.202989,
+      "schema": 1
+    },
     "count": 21.89102,
     "energy": 0.6547,
     "genes": {
@@ -277,6 +326,13 @@
       17,
       11
     ],
+    "cortex": {
+      "controller_seed": 1339365861,
+      "hidden": 4,
+      "neural_complexity": 0.167786,
+      "plasticity": 0.20314,
+      "schema": 1
+    },
     "count": 20.23793,
     "energy": 0.67054,
     "genes": {
@@ -316,6 +372,13 @@
       15,
       10
     ],
+    "cortex": {
+      "controller_seed": 1625444596,
+      "hidden": 4,
+      "neural_complexity": 0.165123,
+      "plasticity": 0.20266,
+      "schema": 1
+    },
     "count": 19.54962,
     "energy": 0.67888,
     "genes": {
@@ -355,6 +418,13 @@
       17,
       9
     ],
+    "cortex": {
+      "controller_seed": 2987421065,
+      "hidden": 4,
+      "neural_complexity": 0.167125,
+      "plasticity": 0.20302,
+      "schema": 1
+    },
     "count": 19.10146,
     "energy": 0.66561,
     "genes": {
@@ -394,6 +464,13 @@
       21,
       8
     ],
+    "cortex": {
+      "controller_seed": 119551400,
+      "hidden": 4,
+      "neural_complexity": 0.165378,
+      "plasticity": 0.202706,
+      "schema": 1
+    },
     "count": 18.82804,
     "energy": 0.63708,
     "genes": {
@@ -433,6 +510,13 @@
       22,
       8
     ],
+    "cortex": {
+      "controller_seed": 4000767324,
+      "hidden": 4,
+      "neural_complexity": 0.171658,
+      "plasticity": 0.203836,
+      "schema": 1
+    },
     "count": 18.37209,
     "energy": 0.64349,
     "genes": {
@@ -472,6 +556,13 @@
       20,
       8
     ],
+    "cortex": {
+      "controller_seed": 3610249284,
+      "hidden": 4,
+      "neural_complexity": 0.168843,
+      "plasticity": 0.20333,
+      "schema": 1
+    },
     "count": 18.31609,
     "energy": 0.63239,
     "genes": {
@@ -511,6 +602,13 @@
       18,
       10
     ],
+    "cortex": {
+      "controller_seed": 3870288236,
+      "hidden": 4,
+      "neural_complexity": 0.166849,
+      "plasticity": 0.202971,
+      "schema": 1
+    },
     "count": 0.91959,
     "energy": 0.66935,
     "genes": {
@@ -550,6 +648,13 @@
       20,
       6
     ],
+    "cortex": {
+      "controller_seed": 621067761,
+      "hidden": 4,
+      "neural_complexity": 0.168442,
+      "plasticity": 0.203257,
+      "schema": 1
+    },
     "count": 0.90182,
     "energy": 0.65516,
     "genes": {
@@ -589,6 +694,13 @@
       18,
       11
     ],
+    "cortex": {
+      "controller_seed": 3512637837,
+      "hidden": 4,
+      "neural_complexity": 0.168991,
+      "plasticity": 0.203356,
+      "schema": 1
+    },
     "count": 0.45886,
     "energy": 0.6715,
     "genes": {
@@ -628,6 +740,13 @@
       19,
       10
     ],
+    "cortex": {
+      "controller_seed": 1548790947,
+      "hidden": 4,
+      "neural_complexity": 0.167008,
+      "plasticity": 0.202999,
+      "schema": 1
+    },
     "count": 0.44242,
     "energy": 0.66247,
     "genes": {
@@ -667,6 +786,13 @@
       18,
       12
     ],
+    "cortex": {
+      "controller_seed": 3299099937,
+      "hidden": 4,
+      "neural_complexity": 0.167971,
+      "plasticity": 0.203173,
+      "schema": 1
+    },
     "count": 0.41841,
     "energy": 0.68541,
     "genes": {
@@ -706,6 +832,13 @@
       17,
       12
     ],
+    "cortex": {
+      "controller_seed": 3970780546,
+      "hidden": 4,
+      "neural_complexity": 0.167962,
+      "plasticity": 0.203171,
+      "schema": 1
+    },
     "count": 0.40716,
     "energy": 0.68457,
     "genes": {
@@ -745,6 +878,13 @@
       16,
       10
     ],
+    "cortex": {
+      "controller_seed": 1519431546,
+      "hidden": 4,
+      "neural_complexity": 0.16756,
+      "plasticity": 0.203099,
+      "schema": 1
+    },
     "count": 0.39126,
     "energy": 0.68322,
     "genes": {
@@ -784,6 +924,13 @@
       23,
       9
     ],
+    "cortex": {
+      "controller_seed": 2586397444,
+      "hidden": 4,
+      "neural_complexity": 0.171591,
+      "plasticity": 0.203824,
+      "schema": 1
+    },
     "count": 0.38163,
     "energy": 0.66601,
     "genes": {
@@ -823,6 +970,13 @@
       23,
       8
     ],
+    "cortex": {
+      "controller_seed": 3681294487,
+      "hidden": 4,
+      "neural_complexity": 0.171301,
+      "plasticity": 0.203772,
+      "schema": 1
+    },
     "count": 0.37209,
     "energy": 0.6599,
     "genes": {
@@ -862,6 +1016,13 @@
       26,
       25
     ],
+    "cortex": {
+      "controller_seed": 857062441,
+      "hidden": 4,
+      "neural_complexity": 0.239918,
+      "plasticity": 0.2558,
+      "schema": 1
+    },
     "count": 20.55019,
     "energy": 0.59634,
     "genes": {
@@ -903,6 +1064,13 @@
       25,
       23
     ],
+    "cortex": {
+      "controller_seed": 4034719832,
+      "hidden": 4,
+      "neural_complexity": 0.23458,
+      "plasticity": 0.254839,
+      "schema": 1
+    },
     "count": 20.40384,
     "energy": 0.56676,
     "genes": {
@@ -944,6 +1112,13 @@
       26,
       24
     ],
+    "cortex": {
+      "controller_seed": 2287408463,
+      "hidden": 4,
+      "neural_complexity": 0.234959,
+      "plasticity": 0.254908,
+      "schema": 1
+    },
     "count": 19.89051,
     "energy": 0.57756,
     "genes": {
@@ -985,6 +1160,13 @@
       27,
       24
     ],
+    "cortex": {
+      "controller_seed": 3671836941,
+      "hidden": 4,
+      "neural_complexity": 0.235504,
+      "plasticity": 0.255006,
+      "schema": 1
+    },
     "count": 19.8193,
     "energy": 0.64183,
     "genes": {
@@ -1026,6 +1208,13 @@
       27,
       23
     ],
+    "cortex": {
+      "controller_seed": 791708573,
+      "hidden": 4,
+      "neural_complexity": 0.241858,
+      "plasticity": 0.256149,
+      "schema": 1
+    },
     "count": 19.80522,
     "energy": 0.60528,
     "genes": {
@@ -1067,6 +1256,13 @@
       28,
       22
     ],
+    "cortex": {
+      "controller_seed": 1469297358,
+      "hidden": 4,
+      "neural_complexity": 0.235954,
+      "plasticity": 0.255087,
+      "schema": 1
+    },
     "count": 18.62038,
     "energy": 0.62311,
     "genes": {
@@ -1108,6 +1304,13 @@
       26,
       23
     ],
+    "cortex": {
+      "controller_seed": 1534959037,
+      "hidden": 4,
+      "neural_complexity": 0.236596,
+      "plasticity": 0.255202,
+      "schema": 1
+    },
     "count": 18.34824,
     "energy": 0.55702,
     "genes": {
@@ -1149,6 +1352,13 @@
       28,
       23
     ],
+    "cortex": {
+      "controller_seed": 2620696700,
+      "hidden": 4,
+      "neural_complexity": 0.238108,
+      "plasticity": 0.255474,
+      "schema": 1
+    },
     "count": 18.20036,
     "energy": 0.61216,
     "genes": {
@@ -1190,6 +1400,13 @@
       29,
       23
     ],
+    "cortex": {
+      "controller_seed": 124178680,
+      "hidden": 4,
+      "neural_complexity": 0.239017,
+      "plasticity": 0.255638,
+      "schema": 1
+    },
     "count": 17.7815,
     "energy": 0.62409,
     "genes": {
@@ -1231,6 +1448,13 @@
       25,
       24
     ],
+    "cortex": {
+      "controller_seed": 747172273,
+      "hidden": 4,
+      "neural_complexity": 0.234035,
+      "plasticity": 0.254741,
+      "schema": 1
+    },
     "count": 16.81296,
     "energy": 0.57944,
     "genes": {
@@ -1272,6 +1496,13 @@
       29,
       22
     ],
+    "cortex": {
+      "controller_seed": 2762405930,
+      "hidden": 4,
+      "neural_complexity": 0.236573,
+      "plasticity": 0.255198,
+      "schema": 1
+    },
     "count": 1.03967,
     "energy": 0.64277,
     "genes": {
@@ -1313,6 +1544,13 @@
       27,
       22
     ],
+    "cortex": {
+      "controller_seed": 2799243347,
+      "hidden": 4,
+      "neural_complexity": 0.236738,
+      "plasticity": 0.255228,
+      "schema": 1
+    },
     "count": 0.68769,
     "energy": 0.59409,
     "genes": {
@@ -1354,6 +1592,13 @@
       28,
       24
     ],
+    "cortex": {
+      "controller_seed": 108384408,
+      "hidden": 4,
+      "neural_complexity": 0.242252,
+      "plasticity": 0.25622,
+      "schema": 1
+    },
     "count": 0.36998,
     "energy": 0.6376,
     "genes": {
@@ -1395,6 +1640,13 @@
       25,
       25
     ],
+    "cortex": {
+      "controller_seed": 2441428241,
+      "hidden": 4,
+      "neural_complexity": 0.233884,
+      "plasticity": 0.254714,
+      "schema": 1
+    },
     "count": 0.31801,
     "energy": 0.61648,
     "genes": {
@@ -1436,6 +1688,13 @@
       40,
       11
     ],
+    "cortex": {
+      "controller_seed": 187006118,
+      "hidden": 4,
+      "neural_complexity": 0.192455,
+      "plasticity": 0.215549,
+      "schema": 1
+    },
     "count": 21.80231,
     "energy": 0.72948,
     "genes": {
@@ -1475,6 +1734,13 @@
       38,
       13
     ],
+    "cortex": {
+      "controller_seed": 3207691868,
+      "hidden": 4,
+      "neural_complexity": 0.19034,
+      "plasticity": 0.215169,
+      "schema": 1
+    },
     "count": 20.79025,
     "energy": 0.75944,
     "genes": {
@@ -1514,6 +1780,13 @@
       37,
       13
     ],
+    "cortex": {
+      "controller_seed": 689500516,
+      "hidden": 4,
+      "neural_complexity": 0.192366,
+      "plasticity": 0.215533,
+      "schema": 1
+    },
     "count": 19.58163,
     "energy": 0.74734,
     "genes": {
@@ -1553,6 +1826,13 @@
       40,
       13
     ],
+    "cortex": {
+      "controller_seed": 307418780,
+      "hidden": 4,
+      "neural_complexity": 0.190626,
+      "plasticity": 0.21522,
+      "schema": 1
+    },
     "count": 18.61364,
     "energy": 0.7664,
     "genes": {
@@ -1592,6 +1872,13 @@
       39,
       11
     ],
+    "cortex": {
+      "controller_seed": 2262574222,
+      "hidden": 4,
+      "neural_complexity": 0.187347,
+      "plasticity": 0.21463,
+      "schema": 1
+    },
     "count": 17.20123,
     "energy": 0.72031,
     "genes": {
@@ -1631,6 +1918,13 @@
       41,
       12
     ],
+    "cortex": {
+      "controller_seed": 142791213,
+      "hidden": 4,
+      "neural_complexity": 0.193418,
+      "plasticity": 0.215723,
+      "schema": 1
+    },
     "count": 16.93795,
     "energy": 0.74457,
     "genes": {
@@ -1670,6 +1964,13 @@
       39,
       12
     ],
+    "cortex": {
+      "controller_seed": 2446885430,
+      "hidden": 4,
+      "neural_complexity": 0.191408,
+      "plasticity": 0.215361,
+      "schema": 1
+    },
     "count": 16.32337,
     "energy": 0.73073,
     "genes": {
@@ -1709,6 +2010,13 @@
       42,
       11
     ],
+    "cortex": {
+      "controller_seed": 3260984280,
+      "hidden": 4,
+      "neural_complexity": 0.194037,
+      "plasticity": 0.215834,
+      "schema": 1
+    },
     "count": 16.29475,
     "energy": 0.7787,
     "genes": {
@@ -1748,6 +2056,13 @@
       42,
       12
     ],
+    "cortex": {
+      "controller_seed": 1432325901,
+      "hidden": 4,
+      "neural_complexity": 0.193667,
+      "plasticity": 0.215768,
+      "schema": 1
+    },
     "count": 16.01604,
     "energy": 0.7398,
     "genes": {
@@ -1787,6 +2102,13 @@
       39,
       13
     ],
+    "cortex": {
+      "controller_seed": 1341302122,
+      "hidden": 4,
+      "neural_complexity": 0.190503,
+      "plasticity": 0.215198,
+      "schema": 1
+    },
     "count": 15.89627,
     "energy": 0.77338,
     "genes": {
@@ -1826,6 +2148,13 @@
       38,
       12
     ],
+    "cortex": {
+      "controller_seed": 1093976202,
+      "hidden": 4,
+      "neural_complexity": 0.192588,
+      "plasticity": 0.215573,
+      "schema": 1
+    },
     "count": 15.87883,
     "energy": 0.74172,
     "genes": {
@@ -1865,6 +2194,13 @@
       36,
       13
     ],
+    "cortex": {
+      "controller_seed": 1232635288,
+      "hidden": 4,
+      "neural_complexity": 0.190255,
+      "plasticity": 0.215153,
+      "schema": 1
+    },
     "count": 15.38699,
     "energy": 0.75128,
     "genes": {
@@ -1904,6 +2240,13 @@
       40,
       12
     ],
+    "cortex": {
+      "controller_seed": 1147688015,
+      "hidden": 4,
+      "neural_complexity": 0.193735,
+      "plasticity": 0.21578,
+      "schema": 1
+    },
     "count": 15.00859,
     "energy": 0.74605,
     "genes": {
@@ -1943,6 +2286,13 @@
       41,
       13
     ],
+    "cortex": {
+      "controller_seed": 2149295310,
+      "hidden": 4,
+      "neural_complexity": 0.193132,
+      "plasticity": 0.215671,
+      "schema": 1
+    },
     "count": 1.71991,
     "energy": 0.84124,
     "genes": {
@@ -1982,6 +2332,13 @@
       37,
       14
     ],
+    "cortex": {
+      "controller_seed": 3615778618,
+      "hidden": 4,
+      "neural_complexity": 0.191974,
+      "plasticity": 0.215463,
+      "schema": 1
+    },
     "count": 1.17649,
     "energy": 0.80682,
     "genes": {
@@ -2021,6 +2378,13 @@
       41,
       14
     ],
+    "cortex": {
+      "controller_seed": 2688618155,
+      "hidden": 4,
+      "neural_complexity": 0.19086,
+      "plasticity": 0.215262,
+      "schema": 1
+    },
     "count": 0.40138,
     "energy": 0.82138,
     "genes": {
@@ -2060,6 +2424,13 @@
       42,
       13
     ],
+    "cortex": {
+      "controller_seed": 2357740934,
+      "hidden": 4,
+      "neural_complexity": 0.193401,
+      "plasticity": 0.21572,
+      "schema": 1
+    },
     "count": 0.35947,
     "energy": 0.81534,
     "genes": {
@@ -2099,6 +2470,13 @@
       38,
       11
     ],
+    "cortex": {
+      "controller_seed": 2258447409,
+      "hidden": 4,
+      "neural_complexity": 0.191603,
+      "plasticity": 0.215396,
+      "schema": 1
+    },
     "count": 0.34677,
     "energy": 0.74623,
     "genes": {
@@ -2138,6 +2516,13 @@
       37,
       12
     ],
+    "cortex": {
+      "controller_seed": 2529811499,
+      "hidden": 4,
+      "neural_complexity": 0.192638,
+      "plasticity": 0.215582,
+      "schema": 1
+    },
     "count": 0.3438,
     "energy": 0.75079,
     "genes": {
@@ -2177,6 +2562,13 @@
       38,
       14
     ],
+    "cortex": {
+      "controller_seed": 3808176417,
+      "hidden": 4,
+      "neural_complexity": 0.19045,
+      "plasticity": 0.215189,
+      "schema": 1
+    },
     "count": 0.33912,
     "energy": 0.82661,
     "genes": {

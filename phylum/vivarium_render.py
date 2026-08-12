@@ -21,6 +21,7 @@ def render_vivarium_assets(world: dict[str, Any], species: list[dict[str, Any]],
     living = [a for a in agents if a.get("alive", True)]
     by_sid = {str(s.get("id")): s for s in species}
     last = state.get("last_checkpoint", {})
+    cortex = summary.get("cortex", {}) if isinstance(summary.get("cortex"), dict) else {}
     W, H = 1800, 1080
     map_x, map_y, map_w, map_h = 48, 170, 1110, 690
     parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">',
@@ -28,7 +29,7 @@ def render_vivarium_assets(world: dict[str, Any], species: list[dict[str, Any]],
              '<style>text{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#dce8e2}.muted{fill:#748a82}.tiny{font-size:13px}.small{font-size:16px}.label{font-size:12px;letter-spacing:2px}.metric{font-size:30px}.title{font-size:24px;letter-spacing:6px}.panel{fill:#0b1619;stroke:#263b38;stroke-width:1}.line{stroke:#263b38;stroke-width:1}</style>',
              f'<text x="48" y="54" class="title">PHYLUM / ORRERY · LIFE</text>',
              f'<text x="48" y="86" class="muted small">VIVARIUM CONTINUOUS ENGINE · OBSERVATION {int(world.get("generation",0)):06d} · YEAR {float(summary.get("sim_year",0)):.2f}</text>',
-             f'<text x="48" y="125" class="small">{int(summary.get("explicit_organisms",0))} explicit organisms · {int(summary.get("cohorts",0))} bounded cohorts · {int(summary.get("conceptual_population",0)):,} conceptual organisms</text>',
+             f'<text x="48" y="125" class="small">{int(summary.get("explicit_organisms",0))} explicit organisms · {int(summary.get("cohorts",0))} bounded cohorts · {int(summary.get("conceptual_population",0)):,} conceptual organisms · {int(cortex.get("resolved_brains",0))} CORTEX controllers</text>',
              f'<rect x="{map_x}" y="{map_y}" width="{map_w}" height="{map_h}" rx="8" class="panel"/>']
     # cartographic grid
     for x in range(GRID_COLS + 1):
@@ -54,7 +55,7 @@ def render_vivarium_assets(world: dict[str, Any], species: list[dict[str, Any]],
     # right metrics
     px=1200
     parts.append(f'<rect x="{px}" y="170" width="552" height="690" rx="8" class="panel"/>')
-    metrics=[("SIMULATED DAYS",f'{float(summary.get("sim_day",0)):,.0f}'),("CHECKPOINT SPAN",f'{int(last.get("simulated_days",0))} days'),("BIRTHS",f'{float(last.get("births",0)):,.1f}'),("DEATHS",f'{float(last.get("deaths",0)):,.1f}'),("PREDATION",f'{float(last.get("observed_predation",0)):,.1f}')]
+    metrics=[("SIMULATED DAYS",f'{float(summary.get("sim_day",0)):,.0f}'),("CORTEX / μ HIDDEN",f'{float(cortex.get("mean_hidden_neurons",0)):.2f}'),("BIRTHS",f'{float(last.get("births",0)):,.1f}'),("DEATHS",f'{float(last.get("deaths",0)):,.1f}'),("PREDATION",f'{float(last.get("observed_predation",0)):,.1f}')]
     y=220
     for label,value in metrics:
         parts.append(f'<text x="{px+28}" y="{y}" class="muted label">{label}</text><text x="{px+28}" y="{y+38}" class="metric">{value}</text>'); y+=92
@@ -69,7 +70,9 @@ def render_vivarium_assets(world: dict[str, Any], species: list[dict[str, Any]],
         parts.append(f'<text x="{x+14}" y="{y+23}" class="tiny muted">{_esc(a.get("id"))} / {_esc(a.get("stage"))}</text>')
         parts.append(f'<text x="{x+14}" y="{y+48}" class="small">{_esc(sp.get("name",sid))}</text>')
         parts.append(f'<text x="{x+14}" y="{y+73}" class="tiny">age {float(a.get("age_days",0)):.0f}d · energy {float(a.get("energy",0))*100:.0f}% · health {float(a.get("health",0))*100:.0f}%</text>')
-        parents=a.get("parent_ids",[]); parts.append(f'<text x="{x+14}" y="{y+96}" class="tiny muted">parents {_esc(" / ".join(parents) if parents else "migration founder")}</text>')
+        brain=a.get("brain",{}) if isinstance(a.get("brain"),dict) else {}; mind=brain.get("state",{}) if isinstance(brain.get("state"),dict) else {}
+        action=_esc(mind.get("last_action","reflex")); conf=float(mind.get("last_confidence",0))*100
+        parts.append(f'<text x="{x+14}" y="{y+96}" class="tiny muted">mind {action} · confidence {conf:.0f}%</text>')
     parts.append('</svg>')
     svg=''.join(parts)
     renders = root / 'renders'
@@ -92,7 +95,7 @@ def render_vivarium_assets(world: dict[str, Any], species: list[dict[str, Any]],
     obs=int(world.get('generation',0)); sim_day=float(summary.get('sim_day',0)); sim_year=float(summary.get('sim_year',0))
     html_doc=f'''<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PHYLUM / ORRERY · LIFE</title><style>
 :root{{--bg:#05090b;--panel:#091114;--line:#223437;--text:#dbe5e1;--muted:#718680;--accent:#9ab6aa}}*{{box-sizing:border-box}}body{{margin:0;background:radial-gradient(circle at 30% -10%,#102126 0,#05090b 36%,#05090b 100%);color:var(--text);font:13px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}}a{{color:inherit}}header{{padding:28px 34px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:24px;align-items:flex-end}}h1{{font-size:22px;letter-spacing:5px;margin:0}}header p{{color:var(--muted);margin:7px 0 0}}.status{{text-align:right;color:var(--muted)}}nav{{display:flex;gap:8px;flex-wrap:wrap;padding:14px 34px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#05090bea;backdrop-filter:blur(8px);z-index:5}}nav a{{text-decoration:none;border:1px solid #284043;background:#0a1518;color:#cbd8d3;padding:8px 11px;border-radius:7px}}nav a:hover,nav a.active{{border-color:#6d8a80;background:#102024}}main{{padding:24px 34px 60px;max-width:1880px;margin:auto}}.hero{{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#061012}}object{{display:block;width:100%;min-height:520px}}.grid{{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}}.panel{{border:1px solid var(--line);border-radius:12px;background:linear-gradient(135deg,#081114,#0a1517);padding:18px}}.panel h2{{font-size:12px;letter-spacing:2px;margin:0 0 16px;color:#a8bbb4}}.panel p{{color:#9fb1aa;line-height:1.65}}pre{{margin:0;white-space:pre-wrap;color:#a9bbb4}}@media(max-width:900px){{header{{align-items:flex-start;flex-direction:column}}.status{{text-align:left}}.grid{{grid-template-columns:1fr}}}}
-</style></head><body><header><div><h1>PHYLUM / ORRERY</h1><p>LIFE view · powered by the VIVARIUM continuous living-world engine</p></div><div class="status">OBS {obs:06d}<br>DAY {sim_day:.0f}<br>YEAR {sim_year:.2f}</div></header><nav><a href="index.html">WORLD</a><a class="active" href="life.html">LIFE</a><a href="phylogeny.svg">PHYLOGENY</a><a href="soma.html">BODY</a><a href="nerve.html">BEHAVIOR</a><a href="techne.html">CULTURE</a><a href="socius.html">SOCIETY</a><a href="paleon.html">PLANET</a></nav><main><section class="hero"><object type="image/svg+xml" data="life.svg?obs={obs:06d}"></object></section><section class="grid"><div class="panel"><h2>WHAT THIS VIEW IS</h2><p>ORRERY is PHYLUM's observatory. LIFE is its organism-level lens. VIVARIUM is the engine underneath it: explicit organisms and bounded cohorts feed, age, reproduce, inherit, become infected and die through continuous simulated time.</p></div><div class="panel"><h2>ENGINE STATE</h2><pre>{_esc(json.dumps(summary,indent=2))}</pre></div></section></main></body></html>'''
+</style></head><body><header><div><h1>PHYLUM / ORRERY</h1><p>LIFE view · powered by the VIVARIUM continuous living-world engine · CORTEX evolving neural controllers</p></div><div class="status">OBS {obs:06d}<br>DAY {sim_day:.0f}<br>YEAR {sim_year:.2f}</div></header><nav><a href="index.html">WORLD</a><a class="active" href="life.html">LIFE</a><a href="phylogeny.svg">PHYLOGENY</a><a href="soma.html">BODY</a><a href="nerve.html">BEHAVIOR</a><a href="techne.html">CULTURE</a><a href="socius.html">SOCIETY</a><a href="paleon.html">PLANET</a></nav><main><section class="hero"><object type="image/svg+xml" data="life.svg?obs={obs:06d}"></object></section><section class="grid"><div class="panel"><h2>WHAT THIS VIEW IS</h2><p>ORRERY is PHYLUM's observatory. LIFE is its organism-level lens. VIVARIUM is the engine underneath it: explicit organisms and bounded cohorts feed, age, reproduce, inherit, become infected and die through continuous simulated time. CORTEX gives resolved organisms tiny inherited neural controllers whose decisions affect behavior and whose lifetime plasticity learns from outcomes without rewriting inherited neural genes.</p></div><div class="panel"><h2>ENGINE STATE</h2><pre>{_esc(json.dumps(summary,indent=2))}</pre></div></section></main></body></html>'''
     (docs/'life.html').write_text(html_doc,encoding='utf-8')
 
     # Keep the historical URL as a redirect, not a second full-page dashboard.
