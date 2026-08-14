@@ -4,9 +4,7 @@
     "environmental_persistence": 0.0913,
     "extinct_generation": null,
     "host_breadth": 0.1067,
-    "hosts": {
-      "sp-00002": 0.00053
-    },
+    "hosts": {},
     "id": "pa-00001",
     "mutation_rate": 0.1183,
     "name": "red spore",
