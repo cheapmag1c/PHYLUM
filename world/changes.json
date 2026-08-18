@@ -2,36 +2,36 @@
   "ended_interactions": [],
   "events": [
     {
-      "generation": 51,
+      "generation": 52,
       "kind": "observation",
       "subject": "world",
-      "text": "VIVARIUM advances 14 simulated days to year 1.17."
+      "text": "VIVARIUM advances 14 simulated days to year 1.21."
     }
   ],
-  "from_generation": 50,
+  "from_generation": 51,
   "lineages": [
     {
       "centroid_from": [
-        26.565,
-        23.609
+        39.333,
+        12.25
       ],
       "centroid_to": [
-        26.565,
-        23.609
+        39.333,
+        12.25
       ],
       "genetic_diversity_after": 0.02487,
-      "genetic_diversity_before": 0.02466,
-      "id": "sp-00002",
+      "genetic_diversity_before": 0.02473,
+      "id": "sp-00003",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
       "movement": 0.0,
-      "name": "silt frond",
-      "population_after": 239.89,
-      "population_before": 241.54,
-      "population_delta": -1.65,
-      "population_percent": -0.68,
-      "range_after": 23,
-      "range_before": 23,
+      "name": "glass mote",
+      "population_after": 310.58,
+      "population_before": 312.61,
+      "population_delta": -2.03,
+      "population_percent": -0.65,
+      "range_after": 24,
+      "range_before": 24,
       "range_delta": 0,
       "role": "producer",
       "status": "living"
@@ -45,17 +45,17 @@
         18.882,
         8.676
       ],
-      "genetic_diversity_after": 0.0227,
-      "genetic_diversity_before": 0.02275,
+      "genetic_diversity_after": 0.02264,
+      "genetic_diversity_before": 0.0227,
       "id": "sp-00001",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
       "movement": 0.0,
       "name": "pale filament",
-      "population_after": 341.37,
-      "population_before": 342.66,
-      "population_delta": -1.29,
-      "population_percent": -0.38,
+      "population_after": 342.25,
+      "population_before": 341.37,
+      "population_delta": 0.89,
+      "population_percent": 0.26,
       "range_after": 34,
       "range_before": 34,
       "range_delta": 0,
@@ -64,26 +64,26 @@
     },
     {
       "centroid_from": [
-        39.333,
-        12.25
+        26.565,
+        23.609
       ],
       "centroid_to": [
-        39.333,
-        12.25
+        26.565,
+        23.609
       ],
-      "genetic_diversity_after": 0.02473,
-      "genetic_diversity_before": 0.0246,
-      "id": "sp-00003",
+      "genetic_diversity_after": 0.02501,
+      "genetic_diversity_before": 0.02487,
+      "id": "sp-00002",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
       "movement": 0.0,
-      "name": "glass mote",
-      "population_after": 312.61,
-      "population_before": 312.98,
-      "population_delta": -0.37,
-      "population_percent": -0.12,
-      "range_after": 24,
-      "range_before": 24,
+      "name": "silt frond",
+      "population_after": 240.3,
+      "population_before": 239.89,
+      "population_delta": 0.41,
+      "population_percent": 0.17,
+      "range_after": 23,
+      "range_before": 23,
       "range_delta": 0,
       "role": "producer",
       "status": "living"
@@ -92,11 +92,11 @@
   "markers": [
     {
       "glyph": "\u2022",
-      "id": "ev-000051-00",
+      "id": "ev-000052-00",
       "kind": "observation",
       "position": null,
       "subject": "world",
-      "text": "VIVARIUM advances 14 simulated days to year 1.17."
+      "text": "VIVARIUM advances 14 simulated days to year 1.21."
     }
   ],
   "new_interactions": [],
@@ -116,13 +116,13 @@
     "occupied_after": 81,
     "occupied_before": 81,
     "occupied_delta": 0,
-    "population_after": 893.86,
-    "population_before": 897.17,
-    "population_delta": -3.31,
-    "population_percent": -0.37,
+    "population_after": 893.14,
+    "population_before": 893.86,
+    "population_delta": -0.73,
+    "population_percent": -0.08,
     "resolved_pathogens": 0,
     "resources_delta": 0.0,
     "temperature_delta": 0.0
   },
-  "to_generation": 51
+  "to_generation": 52
 }
