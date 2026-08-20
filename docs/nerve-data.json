@@ -21,7 +21,18 @@
       "score": 0.18478,
       "tool_capability": false
     },
-    "memory": [],
+    "memory": [
+      {
+        "detail": "resource-poor habitat",
+        "generation": 59,
+        "kind": "resource",
+        "position": [
+          18.833,
+          8.583
+        ],
+        "strength": 0.3356
+      }
+    ],
     "name": "pale filament",
     "perception": {
       "modalities": [
@@ -33,7 +44,7 @@
       "social_sensitivity": 0.26358,
       "threat_sensitivity": 0.18068
     },
-    "population": 344.5,
+    "population": 343.74,
     "repertoire": [
       {
         "kind": "inherited",
@@ -104,7 +115,7 @@
           26.818,
           23.455
         ],
-        "strength": 0.1085
+        "strength": 0.0909
       }
     ],
     "name": "silt frond",
@@ -119,7 +130,7 @@
       "social_sensitivity": 0.32858,
       "threat_sensitivity": 0.18058
     },
-    "population": 232.59,
+    "population": 228.3,
     "repertoire": [
       {
         "kind": "inherited",
@@ -192,7 +203,7 @@
       "social_sensitivity": 0.38263,
       "threat_sensitivity": 0.16303
     },
-    "population": 315.94,
+    "population": 313.42,
     "repertoire": [
       {
         "kind": "inherited",
