@@ -2,36 +2,36 @@
   "ended_interactions": [],
   "events": [
     {
-      "generation": 62,
+      "generation": 63,
       "kind": "observation",
       "subject": "world",
-      "text": "VIVARIUM advances 14 simulated days to year 1.59."
+      "text": "VIVARIUM advances 14 simulated days to year 1.63."
     }
   ],
-  "from_generation": 61,
+  "from_generation": 62,
   "lineages": [
     {
       "centroid_from": [
-        39.333,
-        12.25
+        18.743,
+        8.571
       ],
       "centroid_to": [
-        39.333,
-        12.25
+        18.743,
+        8.571
       ],
-      "genetic_diversity_after": 0.02503,
-      "genetic_diversity_before": 0.02455,
-      "id": "sp-00003",
+      "genetic_diversity_after": 0.02358,
+      "genetic_diversity_before": 0.02381,
+      "id": "sp-00001",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
       "movement": 0.0,
-      "name": "glass mote",
-      "population_after": 309.72,
-      "population_before": 307.26,
-      "population_delta": 2.46,
-      "population_percent": 0.8,
-      "range_after": 24,
-      "range_before": 24,
+      "name": "pale filament",
+      "population_after": 332.85,
+      "population_before": 338.55,
+      "population_delta": -5.7,
+      "population_percent": -1.68,
+      "range_after": 35,
+      "range_before": 35,
       "range_delta": 0,
       "role": "producer",
       "status": "living"
@@ -45,17 +45,17 @@
         26.565,
         23.609
       ],
-      "genetic_diversity_after": 0.02551,
-      "genetic_diversity_before": 0.02541,
+      "genetic_diversity_after": 0.02571,
+      "genetic_diversity_before": 0.02551,
       "id": "sp-00002",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
       "movement": 0.0,
       "name": "silt frond",
-      "population_after": 228.68,
-      "population_before": 229.16,
-      "population_delta": -0.48,
-      "population_percent": -0.21,
+      "population_after": 228.28,
+      "population_before": 228.68,
+      "population_delta": -0.4,
+      "population_percent": -0.17,
       "range_after": 23,
       "range_before": 23,
       "range_delta": 0,
@@ -64,26 +64,26 @@
     },
     {
       "centroid_from": [
-        18.743,
-        8.571
+        39.333,
+        12.25
       ],
       "centroid_to": [
-        18.743,
-        8.571
+        39.333,
+        12.25
       ],
-      "genetic_diversity_after": 0.02381,
-      "genetic_diversity_before": 0.02384,
-      "id": "sp-00001",
+      "genetic_diversity_after": 0.02519,
+      "genetic_diversity_before": 0.02503,
+      "id": "sp-00003",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
       "movement": 0.0,
-      "name": "pale filament",
-      "population_after": 338.55,
-      "population_before": 338.36,
-      "population_delta": 0.19,
-      "population_percent": 0.06,
-      "range_after": 35,
-      "range_before": 35,
+      "name": "glass mote",
+      "population_after": 309.33,
+      "population_before": 309.72,
+      "population_delta": -0.39,
+      "population_percent": -0.13,
+      "range_after": 24,
+      "range_before": 24,
       "range_delta": 0,
       "role": "producer",
       "status": "living"
@@ -92,11 +92,11 @@
   "markers": [
     {
       "glyph": "\u2022",
-      "id": "ev-000062-00",
+      "id": "ev-000063-00",
       "kind": "observation",
       "position": null,
       "subject": "world",
-      "text": "VIVARIUM advances 14 simulated days to year 1.59."
+      "text": "VIVARIUM advances 14 simulated days to year 1.63."
     }
   ],
   "new_interactions": [],
@@ -116,13 +116,13 @@
     "occupied_after": 82,
     "occupied_before": 82,
     "occupied_delta": 0,
-    "population_after": 876.95,
-    "population_before": 874.78,
-    "population_delta": 2.17,
-    "population_percent": 0.25,
+    "population_after": 870.46,
+    "population_before": 876.95,
+    "population_delta": -6.49,
+    "population_percent": -0.74,
     "resolved_pathogens": 0,
     "resources_delta": 0.0,
     "temperature_delta": 0.0
   },
-  "to_generation": 62
+  "to_generation": 63
 }
