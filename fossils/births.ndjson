@@ -242,3 +242,6 @@
 {"organism_id": "o-000000456", "parent_ids": ["o-000000363", "o-000000396"], "sim_day": 599.0, "species_id": "sp-00001"}
 {"organism_id": "o-000000457", "parent_ids": ["o-000000304", "o-000000265"], "sim_day": 601.0, "species_id": "sp-00002"}
 {"organism_id": "o-000000458", "parent_ids": ["o-000000268", "o-000000320"], "sim_day": 602.0, "species_id": "sp-00003"}
+{"organism_id": "o-000000462", "parent_ids": ["o-000000387", "o-000000383"], "sim_day": 610.0, "species_id": "sp-00001"}
+{"organism_id": "o-000000463", "parent_ids": ["o-000000363", "o-000000396"], "sim_day": 611.0, "species_id": "sp-00001"}
+{"organism_id": "o-000000466", "parent_ids": ["o-000000378", "o-000000356"], "sim_day": 616.0, "species_id": "sp-00001"}
