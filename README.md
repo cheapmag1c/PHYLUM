@@ -6,51 +6,51 @@ PHYLUM is an autonomous artificial biosphere that lives inside a Git repository.
 
 Git is not just where PHYLUM's source code lives. **Git is its fossil record.**
 
-![Current PHYLUM world](renders/current.svg?gen=000084)
+![Current PHYLUM world](renders/current.svg?gen=000085)
 
 <!-- PHYLUM:STATE:START -->
-**Observation:** `84`  
-**Simulated time:** `day 882` / `year 2.45`  
+**Observation:** `85`  
+**Simulated time:** `day 896` / `year 2.49`  
 **Era:** `Origin Era`  
 **Living lineages:** `3`  
 **Extinct lineages:** `0`  
-**Population:** `849`  
+**Population:** `843`  
 **Occupied cells:** `83` / `1440`  
 **Active pathogens:** `1`  
 **Predator/prey links:** `0`  
-**Dominant lineage:** `glass mote`  
-**Last checkpoint Δ:** `+4` organisms · `+2` occupied cells  
-**Latest fossil:** VIVARIUM advances 14 simulated days to year 2.45.
+**Dominant lineage:** `pale filament`  
+**Last checkpoint Δ:** `-6` organisms · `+0` occupied cells  
+**Latest fossil:** VIVARIUM advances 14 simulated days to year 2.49.
 <!-- PHYLUM:STATE:END -->
 
 
 ## Living phylogeny
 
-![PHYLUM phylogeny](renders/phylogeny.svg?gen=000084)
+![PHYLUM phylogeny](renders/phylogeny.svg?gen=000085)
 
 ## Living food web
 
-![PHYLUM food web](renders/foodweb.svg?gen=000084)
+![PHYLUM food web](renders/foodweb.svg?gen=000085)
 
 ## Persistent groups — SOCIUS
 
-![PHYLUM SOCIUS social lineage record](renders/socius.svg?gen=000084)
+![PHYLUM SOCIUS social lineage record](renders/socius.svg?gen=000085)
 
 ## Living cultures — TECHNE
 
-![PHYLUM TECHNE cultural record](renders/techne.svg?gen=000084)
+![PHYLUM TECHNE cultural record](renders/techne.svg?gen=000085)
 
 ## Living minds — NERVE
 
-![PHYLUM NERVE ethogram](renders/nerve.svg?gen=000084)
+![PHYLUM NERVE ethogram](renders/nerve.svg?gen=000085)
 
 ## Planetary system — PALEON
 
-![PHYLUM PALEON planetary system](renders/paleon.svg?gen=000084)
+![PHYLUM PALEON planetary system](renders/paleon.svg?gen=000085)
 
 ## Living organisms — SOMA
 
-![PHYLUM SOMA field guide](renders/soma.svg?gen=000084)
+![PHYLUM SOMA field guide](renders/soma.svg?gen=000085)
 
 ## The idea
 
@@ -169,7 +169,7 @@ ORRERY is the single observatory shell for the world. Its **WORLD** view present
 
 ## Living engine — VIVARIUM
 
-Continuous time: **day 882 / year 2.45** at observation **84**. Open [`docs/life.html`](docs/life.html) for the ORRERY **LIFE** view.
+Continuous time: **day 896 / year 2.49** at observation **85**. Open [`docs/life.html`](docs/life.html) for the ORRERY **LIFE** view.
 
 The historical `docs/vivarium.html` URL now redirects to LIFE so there is only one observatory hierarchy.
 
