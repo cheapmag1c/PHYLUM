@@ -2,89 +2,89 @@
   "ended_interactions": [],
   "events": [
     {
-      "generation": 83,
+      "generation": 84,
       "kind": "observation",
       "subject": "world",
-      "text": "VIVARIUM advances 14 simulated days to year 2.41."
+      "text": "VIVARIUM advances 14 simulated days to year 2.45."
     }
   ],
-  "from_generation": 82,
+  "from_generation": 83,
   "lineages": [
     {
       "centroid_from": [
-        26.364,
-        23.591
+        39.348,
+        12.348
       ],
       "centroid_to": [
-        26.364,
-        23.591
+        39.12,
+        12.24
       ],
-      "genetic_diversity_after": 0.0301,
-      "genetic_diversity_before": 0.02988,
-      "id": "sp-00002",
+      "genetic_diversity_after": 0.02787,
+      "genetic_diversity_before": 0.02762,
+      "id": "sp-00003",
+      "infection_peak_after": 0,
+      "infection_peak_before": 0,
+      "movement": 0.252,
+      "name": "glass mote",
+      "population_after": 313.15,
+      "population_before": 309.55,
+      "population_delta": 3.6,
+      "population_percent": 1.16,
+      "range_after": 25,
+      "range_before": 23,
+      "range_delta": 2,
+      "role": "producer",
+      "status": "living"
+    },
+    {
+      "centroid_from": [
+        18.778,
+        8.556
+      ],
+      "centroid_to": [
+        18.778,
+        8.556
+      ],
+      "genetic_diversity_after": 0.02611,
+      "genetic_diversity_before": 0.02597,
+      "id": "sp-00001",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
       "movement": 0.0,
-      "name": "silt frond",
-      "population_after": 223.96,
-      "population_before": 226.53,
-      "population_delta": -2.57,
-      "population_percent": -1.13,
-      "range_after": 22,
-      "range_before": 22,
+      "name": "pale filament",
+      "population_after": 312.16,
+      "population_before": 311.44,
+      "population_delta": 0.72,
+      "population_percent": 0.23,
+      "range_after": 36,
+      "range_before": 36,
       "range_delta": 0,
       "role": "producer",
       "status": "living"
     },
     {
       "centroid_from": [
-        18.784,
-        8.486
+        26.364,
+        23.591
       ],
       "centroid_to": [
-        18.778,
-        8.556
+        26.364,
+        23.591
       ],
-      "genetic_diversity_after": 0.02597,
-      "genetic_diversity_before": 0.02584,
-      "id": "sp-00001",
+      "genetic_diversity_after": 0.03033,
+      "genetic_diversity_before": 0.0301,
+      "id": "sp-00002",
       "infection_peak_after": 0,
       "infection_peak_before": 0,
-      "movement": 0.07,
-      "name": "pale filament",
-      "population_after": 311.44,
-      "population_before": 313.55,
-      "population_delta": -2.1,
-      "population_percent": -0.67,
-      "range_after": 36,
-      "range_before": 37,
-      "range_delta": -1,
-      "role": "producer",
-      "status": "living"
-    },
-    {
-      "centroid_from": [
-        39.333,
-        12.25
-      ],
-      "centroid_to": [
-        39.348,
-        12.348
-      ],
-      "genetic_diversity_after": 0.02762,
-      "genetic_diversity_before": 0.02726,
-      "id": "sp-00003",
-      "infection_peak_after": 0,
-      "infection_peak_before": 0,
-      "movement": 0.099,
-      "name": "glass mote",
-      "population_after": 309.55,
-      "population_before": 310.9,
-      "population_delta": -1.36,
-      "population_percent": -0.44,
-      "range_after": 23,
-      "range_before": 24,
-      "range_delta": -1,
+      "movement": 0.0,
+      "name": "silt frond",
+      "population_after": 224.38,
+      "population_before": 223.96,
+      "population_delta": 0.43,
+      "population_percent": 0.19,
+      "range_after": 22,
+      "range_before": 22,
+      "range_delta": 0,
       "role": "producer",
       "status": "living"
     }
@@ -92,11 +92,11 @@
   "markers": [
     {
       "glyph": "\u2022",
-      "id": "ev-000083-00",
+      "id": "ev-000084-00",
       "kind": "observation",
       "position": null,
       "subject": "world",
-      "text": "VIVARIUM advances 14 simulated days to year 2.41."
+      "text": "VIVARIUM advances 14 simulated days to year 2.45."
     }
   ],
   "new_interactions": [],
@@ -113,16 +113,16 @@
     "new_competition_links": 0,
     "new_pathogens": 0,
     "new_predation_links": 0,
-    "occupied_after": 81,
-    "occupied_before": 83,
-    "occupied_delta": -2,
-    "population_after": 844.95,
-    "population_before": 850.98,
-    "population_delta": -6.03,
-    "population_percent": -0.71,
+    "occupied_after": 83,
+    "occupied_before": 81,
+    "occupied_delta": 2,
+    "population_after": 849.69,
+    "population_before": 844.95,
+    "population_delta": 4.75,
+    "population_percent": 0.56,
     "resolved_pathogens": 0,
     "resources_delta": 0.0,
     "temperature_delta": 0.0
   },
-  "to_generation": 83
+  "to_generation": 84
 }
