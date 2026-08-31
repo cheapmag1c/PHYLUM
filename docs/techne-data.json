@@ -1,6 +1,6 @@
 {
   "cultural_lineages": [],
-  "generation": 96,
+  "generation": 97,
   "lineages": [
     {
       "capacities": {
@@ -43,7 +43,7 @@
       },
       "id": "sp-00002",
       "name": "silt frond",
-      "population": 211.47,
+      "population": 210.12,
       "practices": [],
       "statistics": {
         "innovations": 0,
@@ -68,7 +68,7 @@
       },
       "id": "sp-00003",
       "name": "glass mote",
-      "population": 288.4,
+      "population": 290.14,
       "practices": [],
       "statistics": {
         "innovations": 0,
