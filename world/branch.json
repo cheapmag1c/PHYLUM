@@ -1,9 +1,9 @@
 {
-  "ancestor_fingerprint": "9b4ca63e176c1fa9263d",
+  "ancestor_fingerprint": "7393a983066637312295",
   "contacts": [],
-  "diverged_generation": null,
-  "lineage": "zerrfeit/PHYLUM",
-  "parent_lineage": null,
+  "diverged_generation": 97,
+  "lineage": "somniport/PHYLUM",
+  "parent_lineage": "zerrfeit/PHYLUM",
   "root_fingerprint": "9b4ca63e176c1fa9263d",
   "schema_version": 2
 }

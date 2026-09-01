@@ -383,3 +383,8 @@
 {"organism_id": "o-000000630", "parent_ids": ["o-000000523", "o-000000583"], "sim_day": 1062.0, "species_id": "sp-00001"}
 {"organism_id": "o-000000631", "parent_ids": ["o-000000443", "o-000000544"], "sim_day": 1063.0, "species_id": "sp-00003"}
 {"organism_id": "o-000000632", "parent_ids": ["o-000000518", "o-000000583"], "sim_day": 1063.0, "species_id": "sp-00001"}
+{"organism_id": "o-000000633", "parent_ids": ["o-000000450", "o-000000410"], "sim_day": 1066.0, "species_id": "sp-00003"}
+{"organism_id": "o-000000634", "parent_ids": ["o-000000556", "o-000000546"], "sim_day": 1066.0, "species_id": "sp-00003"}
+{"organism_id": "o-000000635", "parent_ids": ["o-000000449", "o-000000557"], "sim_day": 1069.0, "species_id": "sp-00003"}
+{"organism_id": "o-000000636", "parent_ids": ["o-000000537", "o-000000535"], "sim_day": 1069.0, "species_id": "sp-00001"}
+{"organism_id": "o-000000637", "parent_ids": ["o-000000479", "o-000000446"], "sim_day": 1075.0, "species_id": "sp-00003"}
