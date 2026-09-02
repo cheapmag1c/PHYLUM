@@ -3,27 +3,27 @@
   "clocks": {
     "climate": 0.595,
     "ecology": 99,
-    "ecology_days": 1148.0,
+    "ecology_days": 1162.0,
     "evolution": 3.06,
-    "evolution_years": 3.18889,
+    "evolution_years": 3.22778,
     "geology": 0.102
   },
   "cortex": {
     "canonical_llm_enabled": false,
     "compressed_cohorts": 75,
     "last_actions": {
-      "avoid": 15,
-      "explore": 41,
-      "forage": 22,
+      "avoid": 19,
+      "explore": 54,
+      "forage": 18,
       "mate": 46,
-      "rest": 27,
-      "socialize": 51
+      "rest": 20,
+      "socialize": 44
     },
-    "lifetime_decisions": 67075,
-    "mean_controller_gate": 0.13545,
+    "lifetime_decisions": 68558,
+    "mean_controller_gate": 0.1353,
     "mean_hidden_neurons": 4.02,
-    "mean_plasticity": 0.22228,
-    "resolved_brains": 202,
+    "mean_plasticity": 0.22211,
+    "resolved_brains": 201,
     "schema": 1
   },
   "created_utc": "2026-08-08T22:26:00+00:00",
@@ -35,13 +35,13 @@
     "started_generation": 0
   },
   "extinct_species": 0,
-  "generation": 103,
-  "last_evolved_utc": "2026-09-02T06:34:18+00:00",
+  "generation": 104,
+  "last_evolved_utc": "2026-09-02T12:30:55+00:00",
   "living_species": 3,
   "name": "PHYLUM",
   "next_pathogen_id": 3,
   "next_species_id": 4,
-  "occupied_cells": 79,
+  "occupied_cells": 80,
   "root_lineage": "PHYLUM/origin",
   "schema_version": 15,
   "seed": 314159265,
@@ -86,29 +86,29 @@
       "ruins": 0
     }
   },
-  "total_population": 796.78,
+  "total_population": 795.07,
   "vivarium": {
     "checkpoint_days": 14,
     "cohorts": 75,
-    "explicit_organisms": 202,
+    "explicit_organisms": 201,
     "last_checkpoint": {
-      "births": 11.624,
+      "births": 8.231,
       "death_causes": {
-        "age": 11.808
+        "age": 9.941
       },
-      "deaths": 11.808,
+      "deaths": 9.941,
       "extreme_weather_days": 0,
-      "observation_index": 103,
+      "observation_index": 104,
       "observed_predation": 0,
-      "population_after": 796.777,
-      "population_before": 796.96,
-      "sim_day_end": 1148.0,
-      "sim_day_start": 1134.0,
+      "population_after": 795.068,
+      "population_before": 796.777,
+      "sim_day_end": 1162.0,
+      "sim_day_start": 1148.0,
       "simulated_days": 14
     },
-    "observation_index": 103,
+    "observation_index": 104,
     "schema": 1,
-    "sim_day": 1148.0,
-    "sim_year": 3.1889
+    "sim_day": 1162.0,
+    "sim_year": 3.2278
   }
 }
