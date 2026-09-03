@@ -3,9 +3,9 @@
   "clocks": {
     "climate": 0.595,
     "ecology": 99,
-    "ecology_days": 1190.0,
+    "ecology_days": 1204.0,
     "evolution": 3.06,
-    "evolution_years": 3.30556,
+    "evolution_years": 3.34444,
     "geology": 0.102
   },
   "cortex": {
@@ -13,17 +13,17 @@
     "compressed_cohorts": 75,
     "last_actions": {
       "avoid": 20,
-      "explore": 49,
-      "forage": 21,
-      "mate": 52,
-      "rest": 18,
-      "socialize": 32
+      "explore": 50,
+      "forage": 13,
+      "mate": 47,
+      "rest": 19,
+      "socialize": 45
     },
-    "lifetime_decisions": 65923,
-    "mean_controller_gate": 0.13617,
+    "lifetime_decisions": 66638,
+    "mean_controller_gate": 0.13605,
     "mean_hidden_neurons": 4.021,
-    "mean_plasticity": 0.22309,
-    "resolved_brains": 192,
+    "mean_plasticity": 0.22294,
+    "resolved_brains": 194,
     "schema": 1
   },
   "created_utc": "2026-08-08T22:26:00+00:00",
@@ -35,8 +35,8 @@
     "started_generation": 0
   },
   "extinct_species": 0,
-  "generation": 106,
-  "last_evolved_utc": "2026-09-03T00:34:45+00:00",
+  "generation": 107,
+  "last_evolved_utc": "2026-09-03T06:30:46+00:00",
   "living_species": 3,
   "name": "PHYLUM",
   "next_pathogen_id": 3,
@@ -86,29 +86,29 @@
       "ruins": 0
     }
   },
-  "total_population": 784.78,
+  "total_population": 786.65,
   "vivarium": {
     "checkpoint_days": 14,
     "cohorts": 75,
-    "explicit_organisms": 192,
+    "explicit_organisms": 194,
     "last_checkpoint": {
-      "births": 9.284,
+      "births": 12.619,
       "death_causes": {
-        "age": 12.016
+        "age": 10.745
       },
-      "deaths": 12.016,
+      "deaths": 10.745,
       "extreme_weather_days": 0,
-      "observation_index": 106,
+      "observation_index": 107,
       "observed_predation": 0,
-      "population_after": 784.778,
-      "population_before": 787.508,
-      "sim_day_end": 1190.0,
-      "sim_day_start": 1176.0,
+      "population_after": 786.651,
+      "population_before": 784.778,
+      "sim_day_end": 1204.0,
+      "sim_day_start": 1190.0,
       "simulated_days": 14
     },
-    "observation_index": 106,
+    "observation_index": 107,
     "schema": 1,
-    "sim_day": 1190.0,
-    "sim_year": 3.3056
+    "sim_day": 1204.0,
+    "sim_year": 3.3444
   }
 }
