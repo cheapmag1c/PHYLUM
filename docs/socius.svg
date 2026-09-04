@@ -2,5 +2,5 @@
 <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#050b0d"/><stop offset="1" stop-color="#0c1416"/></linearGradient><style>
 text{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#d8e3df} .muted{fill:#728983} .tiny{font-size:11px} .small{font-size:13px} .label{font-size:12px;letter-spacing:1.8px} .hair{stroke:#243536;stroke-width:1} .card{fill:#0a1316;stroke:#233638}
 </style></defs><rect width="100%" height="100%" fill="url(#bg)"/>
-<text x="54" y="54" font-size="25" letter-spacing="5">SOCIUS / SOCIAL LINEAGES</text><text x="54" y="82" class="small muted">GEN 000110 · 0 ACTIVE GROUPS · 0 RELATIONSHIPS · 0 ARCHIVED GROUPS</text>
+<text x="54" y="54" font-size="25" letter-spacing="5">SOCIUS / SOCIAL LINEAGES</text><text x="54" y="82" class="small muted">GEN 000111 · 0 ACTIVE GROUPS · 0 RELATIONSHIPS · 0 ARCHIVED GROUPS</text>
 <rect x="54" y="126" width="1392" height="420" rx="12" class="card"/><text x="750" y="318" text-anchor="middle" font-size="22" fill="#9bb0aa">NO PERSISTENT SOCIAL GROUPS YET</text><text x="750" y="353" text-anchor="middle" class="small muted">SOCIUS is active. Group formation remains gated by cognition, cooperation, recognition, population and culture.</text></svg>
