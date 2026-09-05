@@ -31,5 +31,22 @@
     ],
     "transmissibility": 0.29786,
     "virulence": 0.15975
+  },
+  {
+    "born_generation": 116,
+    "born_sim_day": 1327.0,
+    "environmental_persistence": 0.0999,
+    "extinct_generation": null,
+    "host_breadth": 0.09764,
+    "hosts": {},
+    "id": "pa-00003",
+    "mutation_rate": 0.09628,
+    "name": "silent blight",
+    "peak_prevalence": 0.004,
+    "reservoirs": [
+      "sp-00002"
+    ],
+    "transmissibility": 0.24172,
+    "virulence": 0.14627
   }
 ]

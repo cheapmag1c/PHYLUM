@@ -107,3 +107,4 @@
 {"generation": 113, "kind": "observation", "subject": "world", "text": "VIVARIUM advances 14 simulated days to year 3.58."}
 {"generation": 114, "kind": "observation", "subject": "world", "text": "VIVARIUM advances 14 simulated days to year 3.62."}
 {"generation": 115, "kind": "observation", "subject": "world", "text": "VIVARIUM advances 14 simulated days to year 3.66."}
+{"generation": 116, "host": "world", "kind": "disease", "sim_day": 1330.0, "subject": "pa-00003", "text": "silent blight emerges in world."}
