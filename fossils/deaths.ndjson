@@ -415,3 +415,8 @@
 {"cause": "age", "organism_id": "o-000000523", "sim_day": 1275.0, "species_id": "sp-00001"}
 {"cause": "age", "organism_id": "o-000000393", "sim_day": 1280.0, "species_id": "sp-00002"}
 {"cause": "age", "organism_id": "o-000000405", "sim_day": 1284.0, "species_id": "sp-00002"}
+{"cause": "age", "organism_id": "o-000000421", "sim_day": 1289.0, "species_id": "sp-00003"}
+{"cause": "age", "organism_id": "o-000000537", "sim_day": 1291.0, "species_id": "sp-00001"}
+{"cause": "age", "organism_id": "o-000000520", "sim_day": 1294.0, "species_id": "sp-00001"}
+{"cause": "age", "organism_id": "o-000000409", "sim_day": 1295.0, "species_id": "sp-00002"}
+{"cause": "age", "organism_id": "o-000000426", "sim_day": 1301.0, "species_id": "sp-00003"}
