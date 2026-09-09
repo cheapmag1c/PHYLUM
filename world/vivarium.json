@@ -4,17 +4,17 @@
     "canonical_llm_enabled": false,
     "compressed_cohorts": 76,
     "last_actions": {
-      "avoid": 19,
-      "explore": 45,
-      "forage": 20,
-      "mate": 54,
-      "rest": 21,
-      "socialize": 54
+      "avoid": 20,
+      "explore": 46,
+      "forage": 17,
+      "mate": 58,
+      "rest": 20,
+      "socialize": 52
     },
-    "lifetime_decisions": 78322,
-    "mean_controller_gate": 0.13688,
+    "lifetime_decisions": 79581,
+    "mean_controller_gate": 0.13702,
     "mean_hidden_neurons": 4.009,
-    "mean_plasticity": 0.22406,
+    "mean_plasticity": 0.22424,
     "resolved_brains": 213,
     "schema": 1
   },
@@ -22,48 +22,48 @@
   "epoch_origin_observation": 21,
   "isolation": {},
   "last_checkpoint": {
-    "births": 14.486,
+    "births": 13.669,
     "death_causes": {
-      "age": 14.101
+      "age": 10.994
     },
-    "deaths": 14.101,
+    "deaths": 10.994,
     "extreme_weather_days": 0,
-    "observation_index": 131,
+    "observation_index": 132,
     "observed_predation": 0,
-    "population_after": 804.261,
-    "population_before": 803.877,
-    "sim_day_end": 1540.0,
-    "sim_day_start": 1526.0,
+    "population_after": 806.937,
+    "population_before": 804.261,
+    "sim_day_end": 1554.0,
+    "sim_day_start": 1540.0,
     "simulated_days": 14
   },
   "legacy_observations": 21,
-  "next_cohort_id": 977,
-  "next_organism_id": 789,
-  "observation_index": 131,
+  "next_cohort_id": 986,
+  "next_organism_id": 795,
+  "observation_index": 132,
   "schema": 1,
-  "sim_day": 1540.0,
+  "sim_day": 1554.0,
   "statistics": {
     "cohorts": 76,
     "cortex": {
       "canonical_llm_enabled": false,
       "compressed_cohorts": 76,
       "last_actions": {
-        "avoid": 19,
-        "explore": 45,
-        "forage": 20,
-        "mate": 54,
-        "rest": 21,
-        "socialize": 54
+        "avoid": 20,
+        "explore": 46,
+        "forage": 17,
+        "mate": 58,
+        "rest": 20,
+        "socialize": 52
       },
-      "lifetime_decisions": 78322,
-      "mean_controller_gate": 0.13688,
+      "lifetime_decisions": 79581,
+      "mean_controller_gate": 0.13702,
       "mean_hidden_neurons": 4.009,
-      "mean_plasticity": 0.22406,
+      "mean_plasticity": 0.22424,
       "resolved_brains": 213,
       "schema": 1
     },
     "explicit_organisms": 213,
-    "sim_year": 4.27778
+    "sim_year": 4.31667
   },
   "year_days": 360
 }
