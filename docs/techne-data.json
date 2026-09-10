@@ -1,14 +1,14 @@
 {
   "cultural_lineages": [],
-  "generation": 134,
+  "generation": 135,
   "lineages": [
     {
       "capacities": {
-        "construction": 0.10467,
+        "construction": 0.10466,
         "cultural_storage": 0.23135,
         "innovation": 0.16418,
         "language": 0.21112,
-        "material_skill": 0.11947,
+        "material_skill": 0.11946,
         "transmission": 0.09366
       },
       "dialect": {
@@ -18,7 +18,7 @@
       },
       "id": "sp-00001",
       "name": "pale filament",
-      "population": 317.29,
+      "population": 319.16,
       "practices": [],
       "statistics": {
         "innovations": 0,
@@ -33,7 +33,7 @@
         "cultural_storage": 0.31343,
         "innovation": 0.2168,
         "language": 0.28707,
-        "material_skill": 0.14677,
+        "material_skill": 0.14676,
         "transmission": 0.13561
       },
       "dialect": {
@@ -43,7 +43,7 @@
       },
       "id": "sp-00002",
       "name": "silt frond",
-      "population": 208.1,
+      "population": 206.73,
       "practices": [],
       "statistics": {
         "innovations": 0,
@@ -68,7 +68,7 @@
       },
       "id": "sp-00003",
       "name": "glass mote",
-      "population": 281.73,
+      "population": 282.15,
       "practices": [],
       "statistics": {
         "innovations": 0,
