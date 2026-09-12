@@ -34,10 +34,10 @@
     "innovations": [],
     "life_cycle": {
       "cohorts": {
-        "adult": 211.555,
-        "elder": 14.195,
-        "juvenile": 70.114,
-        "propagule": 35.477
+        "adult": 213.941,
+        "elder": 14.55,
+        "juvenile": 71.568,
+        "propagule": 38.009
       },
       "development": "direct",
       "lifespan_generations": 3.853,
@@ -64,7 +64,7 @@
       "respiration": "air-exchange",
       "thermoregulation": "ectothermic"
     },
-    "population": 331.34,
+    "population": 338.07,
     "reproduction": {
       "courtship": "chemical",
       "fertilization": "propagule-exchange",
@@ -86,24 +86,24 @@
     "symbioses": [],
     "variation": {
       "body_size": {
-        "mean": 0.57846,
-        "sd": 0.0162
+        "mean": 0.57902,
+        "sd": 0.01625
       },
       "defense": {
-        "mean": 0.29332,
-        "sd": 0.02801
+        "mean": 0.29359,
+        "sd": 0.02806
       },
       "fecundity": {
-        "mean": 0.42371,
-        "sd": 0.02801
+        "mean": 0.42389,
+        "sd": 0.02806
       },
       "sensory": {
-        "mean": 0.25541,
-        "sd": 0.02801
+        "mean": 0.25543,
+        "sd": 0.02806
       },
       "speed": {
-        "mean": 0.39305,
-        "sd": 0.02801
+        "mean": 0.39307,
+        "sd": 0.02806
       }
     }
   },
@@ -142,10 +142,10 @@
     "innovations": [],
     "life_cycle": {
       "cohorts": {
-        "adult": 129.349,
-        "elder": 13.235,
-        "juvenile": 43.202,
-        "propagule": 16.208
+        "adult": 128.652,
+        "elder": 13.233,
+        "juvenile": 43.363,
+        "propagule": 17.59
       },
       "development": "spore-cycle",
       "lifespan_generations": 6.718,
@@ -172,7 +172,7 @@
       "respiration": "air-exchange",
       "thermoregulation": "ectothermic"
     },
-    "population": 201.99,
+    "population": 202.84,
     "reproduction": {
       "courtship": "chemical",
       "fertilization": "propagule-exchange",
@@ -194,24 +194,24 @@
     "symbioses": [],
     "variation": {
       "body_size": {
-        "mean": 0.84673,
-        "sd": 0.02499
+        "mean": 0.84666,
+        "sd": 0.02501
       },
       "defense": {
-        "mean": 0.1347,
-        "sd": 0.02951
+        "mean": 0.13462,
+        "sd": 0.02954
       },
       "fecundity": {
-        "mean": 0.35963,
-        "sd": 0.02951
+        "mean": 0.35967,
+        "sd": 0.02954
       },
       "sensory": {
-        "mean": 0.42011,
-        "sd": 0.02951
+        "mean": 0.42001,
+        "sd": 0.02954
       },
       "speed": {
-        "mean": 0.24704,
-        "sd": 0.02951
+        "mean": 0.24703,
+        "sd": 0.02954
       }
     }
   },
@@ -250,10 +250,10 @@
     "innovations": [],
     "life_cycle": {
       "cohorts": {
-        "adult": 175.356,
-        "elder": 16.295,
-        "juvenile": 59.742,
-        "propagule": 27.332
+        "adult": 174.063,
+        "elder": 15.979,
+        "juvenile": 59.098,
+        "propagule": 26.843
       },
       "development": "direct",
       "lifespan_generations": 6.207,
@@ -280,7 +280,7 @@
       "respiration": "air-exchange",
       "thermoregulation": "ectothermic"
     },
-    "population": 278.73,
+    "population": 275.98,
     "reproduction": {
       "courtship": "chemical",
       "fertilization": "propagule-exchange",
@@ -302,24 +302,24 @@
     "symbioses": [],
     "variation": {
       "body_size": {
-        "mean": 0.43896,
-        "sd": 0.01284
+        "mean": 0.43876,
+        "sd": 0.01283
       },
       "defense": {
-        "mean": 0.21277,
-        "sd": 0.02925
+        "mean": 0.21267,
+        "sd": 0.02924
       },
       "fecundity": {
-        "mean": 0.48753,
-        "sd": 0.02925
+        "mean": 0.48757,
+        "sd": 0.02924
       },
       "sensory": {
-        "mean": 0.23091,
-        "sd": 0.02925
+        "mean": 0.2309,
+        "sd": 0.02924
       },
       "speed": {
-        "mean": 0.44465,
-        "sd": 0.02925
+        "mean": 0.44463,
+        "sd": 0.02924
       }
     }
   }
