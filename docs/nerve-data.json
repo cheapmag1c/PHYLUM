@@ -30,7 +30,7 @@
           18.886,
           8.457
         ],
-        "strength": 0.048
+        "strength": 0.0391
       }
     ],
     "name": "pale filament",
@@ -44,7 +44,7 @@
       "social_sensitivity": 0.26358,
       "threat_sensitivity": 0.18068
     },
-    "population": 391.76,
+    "population": 391.59,
     "repertoire": [
       {
         "kind": "inherited",
@@ -115,7 +115,7 @@
           26.174,
           23.652
         ],
-        "strength": 0.1919
+        "strength": 0.1607
       }
     ],
     "name": "silt frond",
@@ -130,7 +130,7 @@
       "social_sensitivity": 0.32858,
       "threat_sensitivity": 0.18058
     },
-    "population": 214.6,
+    "population": 213.39,
     "repertoire": [
       {
         "kind": "inherited",
@@ -194,13 +194,13 @@
     "memory": [
       {
         "detail": "resource-poor habitat",
-        "generation": 165,
+        "generation": 167,
         "kind": "resource",
         "position": [
           39.333,
           12.25
         ],
-        "strength": 0.1882
+        "strength": 0.2971
       }
     ],
     "name": "glass mote",
@@ -214,7 +214,7 @@
       "social_sensitivity": 0.38263,
       "threat_sensitivity": 0.16303
     },
-    "population": 272.53,
+    "population": 274.97,
     "repertoire": [
       {
         "kind": "inherited",
