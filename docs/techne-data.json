@@ -1,6 +1,6 @@
 {
   "cultural_lineages": [],
-  "generation": 170,
+  "generation": 171,
   "lineages": [
     {
       "capacities": {
@@ -18,7 +18,7 @@
       },
       "id": "sp-00001",
       "name": "pale filament",
-      "population": 401.79,
+      "population": 402.36,
       "practices": [],
       "statistics": {
         "innovations": 0,
@@ -43,7 +43,7 @@
       },
       "id": "sp-00002",
       "name": "silt frond",
-      "population": 211.95,
+      "population": 213.7,
       "practices": [],
       "statistics": {
         "innovations": 0,
