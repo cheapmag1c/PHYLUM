@@ -1,10 +1,10 @@
 {
-  "generation": 174,
+  "generation": 175,
   "orrery_schema": 2,
   "socius": {
     "active_groups": 0,
     "archived_groups": 0,
-    "generation": 174,
+    "generation": 175,
     "groups": [],
     "relationships": [],
     "statistics": {
@@ -16,6 +16,6 @@
   },
   "world": {
     "era": "Origin Era",
-    "population": 898
+    "population": 890
   }
 }
