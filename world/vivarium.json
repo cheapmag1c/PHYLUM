@@ -4,14 +4,14 @@
     "canonical_llm_enabled": false,
     "compressed_cohorts": 77,
     "last_actions": {
-      "avoid": 31,
-      "explore": 58,
-      "forage": 35,
-      "mate": 57,
-      "rest": 24,
-      "socialize": 65
+      "avoid": 21,
+      "explore": 62,
+      "forage": 25,
+      "mate": 81,
+      "rest": 22,
+      "socialize": 59
     },
-    "lifetime_decisions": 94171,
+    "lifetime_decisions": 96171,
     "mean_controller_gate": 0.13651,
     "mean_hidden_neurons": 4.015,
     "mean_plasticity": 0.22425,
@@ -22,40 +22,40 @@
   "epoch_origin_observation": 21,
   "isolation": {},
   "last_checkpoint": {
-    "births": 20.768,
+    "births": 11.986,
     "death_causes": {
-      "age": 9.52
+      "age": 11.717
     },
-    "deaths": 9.52,
+    "deaths": 11.717,
     "extreme_weather_days": 0,
-    "observation_index": 184,
+    "observation_index": 185,
     "observed_predation": 0,
-    "population_after": 904.131,
-    "population_before": 892.884,
-    "sim_day_end": 2282.0,
-    "sim_day_start": 2268.0,
+    "population_after": 904.401,
+    "population_before": 904.131,
+    "sim_day_end": 2296.0,
+    "sim_day_start": 2282.0,
     "simulated_days": 14
   },
   "legacy_observations": 21,
-  "next_cohort_id": 1444,
-  "next_organism_id": 1121,
-  "observation_index": 184,
+  "next_cohort_id": 1450,
+  "next_organism_id": 1124,
+  "observation_index": 185,
   "schema": 1,
-  "sim_day": 2282.0,
+  "sim_day": 2296.0,
   "statistics": {
     "cohorts": 77,
     "cortex": {
       "canonical_llm_enabled": false,
       "compressed_cohorts": 77,
       "last_actions": {
-        "avoid": 31,
-        "explore": 58,
-        "forage": 35,
-        "mate": 57,
-        "rest": 24,
-        "socialize": 65
+        "avoid": 21,
+        "explore": 62,
+        "forage": 25,
+        "mate": 81,
+        "rest": 22,
+        "socialize": 59
       },
-      "lifetime_decisions": 94171,
+      "lifetime_decisions": 96171,
       "mean_controller_gate": 0.13651,
       "mean_hidden_neurons": 4.015,
       "mean_plasticity": 0.22425,
@@ -63,7 +63,7 @@
       "schema": 1
     },
     "explicit_organisms": 270,
-    "sim_year": 6.33889
+    "sim_year": 6.37778
   },
   "year_days": 360
 }
