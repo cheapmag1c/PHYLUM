@@ -181,3 +181,4 @@
 {"generation": 187, "kind": "observation", "subject": "world", "text": "VIVARIUM advances 14 simulated days to year 6.46."}
 {"generation": 188, "kind": "observation", "subject": "world", "text": "VIVARIUM advances 14 simulated days to year 6.49."}
 {"generation": 189, "host": "world", "kind": "disease", "sim_day": 2352.0, "subject": "pa-00004", "text": "cold fever emerges in world."}
+{"generation": 190, "kind": "observation", "subject": "world", "text": "VIVARIUM advances 14 simulated days to year 6.57."}
