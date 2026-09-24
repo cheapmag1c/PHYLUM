@@ -48,5 +48,22 @@
     ],
     "transmissibility": 0.24172,
     "virulence": 0.14627
+  },
+  {
+    "born_generation": 189,
+    "born_sim_day": 2347.0,
+    "environmental_persistence": 0.07078,
+    "extinct_generation": null,
+    "host_breadth": 0.04359,
+    "hosts": {},
+    "id": "pa-00004",
+    "mutation_rate": 0.06506,
+    "name": "cold fever",
+    "peak_prevalence": 0.004,
+    "reservoirs": [
+      "sp-00003"
+    ],
+    "transmissibility": 0.13764,
+    "virulence": 0.03393
   }
 ]
